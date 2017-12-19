@@ -12,8 +12,8 @@ class TerrainElement {
 		this.sprite.height = width;
 	}
 
-	addSprite(app) {
-		app.stage.addChild(this.sprite);
+	addSprite(stage) {
+		stage.addChild(this.sprite);
 	}
 
 	setPlayerID(id) {
@@ -21,22 +21,19 @@ class TerrainElement {
 		// this.sprite.texture = PIXI.loader.resources.newPlayerID.texture;
 	}
 
-	static build(terrainArray) {
-		let terrain = [];
-		let len = 100;
+	static build(stateTerrain, gameTerrain) {
+		let len = TerrainElement.sideLength();
 
-		for (let i = 0; i < terrainArray.length; i++) {
-			terrain[i] = [];
-			for (let j = 0; j < terrainArray[i].length; j++) {
-				if (terrainArray[i][j] == 'l')
+		for (let i = 0; i < stateTerrain.length; i++) {
+			gameTerrain[i] = [];
+			for (let j = 0; j < stateTerrain[i].length; j++) {
+				if (stateTerrain[i][j] == 'l')
 					var texture = PIXI.loader.resources.land.texture;
 				else var texture = PIXI.loader.resources.water.texture;
 
-				terrain[i][j] = new TerrainElement(len*i, len*j, terrainArray[i][j], texture);
+				gameTerrain[i][j] = new TerrainElement(len*i, len*j, stateTerrain[i][j], texture);
 			}
 		}
-
-		return terrain;
 	}
 
 	static sideLength() {

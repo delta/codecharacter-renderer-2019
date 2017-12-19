@@ -1,31 +1,42 @@
-var app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
-document.body.appendChild(app.view);
+var game = new Game();
 
-// var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+// var app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
+// document.body.appendChild(app.view);
 
 PIXI.loader
     .add("land", "assets/land.jpg")
     .add("water", "assets/water.jpg")
     .load(initialize);
 
-var terrain;
 function initialize() {
     stateVariable = getDetails();
-    terrain = TerrainElement.build(stateVariable.terrain);
+    TerrainElement.build(stateVariable.terrain, game.terrain);
 
     // For purposes of modularity
-    for (let row of terrain) {
+    for (let row of game.terrain) {
         for (let element of row)
-            element.addSprite(app);
+            element.addSprite(game.app.stage);
     }
 
-    // render();
+    game.app.ticker.add(delta => render(delta));
 }
 
-// function render() {
+function render(delta) {
 
-//     requestAnimationFrame(render);
-// }
+    game.autoResize();
+    game.app.stage.setTransform(
+        game.camera.zoom.value * game.camera.pos.x,
+        game.camera.zoom.value * game.camera.pos.y,
+        game.camera.zoom.value,
+        game.camera.zoom.value
+    );
+
+    /*
+        // Object Position Update
+        update();
+    */
+    // stage.setTransform(camera.zoom*camera.x, camera.zoom*camera.y, camera.zoom, camera.zoom);
+}
 
 function getDetails() {
     // Temporary
