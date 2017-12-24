@@ -2,7 +2,7 @@ export default class TerrainElement {
 	constructor(x, y, type, texture) {
 		this.type = type;
 		this.sprite = new PIXI.Sprite(texture);
-		this.buildSprite(x, y, TerrainElement.sideLength(), TerrainElement.sideLength());
+		this.buildSprite(x, y, TerrainElement.sideLength, TerrainElement.sideLength);
 	}
 
 	buildSprite(x, y, width, height) {
@@ -22,7 +22,7 @@ export default class TerrainElement {
 	}
 
 	static build(stateTerrain, gameTerrain) {
-		let len = TerrainElement.sideLength();
+		let len = TerrainElement.sideLength;
 
 		for (let i = 0; i < stateTerrain.length; i++) {
 			gameTerrain[i] = [];
@@ -36,7 +36,7 @@ export default class TerrainElement {
 		}
 	}
 
-	static sideLength() {
-		return 100;
+	static setSideLength(len) {
+		TerrainElement.sideLength = len;
 	}
 }

@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
+import CONSTANTS from './constants';
 import Game from './game';
 import TerrainElement from './state_objects/terrain';
 
-var game = new Game();
-
+var game = new Game(CONSTANTS.camera);
 PIXI.loader
     .add("land", "assets/land.jpg")
     .add("water", "assets/water.jpg")
@@ -11,6 +11,7 @@ PIXI.loader
 
 function initialize() {
     let stateVariable = getDetails();
+    TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
     TerrainElement.build(stateVariable.terrain, game.terrain);
 
     // For purposes of modularity

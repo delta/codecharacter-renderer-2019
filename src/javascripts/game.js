@@ -1,15 +1,17 @@
 import Camera from './camera';
 
 export default class Game {
-    constructor() {
+    constructor(CAMERA_CONSTANTS) {
         this.soldiers = [];
         this.towers = [];
         this.terrain = [];
 
-        this.camera = new Camera();
+        this.camera = new Camera(CAMERA_CONSTANTS);
         Game.addListeners(this);
 
-        this.app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.app = new PIXI.Application({width: this.width, height: this.height});
         document.body.appendChild(this.app.view);
     }
 
@@ -62,8 +64,11 @@ export default class Game {
     }
 
     autoResize() {
-        if (this.app.renderer.width != window.innerWidth || this.app.renderer.height != window.innerHeight)
-            this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        // Dynamic Resizing
+        this.width = window.innerWidth;         // To be changed
+        this.height = window.innerHeight;       // To be changed
+        if (this.app.renderer.width != this.width || this.app.renderer.height != this.height)
+            this.app.renderer.resize(this.width, this.height);
 
         this.camera.updatePosition();
         this.camera.updateZoom();
