@@ -1,4 +1,6 @@
-class Game {
+import Camera from './camera';
+
+export default class Game {
     constructor() {
         this.soldiers = [];
         this.towers = [];

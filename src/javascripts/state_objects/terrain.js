@@ -1,4 +1,4 @@
-class TerrainElement {
+export default class TerrainElement {
 	constructor(x, y, type, texture) {
 		this.type = type;
 		this.sprite = new PIXI.Sprite(texture);

@@ -1,7 +1,8 @@
-var game = new Game();
+import * as PIXI from 'pixi.js';
+import Game from './game';
+import TerrainElement from './state_objects/terrain';
 
-// var app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
-// document.body.appendChild(app.view);
+var game = new Game();
 
 PIXI.loader
     .add("land", "assets/land.jpg")
@@ -9,7 +10,7 @@ PIXI.loader
     .load(initialize);
 
 function initialize() {
-    stateVariable = getDetails();
+    let stateVariable = getDetails();
     TerrainElement.build(stateVariable.terrain, game.terrain);
 
     // For purposes of modularity
@@ -35,7 +36,6 @@ function render(delta) {
         // Object Position Update
         update();
     */
-    // stage.setTransform(camera.zoom*camera.x, camera.zoom*camera.y, camera.zoom, camera.zoom);
 }
 
 function getDetails() {

@@ -1,1 +1,3 @@
-pixi.js
+build
+node_modules
+bundle.js

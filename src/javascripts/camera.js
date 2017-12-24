@@ -1,4 +1,4 @@
-class Camera {
+export default class Camera {
     constructor() {
         this.pos = {
             x: 0,
@@ -71,25 +71,6 @@ class Camera {
         // Update this Position
         this.pos.x += this.vel.x;
         this.pos.y += this.vel.y;
-
-
-        // **IMPORTANT** (Responsible for keeping the map on the screen)
-        // if (map.x + this.x > 0) {
-        //     this.vel.x = 0;
-        //     this.x = -0.01 - map.x;
-        // }
-        // if (map.x + this.x < width/this.zoom - map.width) {
-        //     this.vel.x = 0;
-        //     this.x = 0.01 + width/this.zoom - map.width - map.x;
-        // }
-        // if (map.y + this.y > 0) {
-        //     this.vel.y = 0;
-        //     this.y = -0.01 - map.y;
-        // }
-        // if (map.y + this.y < height/this.zoom - map.height) {
-        //     this.vel.y = 0;
-        //     this.y = 0.01 + height/this.zoom - map.height - map.y;
-        // }
     }
 
     updateZoom() {
