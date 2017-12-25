@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './src/javascripts/driver.js',
@@ -8,7 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/javascripts/'
   },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -21,8 +22,10 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
-  devServer: {
-    contentBase: './src'
-  }
+  plugins: [
+    new UglifyJSPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': 'production'
+    })
+  ]
 };

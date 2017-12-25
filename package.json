@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Renderer component for Code Character 2018",
   "scripts": {
-    "start": "webpack-dev-server --content-base src/",
-    "build": "webpack"
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.production.js"
   },
   "repository": "https://github.com/delta/codecharacter-renderer",
   "keywords": [],
@@ -18,8 +18,11 @@
     "pixi.js": "^4.6.2"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.14.0",
+    "uglifyjs-webpack-plugin": "^1.1.4",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   }
