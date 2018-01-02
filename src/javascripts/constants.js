@@ -38,7 +38,7 @@ const CONSTANTS = {
         }
     },
     terrain: {
-        sideLength: 100
+        sideLength: 300
     }
 };
 

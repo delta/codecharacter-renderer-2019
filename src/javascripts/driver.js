@@ -20,18 +20,13 @@ function initialize() {
             element.addSprite(game.app.stage);
     }
 
+    game.buildMap(CONSTANTS.terrain.sideLength);
     game.app.ticker.add(delta => render(delta));
 }
 
 function render(delta) {
-
     game.autoResize();
-    game.app.stage.setTransform(
-        game.camera.zoom.value * game.camera.pos.x,
-        game.camera.zoom.value * game.camera.pos.y,
-        game.camera.zoom.value,
-        game.camera.zoom.value
-    );
+    game.updateCamera();
 
     /*
         // Object Position Update

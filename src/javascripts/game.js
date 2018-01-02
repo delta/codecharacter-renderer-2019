@@ -64,14 +64,29 @@ export default class Game {
         });
     }
 
+    buildMap(terrainElementLength) {
+        this.map = {
+            x: this.terrain[0][0].sprite.x,
+            y: this.terrain[0][0].sprite.y,
+            length: terrainElementLength * this.terrain.length
+        };
+    }
+
     autoResize() {
-        // Dynamic Resizing
         this.width = window.innerWidth;         // To be changed
         this.height = window.innerHeight;       // To be changed
+
         if (this.app.renderer.width != this.width || this.app.renderer.height != this.height)
             this.app.renderer.resize(this.width, this.height);
+    }
 
+    updateCamera() {
         this.camera.updatePosition();
+        this.camera.restrictPosition(this.map, this.width, this.height);
         this.camera.updateZoom();
+        this.camera.restrictZoom(this.map.length, this.width, this.height);
+
+        let zoomVal = this.camera.zoom.value;
+        this.app.stage.setTransform(zoomVal * this.camera.pos.x, zoomVal * this.camera.pos.y, zoomVal, zoomVal);
     }
 }
