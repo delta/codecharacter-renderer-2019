@@ -27,11 +27,7 @@ function initialize() {
 function render(delta) {
     game.autoResize();
     game.updateCamera();
-
-    /*
-        // Object Position Update
-        update();
-    */
+    game.updateTerrain(CONSTANTS.terrain.sideLength);
 }
 
 function getDetails() {

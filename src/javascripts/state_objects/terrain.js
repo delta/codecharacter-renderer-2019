@@ -4,18 +4,22 @@ export default class TerrainElement {
     constructor(x, y, type, texture) {
         this.type = type;
         this.sprite = new PIXI.Sprite(texture);
-        this.buildSprite(x, y, TerrainElement.sideLength, TerrainElement.sideLength);
+        this.buildSprite(x, y);
     }
 
     buildSprite(x, y, width, height) {
-        this.sprite.x = x;
-        this.sprite.y = y;
-        this.sprite.width = width;
-        this.sprite.height = width;
+        this.sprite.width = TerrainElement.sideLength;
+        this.sprite.height = TerrainElement.sideLength;
+        this.updateSprite(x, y);
     }
 
     addSprite(stage) {
         stage.addChild(this.sprite);
+    }
+
+    updateSprite(x, y) {
+        this.sprite.x = x;
+        this.sprite.y = y;
     }
 
     setPlayerID(id) {

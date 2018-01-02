@@ -69,23 +69,23 @@ export default class Camera {
         this.zoom.value += this.zoom.vel.value;
     }
 
-    restrictPosition(map, width, height) {
-        if (map.x + this.pos.x > 0) {
+    restrictPosition(offset, mapLength, width, height) {
+        if (offset.x + this.pos.x > 0) {
             this.vel.x = 0;
-            this.pos.x = -0.01 - map.x;
+            this.pos.x = -0.01 - offset.x;
         }
-        if (map.x + this.pos.x < width/this.zoom.value - map.length) {
+        if (offset.x + this.pos.x < width/this.zoom.value - mapLength) {
             this.vel.x = 0;
-            this.pos.x = 0.01 + width/this.zoom.value - map.length - map.x;
+            this.pos.x = 0.01 + width/this.zoom.value - mapLength - offset.x;
         }
 
-        if (map.y + this.pos.y > 0) {
+        if (offset.y + this.pos.y > 0) {
             this.vel.y = 0;
-            this.pos.y = -0.01 - map.y;
+            this.pos.y = -0.01 - offset.y;
         }
-        if (map.y + this.pos.y < height/this.zoom.value - map.length) {
+        if (offset.y + this.pos.y < height/this.zoom.value - mapLength) {
             this.vel.y = 0;
-            this.pos.y = 0.01 + height/this.zoom.value - map.length - map.y;
+            this.pos.y = 0.01 + height/this.zoom.value - mapLength - offset.y;
         }
     }
 

@@ -65,11 +65,11 @@ export default class Game {
     }
 
     buildMap(terrainElementLength) {
-        this.map = {
+        this.offset = {
             x: this.terrain[0][0].sprite.x,
-            y: this.terrain[0][0].sprite.y,
-            length: terrainElementLength * this.terrain.length
+            y: this.terrain[0][0].sprite.y
         };
+        this.mapLength = terrainElementLength * this.terrain.length;
     }
 
     autoResize() {
@@ -82,11 +82,23 @@ export default class Game {
 
     updateCamera() {
         this.camera.updatePosition();
-        this.camera.restrictPosition(this.map, this.width, this.height);
+        this.camera.restrictPosition(this.offset, this.mapLength, this.width, this.height);
         this.camera.updateZoom();
-        this.camera.restrictZoom(this.map.length, this.width, this.height);
+        this.camera.restrictZoom(this.mapLength, this.width, this.height);
 
         let zoomVal = this.camera.zoom.value;
+        this.offset.x = -(1 - 1/zoomVal) * this.width/2;
+        this.offset.y = -(1 - 1/zoomVal) * this.height/2;
         this.app.stage.setTransform(zoomVal * this.camera.pos.x, zoomVal * this.camera.pos.y, zoomVal, zoomVal);
+    }
+
+    updateTerrain(sideLength) {
+        // Position Update
+        let offset = this.offset;
+        for (let i = 0; i < this.terrain.length; i++) {
+            for (let j = 0; j < this.terrain[i].length; j++) {
+                this.terrain[i][j].updateSprite(sideLength * i + offset.x, sideLength * j + offset.y);
+            }
+        }
     }
 }
