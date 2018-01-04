@@ -86,7 +86,7 @@ export default class Game {
         this.camera.updateZoom();
         this.camera.restrictZoom(this.mapLength, this.width, this.height);
 
-        let zoomVal = this.camera.zoom.value;
+        const zoomVal = this.camera.zoom.value;
         this.offset.x = -(1 - 1/zoomVal) * this.width/2;
         this.offset.y = -(1 - 1/zoomVal) * this.height/2;
         this.app.stage.setTransform(zoomVal * this.camera.pos.x, zoomVal * this.camera.pos.y, zoomVal, zoomVal);
@@ -94,7 +94,7 @@ export default class Game {
 
     updateTerrain(sideLength) {
         // Position Update
-        let offset = this.offset;
+        const offset = this.offset;
         for (let i = 0; i < this.terrain.length; i++) {
             for (let j = 0; j < this.terrain[i].length; j++) {
                 this.terrain[i][j].updateSprite(sideLength * i + offset.x, sideLength * j + offset.y);

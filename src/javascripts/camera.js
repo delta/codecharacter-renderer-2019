@@ -13,7 +13,7 @@ export default class Camera {
     }
 
     updatePosition() {
-        let move = this.commands.move;
+        const move = this.commands.move;
 
         // HAPPENS ONLY WITH USER INPUT
         // Update Velocity
@@ -47,7 +47,7 @@ export default class Camera {
     }
 
     updateZoom() {
-        let zoom = this.commands.zoom;
+        const zoom = this.commands.zoom;
 
         // HAPPENS ONLY WITH USER INPUT
         // Update Zoom Factor
@@ -69,36 +69,60 @@ export default class Camera {
         this.zoom.value += this.zoom.vel.value;
     }
 
-    restrictPosition(offset, mapLength, width, height) {
-        if (offset.x + this.pos.x > 0) {
-            this.vel.x = 0;
-            this.pos.x = -0.01 - offset.x;
-        }
-        if (offset.x + this.pos.x < width/this.zoom.value - mapLength) {
-            this.vel.x = 0;
-            this.pos.x = 0.01 + width/this.zoom.value - mapLength - offset.x;
+    restrictPosition(offset, mapLength, gameWidth, gameHeight) {
+        const posX = offset.x + this.pos.x,
+            posY = offset.y + this.pos.y;
+
+        const leftBoundryCrossed = (posX > 0),
+            rightBoundryCrossed = (posX < gameWidth/this.zoom.value - mapLength),
+            topBoundryCrossed = (posY > 0),
+            bottomBoundryCrossed = (posY < gameHeight/this.zoom.value - mapLength);
+
+        const leftDist = Math.abs(posX),
+            rightDist = Math.abs(posX - (gameWidth/this.zoom.value - mapLength)),
+            topDist = Math.abs(posY),
+            bottomDist = Math.abs(posY - (gameHeight/this.zoom.value - mapLength));
+
+        if (leftBoundryCrossed ^ rightBoundryCrossed) {
+            if (leftDist < rightDist) {
+                this.resetToLeft(offset);
+            } else {
+                this.resetToRight(offset, gameWidth, mapLength);
+            }
         }
 
-        if (offset.y + this.pos.y > 0) {
-            this.vel.y = 0;
-            this.pos.y = -0.01 - offset.y;
-        }
-        if (offset.y + this.pos.y < height/this.zoom.value - mapLength) {
-            this.vel.y = 0;
-            this.pos.y = 0.01 + height/this.zoom.value - mapLength - offset.y;
+        if (topBoundryCrossed ^ bottomBoundryCrossed) {
+            if (topDist < bottomDist) {
+                this.resetToTop(offset);
+            } else {
+                this.resetToBottom(offset, gameHeight, mapLength);
+            }
         }
     }
 
-    restrictZoom(mapLength, width, height) {
-        let zoom = this.zoom;
+    resetToLeft(offset) {
+        this.vel.x = 0;
+        this.pos.x = -0.01 - offset.x;
+    }
 
-        if (zoom.value * mapLength/height <= 1) {
-            zoom.value = height/mapLength;
-            // zoom.val = zoom.value;
-        }
-        if (zoom.value * mapLength/width <= 1) {
-            zoom.value = width/mapLength;
-            // zoom.val = zoom.value;
+    resetToRight(offset, gameWidth, mapLength) {
+        this.vel.x = 0;
+        this.pos.x = 0.01 + gameWidth/this.zoom.value - mapLength - offset.x;
+    }
+
+    resetToTop(offset) {
+        this.vel.y = 0;
+        this.pos.y = -0.01 - offset.y;
+    }
+
+    resetToBottom(offset, gameHeight, mapLength) {
+        this.vel.y = 0;
+        this.pos.y = 0.01 + gameHeight/this.zoom.value - mapLength - offset.y;
+    }
+
+    restrictZoom(mapLength, gameWidth, gameHeight) {
+        if (this.zoom.value * mapLength/gameHeight <= 1  &&  this.zoom.value * mapLength/gameWidth <= 1) {
+            this.zoom.value = Math.min(gameHeight/mapLength, gameWidth/mapLength);
         }
     }
 }

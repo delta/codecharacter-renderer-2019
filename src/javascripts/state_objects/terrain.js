@@ -28,7 +28,7 @@ export default class TerrainElement {
     }
 
     static build(stateTerrain, gameTerrain) {
-        let len = TerrainElement.sideLength;
+        const len = TerrainElement.sideLength;
         var texture;
 
         for (let i = 0; i < stateTerrain.length; i++) {
