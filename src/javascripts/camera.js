@@ -1,6 +1,8 @@
 export default class Camera {
     constructor(CONSTANTS) {
-        this.pos = JSON.parse(JSON.stringify(CONSTANTS.pos));
+        this.actualPos = JSON.parse(JSON.stringify(CONSTANTS.actualPos));
+        this.passivePos = JSON.parse(JSON.stringify(CONSTANTS.passivePos));
+        this.offset = JSON.parse(JSON.stringify(CONSTANTS.offset));
         this.vel = JSON.parse(JSON.stringify(CONSTANTS.vel));
         this.zoom = JSON.parse(JSON.stringify(CONSTANTS.zoom));
         this.acc = CONSTANTS.acc;
@@ -42,11 +44,13 @@ export default class Camera {
         this.slowDown();
 
         // Update Camera Position
-        this.pos.x += this.vel.x;
-        this.pos.y += this.vel.y;
+        this.passivePos.x += this.vel.x;
+        this.passivePos.y += this.vel.y;
+        this.actualPos.x = this.passivePos.x;
+        this.actualPos.y = this.passivePos.y;
     }
 
-    updateZoom() {
+    updateZoom(gameWidth, gameHeight) {
         const zoom = this.commands.zoom;
 
         // HAPPENS ONLY WITH USER INPUT
@@ -67,11 +71,16 @@ export default class Camera {
         // Decrement Velocity and update zoom factor
         this.zoom.vel.value *= this.acc;
         this.zoom.value += this.zoom.vel.value;
+
+        this.offset.x = -(1 - 1/this.zoom.value) * gameWidth/2;
+        this.offset.y = -(1 - 1/this.zoom.value) * gameHeight/2;
+        this.actualPos.x = this.passivePos.x + this.offset.x;
+        this.actualPos.y = this.passivePos.y + this.offset.y;
     }
 
-    restrictPosition(offset, mapLength, gameWidth, gameHeight) {
-        const posX = offset.x + this.pos.x,
-            posY = offset.y + this.pos.y;
+    restrictPosition(mapLength, gameWidth, gameHeight) {
+        const posX = this.offset.x + this.passivePos.x,
+            posY = this.offset.y + this.passivePos.y;
 
         const leftBoundryCrossed = (posX > 0),
             rightBoundryCrossed = (posX < gameWidth/this.zoom.value - mapLength),
@@ -85,39 +94,39 @@ export default class Camera {
 
         if (leftBoundryCrossed ^ rightBoundryCrossed) {
             if (leftDist < rightDist) {
-                this.resetToLeft(offset);
+                this.resetToLeft(this.offset);
             } else {
-                this.resetToRight(offset, gameWidth, mapLength);
+                this.resetToRight(this.offset, gameWidth, mapLength);
             }
         }
 
         if (topBoundryCrossed ^ bottomBoundryCrossed) {
             if (topDist < bottomDist) {
-                this.resetToTop(offset);
+                this.resetToTop(this.offset);
             } else {
-                this.resetToBottom(offset, gameHeight, mapLength);
+                this.resetToBottom(this.offset, gameHeight, mapLength);
             }
         }
     }
 
     resetToLeft(offset) {
         this.vel.x = 0;
-        this.pos.x = -0.01 - offset.x;
+        this.passivePos.x = -0.01 - offset.x;
     }
 
     resetToRight(offset, gameWidth, mapLength) {
         this.vel.x = 0;
-        this.pos.x = 0.01 + gameWidth/this.zoom.value - mapLength - offset.x;
+        this.passivePos.x = 0.01 + gameWidth/this.zoom.value - mapLength - offset.x;
     }
 
     resetToTop(offset) {
         this.vel.y = 0;
-        this.pos.y = -0.01 - offset.y;
+        this.passivePos.y = -0.01 - offset.y;
     }
 
     resetToBottom(offset, gameHeight, mapLength) {
         this.vel.y = 0;
-        this.pos.y = 0.01 + gameHeight/this.zoom.value - mapLength - offset.y;
+        this.passivePos.y = 0.01 + gameHeight/this.zoom.value - mapLength - offset.y;
     }
 
     restrictZoom(mapLength, gameWidth, gameHeight) {

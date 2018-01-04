@@ -1,7 +1,15 @@
 // Initial values or constant values
 const CONSTANTS = {
     camera: {
-        pos: {
+        actualPos: {
+            x: 0,
+            y: 0
+        },
+        passivePos: {
+            x: 0,
+            y: 0
+        },
+        offset: {
             x: 0,
             y: 0
         },
