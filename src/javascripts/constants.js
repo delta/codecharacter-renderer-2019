@@ -5,11 +5,11 @@ const CONSTANTS = {
             x: 0,
             y: 0
         },
-        passivePos: {
+        passivePos: {       // Camera postion (not accounting for offset)
             x: 0,
             y: 0
         },
-        offset: {
+        offset: {           // Amount by which the camera must be offset to emulate central zooming
             x: 0,
             y: 0
         },
@@ -21,8 +21,7 @@ const CONSTANTS = {
             change: 1           // Amount to increment or decrement when given a user input
         },
         zoom: {
-            value: 1,          // Extent of Zoom
-            min: 0.5,           // minimum possible zoom value
+            value: 1,           // Extent of Zoom
             max: 2,
             vel: {
                 value: 0,

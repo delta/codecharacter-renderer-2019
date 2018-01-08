@@ -8,12 +8,11 @@ export default class Game {
         this.terrain = [];
 
         this.camera = new Camera(CAMERA_CONSTANTS);
+        this.container = document.querySelector("#container");
         Game.addListeners(this);
 
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.app = new PIXI.Application({width: this.width, height: this.height});
-        document.body.appendChild(this.app.view);
+        this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
+        this.container.appendChild(this.app.view);
     }
 
     static addListeners(game) {
@@ -66,21 +65,27 @@ export default class Game {
 
     buildMap(terrainElementLength) {
         this.mapLength = terrainElementLength * this.terrain.length;
+        this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
     }
 
     autoResize() {
-        this.width = window.innerWidth;         // To be changed
-        this.height = window.innerHeight;       // To be changed
+        let containerWidth = this.container.offsetWidth,
+            containerHeight = this.container.offsetHeight,
+            mapLength = this.mapLength;
 
-        if (this.app.renderer.width != this.width || this.app.renderer.height != this.height)
-            this.app.renderer.resize(this.width, this.height);
+        if (this.app.renderer.width != containerWidth || this.app.renderer.height != containerHeight) {
+            this.app.renderer.resize(containerWidth, containerHeight);
+            this.camera.zoom.min = Math.min(containerHeight/mapLength, containerWidth/mapLength);
+        }
     }
 
     updateCamera() {
+        let containerWidth = this.container.offsetWidth,
+            containerHeight = this.container.offsetHeight;
+
         this.camera.updatePosition();
-        this.camera.restrictPosition(this.mapLength, this.width, this.height);
-        this.camera.updateZoom(this.width, this.height);
-        this.camera.restrictZoom(this.mapLength, this.width, this.height);
+        this.camera.restrictPosition(this.mapLength, containerWidth, containerHeight);
+        this.camera.updateZoom(this.mapLength, containerWidth, containerHeight);
 
         const zoomVal = this.camera.zoom.value;
         this.app.stage.setTransform(zoomVal * this.camera.actualPos.x, zoomVal * this.camera.actualPos.y, zoomVal, zoomVal);

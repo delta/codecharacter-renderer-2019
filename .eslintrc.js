@@ -25,6 +25,7 @@ module.exports = {
             "unix"
         ],
         "no-unused-vars": "off",
-        "no-trailing-spaces": ["error"]
+        "no-trailing-spaces": ["error"],
+        "no-console": "off"
     }
 };

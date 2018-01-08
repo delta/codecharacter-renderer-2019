@@ -50,7 +50,7 @@ export default class Camera {
         this.actualPos.y = this.passivePos.y;
     }
 
-    updateZoom(gameWidth, gameHeight) {
+    updateZoom(mapLength, containerWidth, containerHeight) {
         const zoom = this.commands.zoom;
 
         // HAPPENS ONLY WITH USER INPUT
@@ -62,7 +62,6 @@ export default class Camera {
                 this.zoom.vel.value -= this.zoom.vel.change;
         }
 
-
         // HAPPENS EVERY FRAME
         // Reset zoom velocity if it becomes too low
         if ( Math.abs(this.zoom.vel.value) < this.zoom.vel.min )
@@ -72,31 +71,36 @@ export default class Camera {
         this.zoom.vel.value *= this.acc;
         this.zoom.value += this.zoom.vel.value;
 
-        this.offset.x = -(1 - 1/this.zoom.value) * gameWidth/2;
-        this.offset.y = -(1 - 1/this.zoom.value) * gameHeight/2;
+        // Restrict User Zoom
+        if (this.zoom.value * mapLength/containerHeight <= 1  &&  this.zoom.value * mapLength/containerWidth <= 1) {
+            this.zoom.value = Math.min(containerHeight/mapLength, containerWidth/mapLength);
+        }
+
+        this.offset.x = -(1 - 1/this.zoom.value) * containerWidth/2;
+        this.offset.y = -(1 - 1/this.zoom.value) * containerHeight/2;
         this.actualPos.x = this.passivePos.x + this.offset.x;
         this.actualPos.y = this.passivePos.y + this.offset.y;
     }
 
-    restrictPosition(mapLength, gameWidth, gameHeight) {
+    restrictPosition(mapLength, containerWidth, containerHeight) {
         const posX = this.offset.x + this.passivePos.x,
             posY = this.offset.y + this.passivePos.y;
 
         const leftBoundryCrossed = (posX > 0),
-            rightBoundryCrossed = (posX < gameWidth/this.zoom.value - mapLength),
+            rightBoundryCrossed = (posX < containerWidth/this.zoom.value - mapLength),
             topBoundryCrossed = (posY > 0),
-            bottomBoundryCrossed = (posY < gameHeight/this.zoom.value - mapLength);
+            bottomBoundryCrossed = (posY < containerHeight/this.zoom.value - mapLength);
 
         const leftDist = Math.abs(posX),
-            rightDist = Math.abs(posX - (gameWidth/this.zoom.value - mapLength)),
+            rightDist = Math.abs(posX - (containerWidth/this.zoom.value - mapLength)),
             topDist = Math.abs(posY),
-            bottomDist = Math.abs(posY - (gameHeight/this.zoom.value - mapLength));
+            bottomDist = Math.abs(posY - (containerHeight/this.zoom.value - mapLength));
 
         if (leftBoundryCrossed ^ rightBoundryCrossed) {
             if (leftDist < rightDist) {
                 this.resetToLeft(this.offset);
             } else {
-                this.resetToRight(this.offset, gameWidth, mapLength);
+                this.resetToRight(this.offset, containerWidth, mapLength);
             }
         }
 
@@ -104,7 +108,7 @@ export default class Camera {
             if (topDist < bottomDist) {
                 this.resetToTop(this.offset);
             } else {
-                this.resetToBottom(this.offset, gameHeight, mapLength);
+                this.resetToBottom(this.offset, containerHeight, mapLength);
             }
         }
     }
@@ -114,9 +118,9 @@ export default class Camera {
         this.passivePos.x = -0.01 - offset.x;
     }
 
-    resetToRight(offset, gameWidth, mapLength) {
+    resetToRight(offset, containerWidth, mapLength) {
         this.vel.x = 0;
-        this.passivePos.x = 0.01 + gameWidth/this.zoom.value - mapLength - offset.x;
+        this.passivePos.x = 0.01 + containerWidth/this.zoom.value - mapLength - offset.x;
     }
 
     resetToTop(offset) {
@@ -124,14 +128,8 @@ export default class Camera {
         this.passivePos.y = -0.01 - offset.y;
     }
 
-    resetToBottom(offset, gameHeight, mapLength) {
+    resetToBottom(offset, containerHeight, mapLength) {
         this.vel.y = 0;
-        this.passivePos.y = 0.01 + gameHeight/this.zoom.value - mapLength - offset.y;
-    }
-
-    restrictZoom(mapLength, gameWidth, gameHeight) {
-        if (this.zoom.value * mapLength/gameHeight <= 1  &&  this.zoom.value * mapLength/gameWidth <= 1) {
-            this.zoom.value = Math.min(gameHeight/mapLength, gameWidth/mapLength);
-        }
+        this.passivePos.y = 0.01 + containerHeight/this.zoom.value - mapLength - offset.y;
     }
 }
