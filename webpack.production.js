@@ -3,7 +3,7 @@ const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: './src/javascripts/driver.js',
+  entry: ['babel-polyfill', './src/javascripts/driver.js'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),

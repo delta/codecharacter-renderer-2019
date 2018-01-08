@@ -15,11 +15,13 @@
   },
   "homepage": "https://github.com/delta/codecharacter-renderer#readme",
   "dependencies": {
-    "pixi.js": "^4.6.2"
+    "pixi.js": "^4.6.2",
+    "protobufjs": "^6.8.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.14.0",
     "eslint-config-standard": "^11.0.0-beta.0",

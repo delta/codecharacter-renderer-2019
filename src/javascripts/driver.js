@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import CONSTANTS from './constants';
 import Game from './game';
 import TerrainElement from './state_objects/terrain';
+import Proto from './protoparse.js';
 
 var game = new Game(CONSTANTS.camera);
 PIXI.loader
@@ -9,8 +10,9 @@ PIXI.loader
     .add("water", "assets/water.jpg")
     .load(initialize);
 
-function initialize() {
-    let stateVariable = getDetails();
+async function initialize() {
+    let stateVariable = await getDetails();
+    console.log(stateVariable);
     TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
     TerrainElement.build(stateVariable.terrain, game.terrain);
 
@@ -29,18 +31,9 @@ function render(delta) {
     game.updateCamera();
 }
 
-function getDetails() {
-    // Temporary
-    return {
-        terrain: [
-            ['l', 'l', 'l', 'l', 'l', 'l', 'l', 'l'],
-            ['l', 'l', 'l', 'l', 'l', 'l', 'l', 'l'],
-            ['l', 'l', 'w', 'w', 'w', 'w', 'l', 'l'],
-            ['l', 'l', 'w', 'w', 'w', 'w', 'l', 'l'],
-            ['l', 'l', 'w', 'w', 'w', 'w', 'l', 'l'],
-            ['l', 'l', 'w', 'w', 'w', 'w', 'l', 'l'],
-            ['l', 'l', 'l', 'l', 'l', 'l', 'l', 'l'],
-            ['l', 'l', 'l', 'l', 'l', 'l', 'l', 'l']
-        ]
-    };
+async function getDetails() {
+    let proto = new Proto();
+    let gameDetails = await proto.getGame();
+
+    return gameDetails;
 }
