@@ -9,14 +9,18 @@ export default class Game {
 
         this.camera = new Camera(CAMERA_CONSTANTS);
         this.container = document.querySelector("#container");
-        Game.addListeners(this);
 
         this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
         this.container.appendChild(this.app.view);
+
+        Game.addListeners(this);
     }
 
     static addListeners(game) {
-        document.body.addEventListener("keydown", function (e) {
+        let canvas = document.querySelector("canvas");
+        canvas.tabIndex = 1; // Allows event listeners to work
+
+        canvas.addEventListener("keydown", (e) => {
             switch(e.keyCode) {
             case 37:
                 game.camera.commands.move.left = true;
@@ -39,7 +43,9 @@ export default class Game {
             }
         });
 
-        document.body.addEventListener("keyup", function (e) {
+
+
+        canvas.addEventListener("keyup", (e) => {
             switch(e.keyCode) {
             case 37:
                 game.camera.commands.move.left = false;
