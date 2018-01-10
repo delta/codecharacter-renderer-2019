@@ -1,25 +1,10 @@
 import * as PIXI from 'pixi.js';
+import StateObject from './stateobject';
 
-export default class TerrainElement {
+export default class TerrainElement extends StateObject {
     constructor(x, y, type, texture) {
+        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, texture);
         this.type = type;
-        this.sprite = new PIXI.Sprite(texture);
-        this.buildSprite(x, y);
-    }
-
-    buildSprite(x, y, width, height) {
-        this.sprite.width = TerrainElement.sideLength;
-        this.sprite.height = TerrainElement.sideLength;
-        this.updateSprite(x, y);
-    }
-
-    addSprite(stage) {
-        stage.addChild(this.sprite);
-    }
-
-    updateSprite(x, y) {
-        this.sprite.x = x;
-        this.sprite.y = y;
     }
 
     setPlayerID(id) {
