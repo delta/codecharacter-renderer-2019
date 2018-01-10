@@ -11,7 +11,7 @@ PIXI.loader
     .load(initialize);
 
 async function initialize() {
-    var stateVariable = await getGameDetails();
+    const stateVariable = await getGameDetails();
     console.log(stateVariable);
     TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
     TerrainElement.build(stateVariable.terrain, game.terrain);
