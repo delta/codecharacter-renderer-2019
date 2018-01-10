@@ -8,7 +8,7 @@ export default class Game {
         this.terrain = [];
 
         this.camera = new Camera(CAMERA_CONSTANTS);
-        this.container = document.querySelector("#container");
+        this.container = document.querySelector("#renderer-container");
 
         this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
         this.container.appendChild(this.app.view);

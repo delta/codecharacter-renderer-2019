@@ -1,17 +1,25 @@
 const webpack = require('webpack');
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: ['babel-polyfill', './src/javascripts/driver.js'],
+  entry: ['babel-polyfill', './src/index.js'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: '/javascripts/'
+    publicPath: '/'
   },
   devtool: 'source-map',
   module: {
     loaders: [
+      {
+          test: /\.css$/,
+          loader: 'style-loader'
+      },
+      {
+          test: /\.css$/,
+          loader: 'css-loader'
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
@@ -23,9 +31,21 @@ module.exports = {
     ]
   },
   plugins: [
-    new UglifyJSPlugin(),
+	new webpack.optimize.UglifyJsPlugin({
+	  sourceMap: true
+	}),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': 'production'
-    })
+      'process.env.NODE_ENV': "'production'"
+    }),
+	new CopyWebpackPlugin([
+	  {
+		from: 'src/assets',
+		to: 'assets'
+	  },
+	  {
+		from: 'src/stylesheets',
+		to: 'stylesheets'
+	  }
+	])
   ]
 };

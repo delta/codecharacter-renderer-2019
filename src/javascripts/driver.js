@@ -4,11 +4,15 @@ import Game from './game';
 import TerrainElement from './state_objects/terrain';
 import Proto from './protoparse.js';
 
-var game = new Game(CONSTANTS.camera);
-PIXI.loader
-    .add("land", "assets/land.jpg")
-    .add("water", "assets/water.jpg")
-    .load(initialize);
+var game;
+
+export function startRenderer() {
+    game = new Game(CONSTANTS.camera);
+    PIXI.loader
+        .add("land", "assets/land.jpg")
+        .add("water", "assets/water.jpg")
+        .load(initialize);
+}
 
 async function initialize() {
     const stateVariable = await getGameDetails();
