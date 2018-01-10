@@ -23,57 +23,82 @@ export default class Proto {
     // Takes a raw object decoded from a proto file, and returns a proper
     // ordered version of the state at each frame
     processRawObject(rawDetails) {
-        let finalState = {
+        let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
-            towerMaxHps: rawDetails.towerMaxHps,
-            towerRanges: rawDetails.towerRanges,
-            terrain: [],
-            states: [],
+            towerMaxHps: rawDetails.towerMaxHps.slice(),
+            towerRanges: rawDetails.towerRanges.slice(),
+            terrain: this.processTerrain(rawDetails.terrain.rows),
+            states: this.processStates(rawDetails.states)
         };
 
-        for (let row of rawDetails.terrain.rows) {
-            let finalRow = [];
+        return stateVariable;
+    }
+
+    processTerrain(terrainRows) {
+        var terrain = [];
+
+        for (let row of terrainRows) {
+            let processedRow = [];
+
             for (let element of row.elements) {
                 switch (element.type) {
-                case 0: finalRow.push(undefined);
+                case 0:
+                    processedRow.push(undefined);
                     break;
-                case 1: finalRow.push('w');
+                case 1:
+                    processedRow.push('w');
                     break;
-                case 2: finalRow.push('l');
+                case 2:
+                    processedRow.push('l');
                     break;
                 }
             }
-            finalState.terrain.push(finalRow);
+            terrain.push(processedRow);
         }
 
-        let towerList = {};
+        return terrain;
+    }
 
-        for (let frame of rawDetails.states) {
-            let stateFrame = {
-                soldiers: JSON.parse(JSON.stringify(frame.soldiers)),
-                money: JSON.parse(JSON.stringify(frame.money)),
+    processStates(decodedStates) {
+        var processedStates = [];
+
+        for (let frame of decodedStates) {
+            let processedFrame = {
+                soldiers: this.processSoldiers(frame.soldiers),
+                towers: this.processTowers(frame.towers),
+                money: frame.money.slice()
             };
 
-            for (let tower of frame.towers) {
-                if (towerList.hasOwnProperty(tower.id)) {
-
-                    if (tower.is_dead === true) {
-                        delete towerList[tower.id];
-
-                    } else {
-                        for (let property in tower) {
-                            towerList[tower.id][property] = tower[property];
-                        }
-                    }
-
-                } else {
-                    towerList[tower.id] = JSON.parse(JSON.stringify(tower));
-                }
-            }
-            stateFrame.towers = JSON.parse(JSON.stringify(towerList));
-            finalState.states.push(JSON.parse(JSON.stringify(stateFrame)));
+            processedStates.push(processedFrame);
         }
 
-        return finalState;
+        return processedStates;
+    }
+
+    processSoldiers(soldiers) {
+        return soldiers;
+    }
+
+    processTowers(towers) {
+        var processedTowers = [];
+        var towerList = {};
+        for (let tower of towers) {
+            if (towerList.hasOwnProperty(tower.id)) {
+
+                if (tower.is_dead === true) {
+                    delete towerList[tower.id];
+                } else {
+                    for (let property in tower) {
+                        towerList[tower.id][property] = tower[property];
+                    }
+                }
+
+            } else {
+                towerList[tower.id] = JSON.parse(JSON.stringify(tower));
+            }
+            processedTowers.push(towerList)
+        }
+
+        return processedTowers;
     }
 }

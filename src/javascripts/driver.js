@@ -11,7 +11,7 @@ PIXI.loader
     .load(initialize);
 
 async function initialize() {
-    let stateVariable = await getDetails();
+    var stateVariable = await getGameDetails();
     console.log(stateVariable);
     TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
     TerrainElement.build(stateVariable.terrain, game.terrain);
@@ -31,7 +31,7 @@ function render(delta) {
     game.updateCamera();
 }
 
-async function getDetails() {
+async function getGameDetails() {
     let proto = new Proto();
     let gameDetails = await proto.getGame();
 

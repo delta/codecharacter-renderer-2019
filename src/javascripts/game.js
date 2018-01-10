@@ -43,8 +43,6 @@ export default class Game {
             }
         });
 
-
-
         canvas.addEventListener("keyup", (e) => {
             switch(e.keyCode) {
             case 37:
