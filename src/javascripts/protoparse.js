@@ -4,25 +4,18 @@ export default class Proto {
     constructor() {}
 
     // Function fetches game log file, and returns the parsed proto object
-    getGame() {
+    async getGame() {
         return new Promise((resolve, reject) => {
-            PROTOBUF.load("assets/game.proto", (err, root) => {
+            PROTOBUF.load("assets/game.proto", async (err, root) => {
                 if (err)
                     throw err;
-                let request = new XMLHttpRequest();
-                request.open('GET', 'assets/game.log', true);
-                request.send(null);
-                request.responseType = "arraybuffer";
-                request.onreadystatechange = () => {
-                    if (request.readyState === 4 && request.status === 200) {
-                        let byteArray = new Uint8Array(request.response);
-                        let Game = root.lookupType("proto.Game");
-                        let message = Game.decode(byteArray);
-                        let rawDetails = Game.toObject(message);
-                        let resultObject = this.processRawObject(rawDetails);
-                        resolve(resultObject);
-                    }
-                }
+                let response = await fetch('assets/game.log');
+                let byteArray = new Uint8Array(await response.arrayBuffer());
+                let Game = root.lookupType("proto.Game");
+                let message = Game.decode(byteArray);
+                let rawDetails = Game.toObject(message);
+                let resultObject = this.processRawObject(rawDetails);
+                resolve(resultObject);
             });
         });
     }
