@@ -22,12 +22,12 @@ const CONSTANTS = {
         },
         zoom: {
             value: 1,           // Extent of Zoom
-            max: 2,
+            max: 10,
             vel: {
                 value: 0,
-                max: 0.02,
+                max: 0.1,
                 min: 0.001,     // min value below which velocity is reset to zero
-                change: 0.005   // Amount to increment or decrement when given a user input
+                change: 0.025   // Amount to increment or decrement when given a user input
             }
         },
         acc: 0.85,              // Each frame, the velocity gets multiplied by this amount
@@ -44,8 +44,9 @@ const CONSTANTS = {
             }
         }
     },
-    terrain: {
-        sideLength: 300
+    soldiers: {
+        spriteWidth: 60,
+        spriteHeight: 50
     }
 };
 

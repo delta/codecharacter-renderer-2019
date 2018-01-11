@@ -1,11 +1,14 @@
 import * as PIXI from 'pixi.js';
 import Camera from './camera';
+import TerrainElement from './state_objects/terrain';
+import Soldier from './state_objects/soldier';
 
 export default class Game {
     constructor(CAMERA_CONSTANTS) {
         this.soldiers = [];
         this.towers = [];
         this.terrain = [];
+        this.frameNo = 0;
 
         this.camera = new Camera(CAMERA_CONSTANTS);
         this.container = document.querySelector("#renderer-container");
@@ -67,11 +70,60 @@ export default class Game {
         });
     }
 
+    // Game building functions
+    buildTerrain() {
+        let stateTerrain = this.stateVariable.terrain;
+        let len = this.stateVariable.terrainElementSize;
+        TerrainElement.setSideLength(len);
+
+        var texture;
+        for (let i = 0; i < stateTerrain.length; i++) {
+            this.terrain[i] = [];
+            for (let j = 0; j < stateTerrain[i].length; j++) {
+                if (stateTerrain[i][j] == 'l')
+                    texture = PIXI.loader.resources.land.texture;
+                else
+                    texture = PIXI.loader.resources.water.texture;
+
+                this.terrain[i][j] = new TerrainElement(len*i, len*j, stateTerrain[i][j], texture);
+            }
+        }
+    }
+
+    buildSoldiers(soldierConstants) {
+        let stateSoldiers = this.stateVariable.states[0].soldiers;
+        let texture = PIXI.loader.resources.soldier.texture;
+        Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
+
+        for (let i = 0; i < stateSoldiers.length; i++) {
+            let soldier = stateSoldiers[i];
+            // To Do - Change texture based on playerID
+
+            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldierConstants.spriteWidth, soldierConstants.spriteHeight,
+                soldier.hp, soldier.state, soldier.playerId, texture);
+        }
+    }
+
     buildMap(terrainElementLength) {
         this.mapLength = terrainElementLength * this.terrain.length;
         this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
     }
 
+    // Add sprites to canvas
+    addTerrain() {
+        for (let row of this.terrain) {
+            for (let element of row)
+                element.addSprite(this.app.stage);
+        }
+    }
+
+    addSoldiers() {
+        for (let soldier of this.soldiers) {
+            soldier.addSprite(this.app.stage);
+        }
+    }
+
+    // Camera Related Methods
     autoResize() {
         let containerWidth = this.container.offsetWidth,
             containerHeight = this.container.offsetHeight,
@@ -93,5 +145,17 @@ export default class Game {
 
         const zoomVal = this.camera.zoom.value;
         this.app.stage.setTransform(zoomVal * this.camera.actualPos.x, zoomVal * this.camera.actualPos.y, zoomVal, zoomVal);
+    }
+
+    updateSoldiers() {
+        let updatedSoldiers = this.stateVariable.states[this.frameNo].soldiers;
+        for (let i = 0; i < this.soldiers.length; i++) {
+            let soldier = updatedSoldiers[i];
+            this.soldiers[i].update(soldier.hp, soldier.x, soldier.y, soldier.state);
+        }
+    }
+
+    nextFrame() {
+        this.frameNo += 1;
     }
 }

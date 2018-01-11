@@ -102,10 +102,10 @@ message Game {
 	 */
 	Terrain terrain = 1;
 
-    /**
-     * Specifies size of one map element
-     */
-    int32 map_element_size = 2;
+	/**
+	 * Specifies size of one map element
+	 */
+	int32 map_element_size = 2;
 
 	/**
 	 * Range of a tower, corresponding to each tower level

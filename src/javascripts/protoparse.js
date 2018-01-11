@@ -23,6 +23,7 @@ export default class Proto {
     processRawObject(rawDetails) {
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
+            terrainElementSize: rawDetails.mapElementSize,
             towerMaxHps: rawDetails.towerMaxHps.slice(),
             towerRanges: rawDetails.towerRanges.slice(),
             terrain: this.processTerrain(rawDetails.terrain.rows),

@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
 import CONSTANTS from './constants';
 import Game from './game';
-import TerrainElement from './state_objects/terrain';
 import Proto from './protoparse.js';
 import landAsset from "../assets/land.jpg";
 import waterAsset from "../assets/water.jpg";
+import soldierAsset from "../assets/soldier.png";
 
 var game;
 
@@ -13,28 +13,35 @@ export function startRenderer(logFile) {
     PIXI.loader
         .add("land", landAsset)
         .add("water", waterAsset)
+        .add("soldier", soldierAsset)
         .load(() => {initialize(logFile)});
 }
 
 async function initialize(logFile) {
-    const stateVariable = await getGameDetails(logFile);
-    console.log(stateVariable);
-    TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
-    TerrainElement.build(stateVariable.terrain, game.terrain);
+    game.stateVariable = await getGameDetails(logFile);
+    console.log(game.stateVariable);
 
-    // For purposes of modularity
-    for (let row of game.terrain) {
-        for (let element of row)
-            element.addSprite(game.app.stage);
-    }
+    game.buildTerrain();
+    game.buildSoldiers(CONSTANTS.soldiers);
+    game.buildMap(game.stateVariable.terrainElementSize);
 
-    game.buildMap(CONSTANTS.terrain.sideLength);
+    game.addTerrain();
+    game.addSoldiers();
+    game.nextFrame();
+
     game.app.ticker.add(delta => render(delta));
 }
 
 function render(delta) {
     game.autoResize();
     game.updateCamera();
+    game.updateSoldiers();
+    game.nextFrame();
+
+    if (game.frameNo >= game.stateVariable.states.length) {
+        console.log("done");
+        game.app.ticker.stop();
+    }
 }
 
 async function getGameDetails(logFile) {
