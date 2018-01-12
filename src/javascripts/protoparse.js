@@ -1,5 +1,5 @@
 import * as PROTOBUF from 'protobufjs';
-import gameProtoFile from "../assets/game.proto";
+import gameProtoFile from "../proto/game.proto";
 
 export default class Proto {
     constructor(logFile) {

@@ -21,7 +21,7 @@ export default class CodeCharacterRenderer extends React.Component {
 }
 
 // TEST DRIVER, NOT PART OF THE COMPONENT
-fetch('assets/game.log').then((response) => {
+fetch('proto/game.log').then((response) => {
     response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         ReactDOM.render((
