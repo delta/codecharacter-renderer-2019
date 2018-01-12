@@ -4,7 +4,8 @@ import Game from './game';
 import Proto from './protoparse.js';
 import landAsset from "../assets/land.jpg";
 import waterAsset from "../assets/water.jpg";
-import soldierAsset from "../assets/soldier.png";
+import soldierP1Asset from "../assets/soldierP1.png";
+import soldierP2Asset from "../assets/soldierP2.png";
 
 var game;
 
@@ -13,7 +14,8 @@ export function startRenderer(logFile) {
     PIXI.loader
         .add("land", landAsset)
         .add("water", waterAsset)
-        .add("soldier", soldierAsset)
+        .add("soldierP1", soldierP1Asset)
+        .add("soldierP2", soldierP2Asset)
         .load(() => {initialize(logFile)});
 }
 

@@ -45,8 +45,8 @@ const CONSTANTS = {
         }
     },
     soldiers: {
-        spriteWidth: 60,
-        spriteHeight: 50
+        spriteWidth: 24,
+        spriteHeight: 30
     }
 };
 

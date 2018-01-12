@@ -80,10 +80,11 @@ export default class Game {
         for (let i = 0; i < stateTerrain.length; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < stateTerrain[i].length; j++) {
-                if (stateTerrain[i][j] == 'l')
+                if (stateTerrain[i][j] == 'l') {
                     texture = PIXI.loader.resources.land.texture;
-                else
+                } else {
                     texture = PIXI.loader.resources.water.texture;
+                }
 
                 this.terrain[i][j] = new TerrainElement(len*i, len*j, stateTerrain[i][j], texture);
             }
@@ -92,12 +93,17 @@ export default class Game {
 
     buildSoldiers(soldierConstants) {
         let stateSoldiers = this.stateVariable.states[0].soldiers;
-        let texture = PIXI.loader.resources.soldier.texture;
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
 
+        var texture;
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
-            // To Do - Change texture based on playerID
+
+            if (soldier.playerId == 0) {
+                texture = PIXI.loader.resources.soldierP1.texture;
+            } else {
+                texture = PIXI.loader.resources.soldierP2.texture;
+            }
 
             this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldierConstants.spriteWidth, soldierConstants.spriteHeight,
                 soldier.hp, soldier.state, soldier.playerId, texture);
