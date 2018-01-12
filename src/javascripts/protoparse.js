@@ -1,5 +1,6 @@
 import * as PROTOBUF from 'protobufjs';
 import gameProtoFile from "../proto/game.proto";
+import CONSTANTS from './constants';
 
 export default class Proto {
     constructor(logFile) {
@@ -60,11 +61,12 @@ export default class Proto {
 
     processStates(decodedStates) {
         let processedStates = [];
-        let towerList = {};
+        let towerList = {},
+            deadTowers = [];
         for (let frame of decodedStates) {
             let processedFrame = {
                 soldiers: this.processSoldiers(frame.soldiers),
-                towers: this.processTowers(towerList, frame.towers),
+                towers: this.processTowers(towerList, frame.towers, deadTowers),
                 money: frame.money.slice()
             };
 
@@ -93,7 +95,7 @@ export default class Proto {
         return soldiers;
     }
 
-    processTowers(towerList, towers) {
+    processTowers(towerList, towers, deadTowers) {
         for (let tower of towers) {
             if (!tower.hasOwnProperty('id'))
                 tower.id = 0;
@@ -102,20 +104,35 @@ export default class Proto {
 
             if (towerList.hasOwnProperty(tower.id)) {
                 if (tower.is_dead === true) {
-                    delete towerList[tower.id];         // Add methods to delete sprite
-                    continue;
+                    // Tower Destroyed
+                    console.log("hi")
+                    towerList[tower.id].is_dead = true;
+                    towerList[tower.id].framesLeft = CONSTANTS.towers.maxDeathFrames;
+                    deadTowers.push(tower.id);
                 } else {
+                    // "hp" and "towerlevel" have changed
                     for (let property in tower) {
                         towerList[tower.id][property] = tower[property];
                     }
                 }
             } else {
+                // New Tower
                 if (!tower.hasOwnProperty('x'))
                     tower.x = 0;
                 if (!tower.hasOwnProperty('y'))
                     tower.y = 0;
 
                 towerList[tower.id] = JSON.parse(JSON.stringify(tower));
+            }
+        }
+
+        for (let i = 0; i < deadTowers.length; i++) {
+            let deadTowerID = deadTowers[i];
+            if (towerList[deadTowerID].framesLeft >= 0) {
+                towerList[deadTowerID].framesLeft--;
+            } else {
+                deadTowers.splice(i, 1);
+                delete towerList[deadTowerID];
             }
         }
 
