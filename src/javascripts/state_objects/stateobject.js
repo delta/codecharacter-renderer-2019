@@ -20,4 +20,8 @@ export default class StateObject {
     addSprite(stage) {
         stage.addChild(this.sprite);
     }
+
+    removeSprite(stage) {
+        stage.removeChild(this.sprite);
+    }
 }

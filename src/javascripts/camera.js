@@ -1,12 +1,12 @@
 export default class Camera {
     constructor(CONSTANTS) {
-        this.actualPos = JSON.parse(JSON.stringify(CONSTANTS.actualPos));
-        this.passivePos = JSON.parse(JSON.stringify(CONSTANTS.passivePos));
-        this.offset = JSON.parse(JSON.stringify(CONSTANTS.offset));
-        this.vel = JSON.parse(JSON.stringify(CONSTANTS.vel));
+        this.actualPos = Object.assign({}, CONSTANTS.actualPos);
+        this.passivePos = Object.assign({}, CONSTANTS.passivePos);
+        this.offset = Object.assign({}, CONSTANTS.offset);
+        this.vel = Object.assign({}, CONSTANTS.vel);
         this.zoom = JSON.parse(JSON.stringify(CONSTANTS.zoom));
-        this.acc = CONSTANTS.acc;
         this.commands = JSON.parse(JSON.stringify(CONSTANTS.commands));
+        this.acc = CONSTANTS.acc;
     }
 
     slowDown() {

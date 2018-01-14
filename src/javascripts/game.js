@@ -1,16 +1,18 @@
 import * as PIXI from 'pixi.js';
+import CONSTANTS from './constants';
 import Camera from './camera';
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
+import Tower from './state_objects/tower';
 
 export default class Game {
-    constructor(CAMERA_CONSTANTS) {
+    constructor() {
         this.soldiers = [];
-        this.towers = [];
+        this.towers = {};
         this.terrain = [];
         this.frameNo = 0;
 
-        this.camera = new Camera(CAMERA_CONSTANTS);
+        this.camera = new Camera(CONSTANTS.camera);
         this.container = document.querySelector("#renderer-container");
 
         this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
@@ -70,6 +72,7 @@ export default class Game {
         });
     }
 
+
     // Game building functions
     buildTerrain() {
         let stateTerrain = this.stateVariable.terrain;
@@ -91,8 +94,8 @@ export default class Game {
         }
     }
 
-    buildSoldiers(soldierConstants) {
-        let stateSoldiers = this.stateVariable.states[0].soldiers;
+    buildSoldiers() {
+        let stateSoldiers = this.getCurrentFrame().soldiers; // Current Frame Number is 0
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
 
         var texture;
@@ -105,15 +108,32 @@ export default class Game {
                 texture = PIXI.loader.resources.soldierP2.texture;
             }
 
-            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldierConstants.spriteWidth, soldierConstants.spriteHeight,
+            this.soldiers[i] = new Soldier(soldier.x, soldier.y, CONSTANTS.soldiers.spriteWidth, CONSTANTS.soldiers.spriteHeight,
                 soldier.hp, soldier.state, soldier.playerId, texture);
         }
     }
 
-    buildMap(terrainElementLength) {
-        this.mapLength = terrainElementLength * this.terrain.length;
+    buildTowers() {
+        let stateTowers = this.getCurrentFrame().towers;
+        Tower.setMaxHPs(this.stateVariable.tower.maxHps);
+        Tower.setRanges(this.stateVariable.tower.ranges);
+
+        var texture = PIXI.loader.resources.towerP1L1.texture;
+        for (let towerID in stateTowers) {
+            if ( isNaN(parseInt(towerID)) )    // Create New Towers only for actual tower objects
+                continue;
+
+            let tower = stateTowers[towerID];
+            this.towers[towerID] = new Tower(tower.x, tower.y, CONSTANTS.towers.spriteWidth, CONSTANTS.towers.spriteHeight,
+                tower.playerId, tower.hp, tower.towerLevel, tower.isBase, texture);
+        }
+    }
+
+    buildMap() {
+        this.mapLength = this.stateVariable.terrainElementSize * this.terrain.length;
         this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
     }
+
 
     // Add sprites to canvas
     addTerrain() {
@@ -128,6 +148,14 @@ export default class Game {
             soldier.addSprite(this.app.stage);
         }
     }
+
+    addTowers() {
+        for (let towerID in this.towers) {
+            let tower = this.towers[towerID];
+            tower.addSprite(this.app.stage);
+        }
+    }
+
 
     // Camera Related Methods
     autoResize() {
@@ -153,15 +181,67 @@ export default class Game {
         this.app.stage.setTransform(zoomVal * this.camera.actualPos.x, zoomVal * this.camera.actualPos.y, zoomVal, zoomVal);
     }
 
+
+    // Game Objects update
     updateSoldiers() {
-        let updatedSoldiers = this.stateVariable.states[this.frameNo].soldiers;
+        let currentSoldiers = this.getCurrentFrame().soldiers;
+
         for (let i = 0; i < this.soldiers.length; i++) {
-            let soldier = updatedSoldiers[i];
+            let soldier = currentSoldiers[i];
             this.soldiers[i].update(soldier.hp, soldier.x, soldier.y, soldier.state);
         }
     }
 
+    updateTowers() {
+        let currentTowers = this.getCurrentFrame().towers,
+            prevTowers = this.getPreviousFrame().towers;
+
+        if (!currentTowers.hasChanged) {
+            return;
+        }
+
+        // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
+
+        var texture = PIXI.loader.resources.towerP1L1.texture;
+        for (let towerID in currentTowers) {
+            if ( isNaN(parseInt(towerID)) )    // Update Towers only for actual tower objects
+                continue;
+
+            let tower = currentTowers[towerID];
+            if (tower.updateMethod == "create") {
+
+                this.towers[towerID] = new Tower(tower.x, tower.y, CONSTANTS.towers.spriteWidth, CONSTANTS.towers.spriteHeight,
+                    tower.playerId, tower.hp, tower.towerLevel, tower.isBase, texture);
+                this.towers[towerID].addSprite(this.app.stage);
+
+            } else if (tower.updateMethod == "destroy") {
+
+                if (tower.framesLeft == CONSTANTS.towers.maxDeathFrames) {
+                    this.towers[towerID].destroy();
+                } else if (tower.framesLeft == 0) {
+                    this.towers[towerID].removeSprite(this.app.stage);
+                    delete this.towers[towerID];
+                }
+
+            } else if (tower.updateMethod == "update") {
+                this.towers[towerID].update(tower.hp, tower.towerLevel)
+            }
+        }
+    }
+
+
+    // Frame related methods
+    previousFrame() {
+        this.frameNo -= 1;
+    }
     nextFrame() {
         this.frameNo += 1;
+    }
+
+    getPreviousFrame() {
+        return this.stateVariable.states[this.frameNo - 1];
+    }
+    getCurrentFrame() {
+        return this.stateVariable.states[this.frameNo];
     }
 }
