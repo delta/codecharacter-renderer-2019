@@ -36,7 +36,7 @@ message Soldier {
 
 message Tower {
 	int32 id = 1;
-	int32 player_id = 2; // Sent first time only
+	int32 player_id = 2;   // Sent first time only
 	int32 hp = 3;
 	int32 x = 4;           // Sent first time only
 	int32 y = 5;           // Sent first time only

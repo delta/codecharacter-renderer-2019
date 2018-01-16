@@ -24,6 +24,7 @@ async function initialize(logFile) {
     game.stateVariable = await getGameDetails(logFile);
     console.log(game.stateVariable);
 
+    game.buildStateClasses();
     game.buildTerrain();
     game.buildSoldiers();
     game.buildTowers();

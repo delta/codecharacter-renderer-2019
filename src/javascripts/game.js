@@ -26,7 +26,7 @@ export default class Game {
         canvas.tabIndex = 1; // Allows event listeners to work
 
         canvas.addEventListener("keydown", (e) => {
-            switch(e.keyCode) {
+            switch (e.keyCode) {
             case 37:
                 game.camera.commands.move.left = true;
                 break;
@@ -72,12 +72,44 @@ export default class Game {
         });
     }
 
+    buildStateClasses() {
+        // Set Constants
+        TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
+        Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
+        Tower.setMaxHPs(this.stateVariable.tower.maxHps);
+        Tower.setRanges(this.stateVariable.tower.ranges);
+
+        // Set Sprite related constants
+        Tower.setSpriteConstants(CONSTANTS.towers);
+
+        // Add Textures
+        Soldier.setTextures();
+
+        let towerTextures = this.getTowerTextures();
+        Tower.setTextures(towerTextures.p1Textures, towerTextures.p2Textures);
+    }
+
+    getTowerTextures() {
+        return {
+            p1Textures: {
+                deadTexture: PIXI.loader.resources.towerP1L1.texture,
+                lv1Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv2Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP1L1.texture,
+            },
+            p2Textures: {
+                deadTexture: PIXI.loader.resources.towerP1L1.texture,
+                lv1Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv2Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP1L1.texture,
+            }
+        };
+    }
 
     // Game building functions
     buildTerrain() {
         let stateTerrain = this.stateVariable.terrain;
-        let len = this.stateVariable.terrainElementSize;
-        TerrainElement.setSideLength(len);
+        let len = TerrainElement.sideLength;
 
         var texture;
         for (let i = 0; i < stateTerrain.length; i++) {
@@ -96,7 +128,6 @@ export default class Game {
 
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers; // Current Frame Number is 0
-        Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
 
         var texture;
         for (let i = 0; i < stateSoldiers.length; i++) {
@@ -115,17 +146,13 @@ export default class Game {
 
     buildTowers() {
         let stateTowers = this.getCurrentFrame().towers;
-        Tower.setMaxHPs(this.stateVariable.tower.maxHps);
-        Tower.setRanges(this.stateVariable.tower.ranges);
 
-        var texture = PIXI.loader.resources.towerP1L1.texture;
         for (let towerID in stateTowers) {
             if ( isNaN(parseInt(towerID)) )    // Create New Towers only for actual tower objects
                 continue;
 
             let tower = stateTowers[towerID];
-            this.towers[towerID] = new Tower(tower.x, tower.y, CONSTANTS.towers.spriteWidth, CONSTANTS.towers.spriteHeight,
-                tower.playerId, tower.hp, tower.towerLevel, tower.isBase, texture);
+            this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
         }
     }
 
@@ -202,7 +229,6 @@ export default class Game {
 
         // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
 
-        var texture = PIXI.loader.resources.towerP1L1.texture;
         for (let towerID in currentTowers) {
             if ( isNaN(parseInt(towerID)) )    // Update Towers only for actual tower objects
                 continue;
@@ -210,8 +236,7 @@ export default class Game {
             let tower = currentTowers[towerID];
             if (tower.updateMethod == "create") {
 
-                this.towers[towerID] = new Tower(tower.x, tower.y, CONSTANTS.towers.spriteWidth, CONSTANTS.towers.spriteHeight,
-                    tower.playerId, tower.hp, tower.towerLevel, tower.isBase, texture);
+                this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
                 this.towers[towerID].addSprite(this.app.stage);
 
             } else if (tower.updateMethod == "destroy") {

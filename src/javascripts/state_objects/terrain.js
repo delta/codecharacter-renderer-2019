@@ -13,6 +13,6 @@ export default class TerrainElement extends StateObject {
     }
 
     static setSideLength(len) {
-        TerrainElement.sideLength = len;
+        this.sideLength = len;
     }
 }

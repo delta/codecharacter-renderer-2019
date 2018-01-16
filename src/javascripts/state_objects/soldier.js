@@ -14,7 +14,11 @@ export default class Soldier extends StateObject {
         this.state = state;
     }
 
+    static setTextures() {
+
+    }
+
     static setMaxHP(hp) {
-        Soldier.maxHP = hp;
+        this.maxHP = hp;
     }
 }

@@ -50,8 +50,22 @@ const CONSTANTS = {
     },
     towers: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
-        spriteWidth: 30,
-        spriteHeight: 70
+        deadSprite: {
+            width: 30,
+            height: 10
+        },
+        lv1Sprite: {
+            width: 30,
+            height: 60
+        },
+        lv2Sprite: {
+            width: 36,
+            height: 72
+        },
+        lv3Sprite: {
+            width: 42,
+            height: 84
+        }
     }
 };
 
