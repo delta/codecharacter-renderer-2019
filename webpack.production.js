@@ -5,21 +5,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    filename: 'libpack.js',
+    library: 'libpack',
+    libraryTarget: 'commonjs2',
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
   devtool: 'source-map',
   module: {
     loaders: [
-      {
-          test: /\.css$/,
-          loader: 'style-loader'
-      },
-      {
-          test: /\.css$/,
-          loader: 'css-loader'
-      },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
@@ -27,8 +21,22 @@ module.exports = {
         query: {
           presets: ['env']
         }
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.(proto|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        loader: 'url-loader?name=./assets/[hash].[ext]'
       }
     ]
+  },
+  externals: {
+    'react': 'commonjs react',
+    'react-dom': 'commonjs react-dom',
+    'pixi.js': 'commonjs pixi.js',
+    'protobufjs': 'commonjs protobufjs'
   },
   plugins: [
 	new webpack.optimize.UglifyJsPlugin({
@@ -36,16 +44,6 @@ module.exports = {
 	}),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': "'production'"
-    }),
-	new CopyWebpackPlugin([
-	  {
-		from: 'src/assets',
-		to: 'assets'
-	  },
-	  {
-		from: 'src/stylesheets',
-		to: 'stylesheets'
-	  }
-	])
+    })
   ]
 };

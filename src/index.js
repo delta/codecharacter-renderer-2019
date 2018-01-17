@@ -3,9 +3,16 @@ import ReactDOM                             from "react-dom";
 import "./stylesheets/renderer.css";
 import { startRenderer }                    from  "./javascripts/driver.js";
 
-export { startRenderer };
-
 export default class CodeCharacterRenderer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        startRenderer(this.props.logFile);
+    }
+
     render() {
         return (
             <div id="renderer-container" />
@@ -13,9 +20,12 @@ export default class CodeCharacterRenderer extends React.Component {
     }
 }
 
-// When run independently
-ReactDOM.render((
-    <CodeCharacterRenderer />
-), document.getElementById("root"));
-
-startRenderer();
+// TEST DRIVER, NOT PART OF THE COMPONENT
+fetch('assets/game.log').then((response) => {
+    response.arrayBuffer().then((buffer) => {
+        let logFile = new Uint8Array(buffer);
+        ReactDOM.render((
+            <CodeCharacterRenderer logFile={logFile} />
+        ), document.getElementById("root"));
+    });
+});

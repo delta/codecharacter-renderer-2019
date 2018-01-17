@@ -1,22 +1,20 @@
 import * as PROTOBUF from 'protobufjs';
+import gameProtoFile from "../assets/game.proto";
 
 export default class Proto {
-    constructor() {}
+    constructor(logFile) {
+        this.logFile = logFile;
+    }
 
     // Function fetches game log file, and returns the parsed proto object
     async getGame() {
-        return new Promise((resolve, reject) => {
-            PROTOBUF.load("assets/game.proto", async (err, root) => {
-                if (err)
-                    throw err;
-                let response = await fetch('assets/game.log');
-                let byteArray = new Uint8Array(await response.arrayBuffer());
-                let Game = root.lookupType("proto.Game");
-                let message = Game.decode(byteArray);
-                let rawDetails = Game.toObject(message);
-                let resultObject = this.processRawObject(rawDetails);
-                resolve(resultObject);
-            });
+        return new Promise(async (resolve, reject) => {
+            let root = await PROTOBUF.load(gameProtoFile);
+            let Game = root.lookupType("proto.Game");
+            let message = Game.decode(this.logFile);
+            let rawDetails = Game.toObject(message);
+            let resultObject = this.processRawObject(rawDetails);
+            resolve(resultObject);
         });
     }
 

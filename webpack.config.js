@@ -14,11 +14,11 @@ module.exports = {
     loaders: [
       {
           test: /\.css$/,
-          loader: 'style-loader'
+          loader: 'style-loader!css-loader'
       },
       {
-          test: /\.css$/,
-          loader: 'css-loader'
+        test: /\.(proto|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        loader: 'url-loader'
       },
       {
         enforce: 'pre',

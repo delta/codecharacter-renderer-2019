@@ -3,19 +3,21 @@ import CONSTANTS from './constants';
 import Game from './game';
 import TerrainElement from './state_objects/terrain';
 import Proto from './protoparse.js';
+import landAsset from "../assets/land.jpg";
+import waterAsset from "../assets/water.jpg";
 
 var game;
 
-export function startRenderer() {
+export function startRenderer(logFile) {
     game = new Game(CONSTANTS.camera);
     PIXI.loader
-        .add("land", "assets/land.jpg")
-        .add("water", "assets/water.jpg")
-        .load(initialize);
+        .add("land", landAsset)
+        .add("water", waterAsset)
+        .load(() => {initialize(logFile)});
 }
 
-async function initialize() {
-    const stateVariable = await getGameDetails();
+async function initialize(logFile) {
+    const stateVariable = await getGameDetails(logFile);
     console.log(stateVariable);
     TerrainElement.setSideLength(CONSTANTS.terrain.sideLength);
     TerrainElement.build(stateVariable.terrain, game.terrain);
@@ -35,8 +37,8 @@ function render(delta) {
     game.updateCamera();
 }
 
-async function getGameDetails() {
-    let proto = new Proto();
+async function getGameDetails(logFile) {
+    let proto = new Proto(logFile);
     let gameDetails = await proto.getGame();
 
     return gameDetails;
