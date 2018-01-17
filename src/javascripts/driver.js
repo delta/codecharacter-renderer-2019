@@ -41,13 +41,16 @@ async function initialize(logFile) {
 function render(delta) {
     game.autoResize();
     game.updateCamera();
-    game.updateSoldiers();
-    game.updateTowers();
-    game.nextFrame();
+
+    if (game.state == "play") {
+        game.updateSoldiers();
+        game.updateTowers();
+        game.nextFrame();
+    }
 
     if (game.frameNo >= game.stateVariable.states.length) {
         console.log("done");
-        game.app.ticker.stop();
+        game.state = "stop";
     }
 }
 

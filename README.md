@@ -10,6 +10,7 @@ Renderer component for Code Character
 - Run `npm run build` to build the renderer.
 
 ## Status
-The renderer renders a static terrain based on a given input.
+The renderer renders a static terrain and some moving soldiers based on a given log file.
 - Pan  : Use arrow keys to pan around the map.
-- Zoom : Use the +(=) and - keys to zoom in and out.
+- Zoom : Use the '+'('=') and '-' keys to zoom in and out.
+- Pause : Press 'P' to pause rendering.

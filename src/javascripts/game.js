@@ -17,6 +17,7 @@ export default class Game {
 
         this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
         this.container.appendChild(this.app.view);
+        this.state = "play";
 
         Game.addListeners(this);
     }
@@ -67,6 +68,11 @@ export default class Game {
                 break;
             case 189:
                 game.camera.commands.zoom.out = false;
+                break;
+            case 80:
+                if (game.state != "stop") {
+                    game.state = (game.state == "play")? "pause" : "play";
+                }
                 break;
             }
         });
