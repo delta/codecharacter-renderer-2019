@@ -80,13 +80,32 @@ export default class Game {
         Tower.setRanges(this.stateVariable.tower.ranges);
 
         // Set Sprite related constants
+        Soldier.setSpriteConstants(CONSTANTS.soldiers);
         Tower.setSpriteConstants(CONSTANTS.towers);
 
         // Add Textures
-        Soldier.setTextures();
+        let soldierTextures = this.getSoldierTextures();
+        Soldier.setTextures(soldierTextures.p1Textures, soldierTextures.p2Textures);
 
         let towerTextures = this.getTowerTextures();
         Tower.setTextures(towerTextures.p1Textures, towerTextures.p2Textures);
+    }
+
+    getSoldierTextures() {
+        return {
+            p1Textures: {
+                idleTexture: PIXI.loader.resources.soldierP1.texture,
+                moveTexture: PIXI.loader.resources.soldierP1.texture,
+                atkTexture: PIXI.loader.resources.soldierP1.texture,
+                deadTexture: PIXI.loader.resources.soldierP1.texture
+            },
+            p2Textures: {
+                idleTexture: PIXI.loader.resources.soldierP2.texture,
+                moveTexture: PIXI.loader.resources.soldierP2.texture,
+                atkTexture: PIXI.loader.resources.soldierP2.texture,
+                deadTexture: PIXI.loader.resources.soldierP2.texture
+            }
+        };
     }
 
     getTowerTextures() {
@@ -95,13 +114,13 @@ export default class Game {
                 deadTexture: PIXI.loader.resources.towerP1L1.texture,
                 lv1Texture: PIXI.loader.resources.towerP1L1.texture,
                 lv2Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv3Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP1L1.texture
             },
             p2Textures: {
                 deadTexture: PIXI.loader.resources.towerP1L1.texture,
                 lv1Texture: PIXI.loader.resources.towerP1L1.texture,
                 lv2Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv3Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP1L1.texture
             }
         };
     }
@@ -129,18 +148,9 @@ export default class Game {
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers; // Current Frame Number is 0
 
-        var texture;
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
-
-            if (soldier.playerId == 0) {
-                texture = PIXI.loader.resources.soldierP1.texture;
-            } else {
-                texture = PIXI.loader.resources.soldierP2.texture;
-            }
-
-            this.soldiers[i] = new Soldier(soldier.x, soldier.y, CONSTANTS.soldiers.spriteWidth, CONSTANTS.soldiers.spriteHeight,
-                soldier.hp, soldier.state, soldier.playerId, texture);
+            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldier.hp, soldier.state, soldier.playerId);
         }
     }
 
@@ -215,7 +225,11 @@ export default class Game {
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].update(soldier.hp, soldier.x, soldier.y, soldier.state);
+            this.soldiers[i].updatePosition(soldier.x, soldier.y);
+            this.soldiers[i].updateHP(soldier.hp);
+
+            if (soldier.stateHasChanged)
+                this.soldiers[i].updateState(soldier.state);
         }
     }
 

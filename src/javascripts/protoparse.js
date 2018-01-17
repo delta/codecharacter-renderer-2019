@@ -63,11 +63,12 @@ export default class Proto {
 
     processStates(decodedStates) {
         let processedStates = [];
+        let soldierList = {};
         let towerList = {},
             deadTowers = [];
         for (let frame of decodedStates) {
             let processedFrame = {
-                soldiers: this.processSoldiers(frame.soldiers),
+                soldiers: this.processSoldiers(soldierList, frame.soldiers),
                 towers: this.processTowers(towerList, frame.towers, deadTowers),
                 money: frame.money.slice()
             };
@@ -78,20 +79,27 @@ export default class Proto {
         return processedStates;
     }
 
-    processSoldiers(soldiers) {
+    processSoldiers(soldierList, soldiers) {
         for (let i = 0; i < soldiers.length; i++) {
+            soldiers[i].stateHasChanged = false;
             if (!soldiers[i].hasOwnProperty('hp'))
                 soldiers[i].hp = 0;
             if (!soldiers[i].hasOwnProperty('x'))
                 soldiers[i].x = 0;
             if (!soldiers[i].hasOwnProperty('y'))
                 soldiers[i].y = 0;
-            if (!soldiers[i].hasOwnProperty('state'))
-                soldiers[i].state = 0;
 
             if (i < soldiers.length/2)
                 soldiers[i].playerId = 0;
             else soldiers[i].playerId = 1;
+
+            if (!soldierList.hasOwnProperty(i)) {
+                soldierList[i] = Object.assign({}, soldiers[i]);
+            } else {
+                if (soldierList[i].state != soldiers[i].state) {
+                    soldiers[i].stateHasChanged = true;
+                }
+            }
         }
 
         return soldiers;

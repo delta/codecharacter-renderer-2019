@@ -45,8 +45,22 @@ const CONSTANTS = {
         }
     },
     soldiers: {
-        spriteWidth: 24,
-        spriteHeight: 30
+        idleSprite: {
+            width: 24,
+            height: 30
+        },
+        moveSprite: {
+            width: 24,
+            height: 30
+        },
+        atkSprite: {
+            width: 24,
+            height: 30
+        },
+        deadSprite: {
+            width: 30,
+            height: 20
+        }
     },
     towers: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
