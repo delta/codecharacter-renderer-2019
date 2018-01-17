@@ -70,9 +70,8 @@ export default class Game {
                 game.camera.commands.zoom.out = false;
                 break;
             case 80:
-                if (game.state != "stop") {
+                if (game.state != "stop")
                     game.state = (game.state == "play")? "pause" : "play";
-                }
                 break;
             }
         });
@@ -131,6 +130,7 @@ export default class Game {
         };
     }
 
+
     // Game building functions
     buildTerrain() {
         let stateTerrain = this.stateVariable.terrain;
@@ -169,6 +169,9 @@ export default class Game {
 
             let tower = stateTowers[towerID];
             this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
+
+            // Add ownership details
+            this.updateTerrain(tower.x, tower.y, tower.playerId, tower.towerLevel, tower.updateMethod);
         }
     }
 
@@ -270,6 +273,38 @@ export default class Game {
 
             } else if (tower.updateMethod == "update") {
                 this.towers[towerID].update(tower.hp, tower.towerLevel)
+            }
+
+            // Update ownership details
+            if (tower.levelHasChanged)
+                this.updateTerrain(tower.x, tower.y, tower.playerId, tower.towerLevel, tower.updateMethod);
+        }
+    }
+
+    updateTerrain(towerX, towerY, playerID, towerLevel, towerState) {
+        let towerLocation = {
+            x: Number.parseInt(towerX / TerrainElement.sideLength),
+            y: Number.parseInt(towerY / TerrainElement.sideLength)
+        };
+
+        let blocksCovered = {
+            x: {
+                start: (towerLocation.x - towerLevel >= 0) ? (towerLocation.x - towerLevel) : 0,
+                end: (towerLocation.x + towerLevel < this.terrain.length) ? (towerLocation.x + towerLevel) : 0
+            },
+            y: {
+                start: (towerLocation.y - towerLevel >= 0) ? (towerLocation.y - towerLevel) : 0,
+                end: (towerLocation.y + towerLevel < this.terrain.length) ? (towerLocation.y + towerLevel) : 0
+            },
+        };
+
+        for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
+            for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
+                if (towerState == "destroy") {
+                    this.terrain[i][j].removeOwnership(playerID + 1);
+                } else {
+                    this.terrain[i][j].addOwnership(playerID + 1);
+                }
             }
         }
     }

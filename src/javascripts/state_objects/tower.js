@@ -21,7 +21,6 @@ export default class Tower extends StateObject {
 
     destroy() {
         this.updateLevel(0);
-        // Recalculate Ownership
     }
 
     updateLevel(level) {
@@ -30,7 +29,6 @@ export default class Tower extends StateObject {
         let spriteDetails = Tower.getSpriteDetails(this.playerID, this.level);
         this.sprite.texture = spriteDetails.texture;
         this.setSpriteDimensions(spriteDetails.dimensions.width, spriteDetails.dimensions.height);
-        // Recalculate Ownership
     }
 
     static setMaxHPs(hpArray) {

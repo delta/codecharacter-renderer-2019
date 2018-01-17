@@ -117,6 +117,7 @@ export default class Proto {
             let deadTower = towerList[deadTowers[i]];
             if (deadTower.framesLeft >= 0) {
                 deadTower.framesLeft--;
+                deadTower.levelHasChanged = false;
             } else {
                 deadTowers.splice(i, 1);
                 delete towerList[deadTower.id];
@@ -133,14 +134,22 @@ export default class Proto {
                 if (tower.is_dead === true) {
                     // Tower Destroyed
                     towerList[tower.id].isDead = true;
-                    towerList[tower.id].framesLeft = CONSTANTS.towers.maxDeathFrames;
+                    towerList[tower.id].levelHasChanged = true;
                     towerList[tower.id].updateMethod = "destroy";
+                    towerList[tower.id].framesLeft = CONSTANTS.towers.maxDeathFrames;
+
                     deadTowers.push(tower.id);
                 } else {
                     // Tower level and/or HP have changed
-                    for (let property in tower) {
-                        towerList[tower.id][property] = tower[property];
-                    }
+                    towerList[tower.id].levelHasChanged =
+                        (towerList[tower.id].towerLevel == tower.towerLevel) ? false : true;
+
+                    // for (let property in tower) {
+                    //     towerList[tower.id][property] = tower[property];
+                    // }
+                    towerList[tower.id].hp = tower.hp;
+                    towerList[tower.id].towerLevel = tower.towerLevel;
+
                     towerList[tower.id].updateMethod = "update";
                 }
             } else {
@@ -150,11 +159,12 @@ export default class Proto {
                 if (!tower.hasOwnProperty('y'))
                     tower.y = 0;
 
+                tower.levelHasChanged = "true";
                 tower.updateMethod = "create";
                 towerList[tower.id] = Object.assign({}, tower);
             }
         }
 
-        return towerList;
+        return JSON.parse(JSON.stringify(towerList));
     }
 }
