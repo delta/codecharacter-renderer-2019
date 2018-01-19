@@ -49,19 +49,19 @@ export default class Soldier extends StateObject {
         let details = {texture: null, dimensions: null};
 
         switch (soldierState) {
-        case 1:
+        case 0:
             details.texture = this.textures[playerID].idleTexture;
             details.dimensions = this.spriteDimensions.idleSprite;
             break;
-        case 2:
+        case 1:
             details.texture = this.textures[playerID].moveTexture;
             details.dimensions = this.spriteDimensions.moveSprite;
             break;
-        case 3:
+        case 2:
             details.texture = this.textures[playerID].atkTexture;
             details.dimensions = this.spriteDimensions.atkSprite;
             break;
-        case 4:
+        case 3:
             details.texture = this.textures[playerID].deadTexture;
             details.dimensions = this.spriteDimensions.deadSprite;
             break;

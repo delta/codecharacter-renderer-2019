@@ -79,7 +79,8 @@ export default class Game {
 
     buildStateClasses() {
         // Set Constants
-        TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
+        // TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
+        TerrainElement.setSideLength(50);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Tower.setMaxHPs(this.stateVariable.tower.maxHps);
         Tower.setRanges(this.stateVariable.tower.ranges);
@@ -176,7 +177,7 @@ export default class Game {
     }
 
     buildMap() {
-        this.mapLength = this.stateVariable.terrainElementSize * this.terrain.length;
+        this.mapLength = TerrainElement.sideLength * this.terrain.length;
         this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
     }
 

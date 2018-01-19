@@ -44,14 +44,11 @@ export default class Proto {
 
             for (let element of row.elements) {
                 switch (element.type) {
-                case 0:
-                    processedRow.push(undefined);
-                    break;
                 case 1:
-                    processedRow.push('w');
-                    break;
-                case 2:
                     processedRow.push('l');
+                    break;
+                default:
+                    processedRow.push('w');
                     break;
                 }
             }
@@ -88,10 +85,10 @@ export default class Proto {
                 soldiers[i].x = 0;
             if (!soldiers[i].hasOwnProperty('y'))
                 soldiers[i].y = 0;
+            if (!soldiers[i].hasOwnProperty('state'))
+                soldiers[i].state = 0;
 
-            if (i < soldiers.length/2)
-                soldiers[i].playerId = 0;
-            else soldiers[i].playerId = 1;
+            soldiers[i].playerId = (i < soldiers.length/2) ? 0 : 1;
 
             if (!soldierList.hasOwnProperty(i)) {
                 soldierList[i] = Object.assign({}, soldiers[i]);
@@ -106,7 +103,7 @@ export default class Proto {
     }
 
     processTowers(towerList, towers, deadTowers) {
-        if (Object.keys(towers).length === 0 && deadTowers.length === 0) {
+        if (towers === undefined && deadTowers.length === 0) {
             towerList.hasChanged = false;
             return towerList;
         }

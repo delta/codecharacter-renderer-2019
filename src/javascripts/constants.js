@@ -17,17 +17,17 @@ const CONSTANTS = {
             x: 0,
             y: 0,
             min: 0.01,          // min value below which velocity is reset to zero
-            max: 10,
-            change: 1           // Amount to increment or decrement when given a user input
+            max: 30,
+            change: 3           // Amount to increment or decrement when given a user input
         },
         zoom: {
             value: 1,           // Extent of Zoom
             max: 10,
             vel: {
                 value: 0,
-                max: 0.1,
+                max: 0.05,
                 min: 0.001,     // min value below which velocity is reset to zero
-                change: 0.025   // Amount to increment or decrement when given a user input
+                change: 0.0125  // Amount to increment or decrement when given a user input
             }
         },
         acc: 0.85,              // Each frame, the velocity gets multiplied by this amount
