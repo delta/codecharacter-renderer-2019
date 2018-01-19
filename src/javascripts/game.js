@@ -153,7 +153,7 @@ export default class Game {
     }
 
     buildSoldiers() {
-        let stateSoldiers = this.getCurrentFrame().soldiers; // Current Frame Number is 0
+        let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
 
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
@@ -179,6 +179,10 @@ export default class Game {
     buildMap() {
         this.mapLength = TerrainElement.sideLength * this.terrain.length;
         this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
+    }
+
+    addMoney() {
+        this.playerMoney = this.getCurrentFrame().money.slice();
     }
 
 
@@ -308,6 +312,12 @@ export default class Game {
                 }
             }
         }
+    }
+
+    updateMoney() {
+        let money = this.getCurrentFrame().money;
+        this.playerMoney[0] = money[0];
+        this.playerMoney[1] = money[1];
     }
 
 

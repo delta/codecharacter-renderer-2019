@@ -21,7 +21,7 @@ const CONSTANTS = {
             change: 3           // Amount to increment or decrement when given a user input
         },
         zoom: {
-            value: 1,           // Extent of Zoom
+            value: 0.8,         // Extent of Zoom
             max: 10,
             vel: {
                 value: 0,

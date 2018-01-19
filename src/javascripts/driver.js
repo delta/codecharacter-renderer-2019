@@ -33,6 +33,7 @@ async function initialize(logFile) {
     game.addTerrain();
     game.addSoldiers();
     game.addTowers();
+    game.addMoney();
     game.nextFrame();
 
     game.app.ticker.add(delta => render(delta));
@@ -42,9 +43,11 @@ function render(delta) {
     game.autoResize();
     game.updateCamera();
 
+
     if (game.state == "play") {
         game.updateSoldiers();
         game.updateTowers();
+        game.updateMoney();
         game.nextFrame();
     }
 
