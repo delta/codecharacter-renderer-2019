@@ -88,6 +88,7 @@ export default class Game {
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.soldiers);
         Tower.setSpriteConstants(CONSTANTS.towers);
+        TerrainElement.setOverlayOpacity(CONSTANTS.terrain.overlay);
 
         // Add Textures
         let soldierTextures = this.getSoldierTextures();
@@ -95,6 +96,9 @@ export default class Game {
 
         let towerTextures = this.getTowerTextures();
         Tower.setTextures(towerTextures.p1Textures, towerTextures.p2Textures);
+
+        let terrainTextures = this.getTerrainTextures();
+        TerrainElement.setTextures(terrainTextures);
     }
 
     getSoldierTextures() {
@@ -128,6 +132,13 @@ export default class Game {
                 lv2Texture: PIXI.loader.resources.towerP1L1.texture,
                 lv3Texture: PIXI.loader.resources.towerP1L1.texture
             }
+        };
+    }
+
+    getTerrainTextures() {
+        return {
+            landTexture: PIXI.loader.resources.land.texture,
+            waterTexture: PIXI.loader.resources.water.texture
         };
     }
 
@@ -189,8 +200,10 @@ export default class Game {
     // Add sprites to canvas
     addTerrain() {
         for (let row of this.terrain) {
-            for (let element of row)
+            for (let element of row) {
                 element.addSprite(this.app.stage);
+                element.overlay.addPrimitive(this.app.stage);
+            }
         }
     }
 

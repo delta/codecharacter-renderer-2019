@@ -156,7 +156,7 @@ export default class Proto {
                 if (!tower.hasOwnProperty('y'))
                     tower.y = 0;
 
-                tower.levelHasChanged = "true";
+                tower.levelHasChanged = true;
                 tower.updateMethod = "create";
                 towerList[tower.id] = Object.assign({}, tower);
             }

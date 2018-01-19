@@ -80,6 +80,11 @@ const CONSTANTS = {
             width: 42,
             height: 84
         }
+    },
+    terrain: {
+        overlay: {
+            opacity: 0.3
+        }
     }
 };
 
