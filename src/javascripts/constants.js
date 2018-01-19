@@ -55,10 +55,10 @@ const CONSTANTS = {
         },
         atkSprite: {
             width: 24,
-            height: 30
+            height: 35
         },
         deadSprite: {
-            width: 30,
+            width: 40,
             height: 20
         }
     },

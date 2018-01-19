@@ -106,13 +106,13 @@ export default class Game {
             p1Textures: {
                 idleTexture: PIXI.loader.resources.soldierP1.texture,
                 moveTexture: PIXI.loader.resources.soldierP1.texture,
-                atkTexture: PIXI.loader.resources.soldierP1.texture,
+                atkTexture: PIXI.loader.resources.soldierP1Atk.texture,
                 deadTexture: PIXI.loader.resources.soldierP1.texture
             },
             p2Textures: {
                 idleTexture: PIXI.loader.resources.soldierP2.texture,
                 moveTexture: PIXI.loader.resources.soldierP2.texture,
-                atkTexture: PIXI.loader.resources.soldierP2.texture,
+                atkTexture: PIXI.loader.resources.soldierP2Atk.texture,
                 deadTexture: PIXI.loader.resources.soldierP2.texture
             }
         };
@@ -127,10 +127,10 @@ export default class Game {
                 lv3Texture: PIXI.loader.resources.towerP1L1.texture
             },
             p2Textures: {
-                deadTexture: PIXI.loader.resources.towerP1L1.texture,
-                lv1Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv2Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv3Texture: PIXI.loader.resources.towerP1L1.texture
+                deadTexture: PIXI.loader.resources.towerP2L1.texture,
+                lv1Texture: PIXI.loader.resources.towerP2L1.texture,
+                lv2Texture: PIXI.loader.resources.towerP2L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP2L1.texture
             }
         };
     }
