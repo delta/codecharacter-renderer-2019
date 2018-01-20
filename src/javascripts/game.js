@@ -275,11 +275,12 @@ export default class Game {
                 continue;
 
             let tower = currentTowers[towerID];
-            if (tower.updateMethod == "create") {
+            if (tower.updateMethod == "none")
+                continue;
 
+            if (tower.updateMethod == "create") {
                 this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
                 this.towers[towerID].addSprite(this.app.stage);
-
             } else if (tower.updateMethod == "destroy") {
 
                 if (tower.framesLeft == CONSTANTS.towers.maxDeathFrames) {
@@ -290,7 +291,7 @@ export default class Game {
                 }
 
             } else if (tower.updateMethod == "update") {
-                this.towers[towerID].update(tower.hp, tower.towerLevel)
+                this.towers[towerID].update(tower.hp, tower.towerLevel);
             }
 
             // Update ownership details

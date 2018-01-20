@@ -22,6 +22,8 @@ export default class Proto {
     // Takes a raw object decoded from a proto file, and returns a proper
     // ordered version of the state at each frame
     processRawObject(rawDetails) {
+        console.log( "RawState: ", JSON.parse(JSON.stringify(rawDetails)) );
+
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
             terrainElementSize: rawDetails.mapElementSize,
@@ -108,10 +110,17 @@ export default class Proto {
             return towerList;
         }
 
-        towerList.hasChanged = true;
+        if (towers === undefined)
+            towers = [];
 
+        towerList.hasChanged = true;
+        let towerCheckList = this.getCheckList(towerList);
+
+        // Updating dead towers
         for (let i = 0; i < deadTowers.length; i++) {
             let deadTower = towerList[deadTowers[i]];
+            delete towerCheckList[deadTower.id];
+
             if (deadTower.framesLeft >= 0) {
                 deadTower.framesLeft--;
                 deadTower.levelHasChanged = false;
@@ -121,6 +130,7 @@ export default class Proto {
             }
         }
 
+        // Updating towerList
         for (let tower of towers) {
             if (!tower.hasOwnProperty('id'))
                 tower.id = 0;
@@ -128,7 +138,7 @@ export default class Proto {
                 tower.playerId = 0;
 
             if (towerList.hasOwnProperty(tower.id)) {
-                if (tower.is_dead === true) {
+                if (tower.isDead) {
                     // Tower Destroyed
                     towerList[tower.id].isDead = true;
                     towerList[tower.id].levelHasChanged = true;
@@ -141,14 +151,14 @@ export default class Proto {
                     towerList[tower.id].levelHasChanged =
                         (towerList[tower.id].towerLevel == tower.towerLevel) ? false : true;
 
-                    // for (let property in tower) {
-                    //     towerList[tower.id][property] = tower[property];
-                    // }
                     towerList[tower.id].hp = tower.hp;
                     towerList[tower.id].towerLevel = tower.towerLevel;
 
                     towerList[tower.id].updateMethod = "update";
                 }
+
+                delete towerCheckList[tower.id];
+
             } else {
                 // New Tower
                 if (!tower.hasOwnProperty('x'))
@@ -162,6 +172,26 @@ export default class Proto {
             }
         }
 
+        for (let towerID in towerCheckList) {
+            if ( isNaN(parseInt(towerID)) )
+                continue;
+
+            towerList[towerID].updateMethod = "none";
+        }
+
         return JSON.parse(JSON.stringify(towerList));
+    }
+
+    getCheckList(towerList) {
+        let checkList = {};
+
+        for (let key of Object.keys(towerList)) {
+            if ( isNaN(parseInt(key)) )
+                continue;
+
+            checkList[key] = null;
+        }
+
+        return checkList;
     }
 }

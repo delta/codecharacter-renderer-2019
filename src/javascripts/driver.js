@@ -28,7 +28,7 @@ export function startRenderer(logFile) {
 
 async function initialize(logFile) {
     game.stateVariable = await getGameDetails(logFile);
-    console.log(game.stateVariable);
+    console.log("Processed State: ", game.stateVariable);
 
     game.buildStateClasses();
     game.buildTerrain();
