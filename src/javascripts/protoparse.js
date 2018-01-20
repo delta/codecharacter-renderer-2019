@@ -165,6 +165,8 @@ export default class Proto {
                     tower.x = 0;
                 if (!tower.hasOwnProperty('y'))
                     tower.y = 0;
+                if (!tower.hasOwnProperty('isBase'))
+                    tower.isBase = false;
 
                 tower.levelHasChanged = true;
                 tower.updateMethod = "create";

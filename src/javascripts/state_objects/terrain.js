@@ -8,10 +8,14 @@ export default class TerrainElement extends StateObject {
 
         this.playerID = 0;
         this.type = type;
+        this.nearbyTowers = [{}, {}];    // [{p1Towers}, {p2Towers}]
+
         this.overlay = new GraphicsPrimitive(x, y, TerrainElement.sideLength, TerrainElement.sideLength);
     }
 
-    addOwnership(playerID) {
+    addOwnership(playerID, towerID) {
+        this.addTower(playerID - 1, towerID);
+
         if (this.playerID == playerID || this.playerID == 3)
             return;
 
@@ -22,13 +26,30 @@ export default class TerrainElement extends StateObject {
         this.overlay.fill(this.playerID);
     }
 
-    removeOwnership(playerID) {
+    removeOwnership(playerID, towerID) {
         if (this.playerID == 0 || (this.playerID != 3 && this.playerID != playerID))
             return;
 
-        this.playerID -= playerID;
-        this.overlay.fill(this.playerID);
+        this.removeTower(playerID - 1, towerID);
+
+        if ( Object.keys(this.getNearbyTowers(playerID)).length === 0 ) {
+            this.playerID -= playerID;
+            this.overlay.fill(this.playerID);
+        }
     }
+
+    addTower(playerID, towerID) {
+        this.nearbyTowers[playerID][towerID] = null;
+    }
+
+    removeTower(playerID, towerID) {
+        delete this.nearbyTowers[playerID][towerID];
+    }
+
+    getNearbyTowers(playerID) {
+        return this.nearbyTowers[playerID - 1];
+    }
+
 
     static setSideLength(len) {
         this.sideLength = len;

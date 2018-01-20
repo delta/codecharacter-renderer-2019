@@ -183,7 +183,7 @@ export default class Game {
             this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
 
             // Add ownership details
-            this.updateTerrain(tower.x, tower.y, tower.playerId, tower.towerLevel, tower.updateMethod);
+            this.updateTerrain(tower);
         }
     }
 
@@ -296,14 +296,15 @@ export default class Game {
 
             // Update ownership details
             if (tower.levelHasChanged)
-                this.updateTerrain(tower.x, tower.y, tower.playerId, tower.towerLevel, tower.updateMethod);
+                this.updateTerrain(tower);
         }
     }
 
-    updateTerrain(towerX, towerY, playerID, towerLevel, towerState) {
+    updateTerrain(tower) {
+        let towerLevel = tower.towerLevel;
         let towerLocation = {
-            x: Number.parseInt(towerX / TerrainElement.sideLength),
-            y: Number.parseInt(towerY / TerrainElement.sideLength)
+            x: Number.parseInt(tower.x / TerrainElement.sideLength),
+            y: Number.parseInt(tower.y / TerrainElement.sideLength)
         };
 
         let blocksCovered = {
@@ -319,10 +320,10 @@ export default class Game {
 
         for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
             for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
-                if (towerState == "destroy") {
-                    this.terrain[i][j].removeOwnership(playerID + 1);
+                if (tower.updateMethod == "destroy") {
+                    this.terrain[i][j].removeOwnership(tower.playerId + 1, tower.id);
                 } else {
-                    this.terrain[i][j].addOwnership(playerID + 1);
+                    this.terrain[i][j].addOwnership(tower.playerId + 1, tower.id);
                 }
             }
         }
