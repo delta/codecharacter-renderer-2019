@@ -2,12 +2,10 @@ import StateObject from './stateobject';
 import GraphicsPrimitive from './graphicsprimitive';
 
 export default class TerrainElement extends StateObject {
-    constructor(x, y, type) {
-        let texture = TerrainElement.getTexture(type);
-        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, texture);
+    constructor(x, y) {
+        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.textures.landTexture);
 
         this.playerID = 0;
-        this.type = type;
         this.nearbyTowers = [{}, {}];    // [{p1Towers}, {p2Towers}]
 
         this.overlay = new GraphicsPrimitive(x, y, TerrainElement.sideLength, TerrainElement.sideLength);
@@ -57,15 +55,6 @@ export default class TerrainElement extends StateObject {
 
     static setTextures(textures) {
         this.textures = textures;
-    }
-
-    static getTexture(type) {
-        switch (type) {
-        case 'l':
-            return this.textures.landTexture;
-        case 'w':
-            return this.textures.waterTexture;
-        }
     }
 
     static setOverlayOpacity(OVERLAY_CONSTANTS) {

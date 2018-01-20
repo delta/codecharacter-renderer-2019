@@ -10,6 +10,7 @@ export default class Game {
         this.soldiers = [];
         this.towers = {};
         this.terrain = [];
+        this.playerMoney = [];
         this.frameNo = 0;
 
         this.camera = new Camera(CONSTANTS.camera);
@@ -79,8 +80,7 @@ export default class Game {
 
     buildStateClasses() {
         // Set Constants
-        // TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
-        TerrainElement.setSideLength(50);
+        TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Tower.setMaxHPs(this.stateVariable.tower.maxHps);
         Tower.setRanges(this.stateVariable.tower.ranges);
@@ -137,28 +137,20 @@ export default class Game {
 
     getTerrainTextures() {
         return {
-            landTexture: PIXI.loader.resources.land.texture,
-            waterTexture: PIXI.loader.resources.water.texture
+            landTexture: PIXI.loader.resources.land.texture
         };
     }
 
 
     // Game building functions
     buildTerrain() {
-        let stateTerrain = this.stateVariable.terrain;
+        let terrainLength = this.stateVariable.terrainLength;
         let len = TerrainElement.sideLength;
 
-        var texture;
-        for (let i = 0; i < stateTerrain.length; i++) {
+        for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
-            for (let j = 0; j < stateTerrain[i].length; j++) {
-                if (stateTerrain[i][j] == 'l') {
-                    texture = PIXI.loader.resources.land.texture;
-                } else {
-                    texture = PIXI.loader.resources.water.texture;
-                }
-
-                this.terrain[i][j] = new TerrainElement(len*i, len*j, stateTerrain[i][j], texture);
+            for (let j = 0; j < terrainLength; j++) {
+                this.terrain[i][j] = new TerrainElement(len*i, len*j);
             }
         }
     }

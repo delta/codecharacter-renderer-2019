@@ -26,38 +26,16 @@ export default class Proto {
 
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
-            terrainElementSize: rawDetails.mapElementSize,
+            terrainLength: rawDetails.terrainSize,
+            terrainElementSize: rawDetails.terrainElementSize,
             tower: {
                 maxHps: rawDetails.towerMaxHps.slice(),
                 ranges: rawDetails.towerRanges.slice()
             },
-            terrain: this.processTerrain(rawDetails.terrain.rows),
             states: this.processStates(rawDetails.states)
         };
 
         return stateVariable;
-    }
-
-    processTerrain(terrainRows) {
-        let terrain = [];
-
-        for (let row of terrainRows) {
-            let processedRow = [];
-
-            for (let element of row.elements) {
-                switch (element.type) {
-                case 1:
-                    processedRow.push('l');
-                    break;
-                default:
-                    processedRow.push('w');
-                    break;
-                }
-            }
-            terrain.push(processedRow);
-        }
-
-        return terrain;
     }
 
     processStates(decodedStates) {
