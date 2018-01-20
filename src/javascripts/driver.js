@@ -30,13 +30,13 @@ async function initialize(logFile) {
 
     game.buildStateClasses();
     game.buildTerrain();
-    game.buildSoldiers();
     game.buildTowers();
+    game.buildSoldiers();
     game.buildMap();
 
     game.addTerrain();
-    game.addSoldiers();
     game.addTowers();
+    game.addSoldiers();
     game.addMoney();
     game.nextFrame();
 
