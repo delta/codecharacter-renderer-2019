@@ -8,6 +8,8 @@ export default class Soldier extends StateObject {
             texture = spriteDetails.texture;
 
         super(x, y, width, height, texture);
+        this.setSpriteAnchors(0.5, 1);
+
         this.hp = hp;
         this.state = state;
         this.playerID = playerID;

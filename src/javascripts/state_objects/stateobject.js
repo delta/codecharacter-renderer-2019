@@ -17,6 +17,11 @@ export default class StateObject {
         this.sprite.height = height;
     }
 
+    setSpriteAnchors(x, y) {
+        this.sprite.anchor.x = x;
+        this.sprite.anchor.y = y;
+    }
+
     addSprite(stage) {
         stage.addChild(this.sprite);
     }

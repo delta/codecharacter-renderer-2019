@@ -8,6 +8,8 @@ export default class Tower extends StateObject {
             texture = spriteDetails.texture;
 
         super(x, y, width, height, texture);
+        this.setSpriteAnchors(0.5, 1);
+
         this.playerID = playerID;
         this.hp = hp;
         this.level = towerLevel;
