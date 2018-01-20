@@ -74,6 +74,7 @@ export default class Proto {
                 soldierList[i] = Object.assign({}, soldiers[i]);
             } else {
                 if (soldierList[i].state != soldiers[i].state) {
+                    soldierList[i].state = soldiers[i].state;
                     soldiers[i].stateHasChanged = true;
                 }
             }
