@@ -325,11 +325,11 @@ export default class Game {
         let blocksCovered = {
             x: {
                 start: (towerLocation.x - towerLevel >= 0) ? (towerLocation.x - towerLevel) : 0,
-                end: (towerLocation.x + towerLevel < this.terrain.length) ? (towerLocation.x + towerLevel) : 0
+                end: (towerLocation.x + towerLevel < this.terrain.length) ? (towerLocation.x + towerLevel) : this.terrain.length - 1
             },
             y: {
                 start: (towerLocation.y - towerLevel >= 0) ? (towerLocation.y - towerLevel) : 0,
-                end: (towerLocation.y + towerLevel < this.terrain.length) ? (towerLocation.y + towerLevel) : 0
+                end: (towerLocation.y + towerLevel < this.terrain.length) ? (towerLocation.y + towerLevel) : this.terrain.length - 1
             },
         };
 
