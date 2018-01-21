@@ -11,9 +11,7 @@ import towerP2L1Asset from "../assets/towerP2L1.png";
 
 var game;
 
-export function startRenderer(logFile) {
-    game = new Game();
-
+export function initRenderer(callback) {
     PIXI.loader
         .add("land", landAsset)
         .add("soldierP1", soldierP1Asset)
@@ -22,10 +20,16 @@ export function startRenderer(logFile) {
         .add("soldierP2Atk", soldierP2AtkAsset)
         .add("towerP1L1", towerP1L1Asset)
         .add("towerP2L1", towerP2L1Asset)
-        .load(() => {initialize(logFile)});
+        .load(callback);
 }
 
-async function initialize(logFile) {
+export async function initGame(logFile) {
+    if (game) {
+        game.app.ticker.stop();
+        game.container.removeChild(game.container.childNodes[0]);
+    }
+
+    game = new Game();
     game.stateVariable = await getGameDetails(logFile);
     console.log("Processed State: ", game.stateVariable);
 

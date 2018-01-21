@@ -1,7 +1,8 @@
 import React                                from "react";
 import ReactDOM                             from "react-dom";
+import * as PIXI                            from 'pixi.js';
+import { initRenderer, initGame }           from "./javascripts/driver.js";
 import "./stylesheets/renderer.css";
-import { startRenderer }                    from  "./javascripts/driver.js";
 
 export default class CodeCharacterRenderer extends React.Component {
     constructor(props) {
@@ -10,7 +11,13 @@ export default class CodeCharacterRenderer extends React.Component {
     }
 
     componentDidMount() {
-        startRenderer(this.props.logFile);
+        initGame(this.props.logFile);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.logFile.toString() != this.props.logFile.toString()) {
+            initGame(nextProps.logFile);
+        }
     }
 
     render() {
@@ -20,15 +27,23 @@ export default class CodeCharacterRenderer extends React.Component {
     }
 }
 
+export function initializeRendererAssets(callback) {
+    initRenderer(callback);
+}
+
 // TEST DRIVER, NOT PART OF THE COMPONENT
-fetch('proto/game.log').then((response) => {
-    response.arrayBuffer().then((buffer) => {
-        let logFile = new Uint8Array(buffer);
-        ReactDOM.render((
-            <CodeCharacterRenderer logFile={logFile} />
-        ), document.getElementById("root"));
+initializeRendererAssets(initGameLog);
+
+function initGameLog() {
+    fetch('proto/game.log').then((response) => {
+        response.arrayBuffer().then((buffer) => {
+            let logFile = new Uint8Array(buffer);
+            ReactDOM.render((
+                <CodeCharacterRenderer logFile={logFile} />
+            ), document.getElementById("root"));
+        });
     });
-});
+}
 
 document.body.style.width = "100%";
 document.body.style.height = "100%";
