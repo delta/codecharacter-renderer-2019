@@ -13,6 +13,7 @@ var game;
 
 export function startRenderer(logFile) {
     game = new Game();
+
     PIXI.loader
         .add("land", landAsset)
         .add("soldierP1", soldierP1Asset)
@@ -28,35 +29,38 @@ async function initialize(logFile) {
     game.stateVariable = await getGameDetails(logFile);
     console.log("Processed State: ", game.stateVariable);
 
-    game.buildStateClasses();
-    game.buildTerrain();
-    game.buildTowers();
-    game.buildSoldiers();
-    game.buildMap();
+    game.buildStateClasses()
+        .buildTerrain()
+        .buildTowers()
+        .buildSoldiers()
+        .buildMap();
 
-    game.addTerrain();
-    game.addTowers();
-    game.addSoldiers();
-    game.addMoney();
+    game.addTerrain()
+        .addTowers()
+        .addSoldiers()
+        .addMoney();
+
     game.nextFrame();
 
     game.app.ticker.add(delta => render(delta));
 }
 
 function render(delta) {
-    game.autoResize();
-    game.updateCamera();
-
+    game.autoResize()
+        .updateCamera();
 
     if (game.state == "play") {
-        game.updateSoldiers();
-        game.updateTowers();
-        game.updateMoney();
+        game.updateSoldiers()
+            .updateMoney()
+            .updateTowers();
+
         game.nextFrame();
     }
 
     if (game.frameNo >= game.stateVariable.states.length) {
-        console.log("done");
+        if (game.state != "stop")
+            console.log("done");
+
         game.state = "stop";
     }
 }

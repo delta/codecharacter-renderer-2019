@@ -99,6 +99,8 @@ export default class Game {
 
         let terrainTextures = this.getTerrainTextures();
         TerrainElement.setTextures(terrainTextures);
+
+        return this;
     }
 
     getSoldierTextures() {
@@ -153,6 +155,8 @@ export default class Game {
                 this.terrain[i][j] = new TerrainElement(len*i, len*j);
             }
         }
+
+        return this;
     }
 
     buildSoldiers() {
@@ -162,6 +166,8 @@ export default class Game {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldier.hp, soldier.state, soldier.playerId);
         }
+
+        return this;
     }
 
     buildTowers() {
@@ -177,15 +183,20 @@ export default class Game {
             // Add ownership details
             this.updateTerrain(tower);
         }
+
+        return this;
     }
 
     buildMap() {
         this.mapLength = TerrainElement.sideLength * this.terrain.length;
-        this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength)
+        this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength);
+
+        return this;
     }
 
     addMoney() {
         this.playerMoney = this.getCurrentFrame().money.slice();
+        return this;
     }
 
 
@@ -197,12 +208,16 @@ export default class Game {
                 element.overlay.addPrimitive(this.app.stage);
             }
         }
+
+        return this;
     }
 
     addSoldiers() {
         for (let soldier of this.soldiers) {
             soldier.addSprite(this.app.stage);
         }
+
+        return this;
     }
 
     addTowers() {
@@ -210,6 +225,8 @@ export default class Game {
             let tower = this.towers[towerID];
             tower.addSprite(this.app.stage);
         }
+
+        return this;
     }
 
 
@@ -223,6 +240,8 @@ export default class Game {
             this.app.renderer.resize(containerWidth, containerHeight);
             this.camera.zoom.min = Math.min(containerHeight/mapLength, containerWidth/mapLength);
         }
+
+        return this;
     }
 
     updateCamera() {
@@ -235,6 +254,8 @@ export default class Game {
 
         const zoomVal = this.camera.zoom.value;
         this.app.stage.setTransform(zoomVal * this.camera.actualPos.x, zoomVal * this.camera.actualPos.y, zoomVal, zoomVal);
+
+        return this;
     }
 
 
@@ -250,6 +271,8 @@ export default class Game {
             if (soldier.stateHasChanged)
                 this.soldiers[i].updateState(soldier.state);
         }
+
+        return this;
     }
 
     updateTowers() {
@@ -325,6 +348,7 @@ export default class Game {
         let money = this.getCurrentFrame().money;
         this.playerMoney[0] = money[0];
         this.playerMoney[1] = money[1];
+        return this;
     }
 
 
