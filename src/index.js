@@ -29,3 +29,8 @@ fetch('proto/game.log').then((response) => {
         ), document.getElementById("root"));
     });
 });
+
+document.body.style.width = "100%";
+document.body.style.height = "100%";
+document.body.style.margin = "0";
+document.body.style.padding = "0";
