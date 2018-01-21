@@ -3,10 +3,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ['babel-polyfill', './src/devIndex.js'],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    filename: 'libpack.js',
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
   devtool: 'inline-source-map',
