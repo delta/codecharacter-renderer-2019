@@ -46,7 +46,7 @@ export default class Proto {
         for (let frame of decodedStates) {
             let processedFrame = {
                 soldiers: this.processSoldiers(soldierList, frame.soldiers),
-                towers: this.processTowers(towerList, frame.towers, deadTowers),
+                towers: JSON.parse(JSON.stringify(this.processTowers(towerList, frame.towers, deadTowers))),
                 money: frame.money.slice()
             };
 
@@ -160,7 +160,7 @@ export default class Proto {
             towerList[towerID].updateMethod = "none";
         }
 
-        return JSON.parse(JSON.stringify(towerList));
+        return towerList;
     }
 
     getCheckList(towerList) {
