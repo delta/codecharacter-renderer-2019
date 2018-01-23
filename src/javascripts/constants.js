@@ -1,15 +1,23 @@
 // Initial values or constant values
 const CONSTANTS = {
+    game: {
+        speed: {
+            value: 1/4,         // Default Value
+            change: 1/2,        // Amount to increment or decrement when given a user input
+            min: 1/10,
+            max: 1
+        }
+    },
     camera: {
         actualPos: {
             x: 0,
             y: 0
         },
-        passivePos: {       // Camera postion (not accounting for offset)
+        passivePos: {           // Camera postion (not accounting for offset)
             x: 0,
             y: 0
         },
-        offset: {           // Amount by which the camera must be offset to emulate central zooming
+        offset: {               // Amount by which the camera must be offset to emulate central zooming
             x: 0,
             y: 0
         },

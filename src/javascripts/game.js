@@ -12,6 +12,8 @@ export default class Game {
         this.terrain = [];
         this.playerMoney = [];
         this.frameNo = 0;
+        this.timeCount = 0;
+        this.speed = Object.assign({}, CONSTANTS.game.speed);
 
         this.errorMap = {};
         this.logFunction = () => {};
@@ -76,6 +78,14 @@ export default class Game {
             case 80:
                 if (game.state != "stop")
                     game.state = (game.state == "play")? "pause" : "play";
+                break;
+            case 219:
+                if (game.speed.value > game.speed.min)
+                    game.speed.value = 1 / (game.speed.change + 1/game.speed.value);
+                break;
+            case 221:
+                if (game.speed.value < game.speed.max)
+                    game.speed.value = 1 / (1/game.speed.value - game.speed.change);
                 break;
             }
         });
@@ -309,6 +319,7 @@ export default class Game {
                 if (tower.framesLeft == CONSTANTS.towers.maxDeathFrames) {
                     this.towers[towerID].destroy();
                 } else if (tower.framesLeft == 0) {
+
                     this.towers[towerID].removeSprite(this.app.stage);
                     delete this.towers[towerID];
                 }
@@ -387,8 +398,23 @@ export default class Game {
     previousFrame() {
         this.frameNo -= 1;
     }
+
     nextFrame() {
+        if (this.timeCount >= 1/this.speed.value) {
+            this.timeCount = Math.floor(this.timeCount) % (1/this.speed.value);
+            this.frameNo += 1;
+            return true;
+        }
+
+        return false;
+    }
+
+    forceNextFrame() {
         this.frameNo += 1;
+    }
+
+    updateTimeCount(time) {
+        this.timeCount += time;
     }
 
     getPreviousFrame() {

@@ -46,8 +46,6 @@ export async function initGame(logFile, logFunction) {
         .addSoldiers()
         .addMoney();
 
-    game.nextFrame();
-
     game.app.ticker.add(delta => render(delta));
 }
 
@@ -55,21 +53,29 @@ function render(delta) {
     game.autoResize()
         .updateCamera();
 
+    // Increment Frame Counter
     if (game.state == "play") {
-        game.updateSoldiers()
-            .updateMoney()
-            .updateTowers()
-            .logErrors();
-
-        game.nextFrame();
+        game.updateTimeCount(delta);
+        if (!game.nextFrame())
+            return;
     }
 
+    // Check for Game End
     if (game.frameNo >= game.stateVariable.states.length) {
         if (game.state != "stop")
             console.log("done");
 
         game.state = "stop";
     }
+
+    // Update Game Objects
+    if (game.state == "play") {
+        game.updateSoldiers()
+            .updateMoney()
+            .updateTowers()
+            .logErrors();
+    }
+
 }
 
 async function getGameDetails(logFile) {
