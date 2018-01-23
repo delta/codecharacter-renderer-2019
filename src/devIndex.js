@@ -14,8 +14,9 @@ function initGameLog() {
     fetch('proto/game.log').then((response) => {
         response.arrayBuffer().then((buffer) => {
             let logFile = new Uint8Array(buffer);
+            let logFunction = console.log;
             ReactDOM.render((
-                <CodeCharacterRenderer logFile={logFile} />
+                <CodeCharacterRenderer logFile={logFile} logFunction={logFunction}/>
             ), document.getElementById("root"));
         });
     });

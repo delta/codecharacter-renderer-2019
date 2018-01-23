@@ -23,7 +23,7 @@ export function initRenderer(callback) {
         .load(callback);
 }
 
-export async function initGame(logFile) {
+export async function initGame(logFile, logFunction) {
     if (game) {
         game.app.ticker.stop();
         game.container.removeChild(game.container.childNodes[0]);
@@ -31,13 +31,15 @@ export async function initGame(logFile) {
 
     game = new Game();
     game.stateVariable = await getGameDetails(logFile);
+    game.logFunction = logFunction;
     console.log("Processed State: ", game.stateVariable);
 
     game.buildStateClasses()
         .buildTerrain()
         .buildTowers()
         .buildSoldiers()
-        .buildMap();
+        .buildMap()
+        .buildErrorMap();
 
     game.addTerrain()
         .addTowers()
@@ -56,7 +58,8 @@ function render(delta) {
     if (game.state == "play") {
         game.updateSoldiers()
             .updateMoney()
-            .updateTowers();
+            .updateTowers()
+            .logErrors();
 
         game.nextFrame();
     }

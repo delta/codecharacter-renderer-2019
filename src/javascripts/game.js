@@ -13,6 +13,9 @@ export default class Game {
         this.playerMoney = [];
         this.frameNo = 0;
 
+        this.errorMap = {};
+        this.logFunction = () => {};
+
         this.camera = new Camera(CONSTANTS.camera);
         this.container = document.querySelector("#renderer-container");
 
@@ -194,6 +197,11 @@ export default class Game {
         return this;
     }
 
+    buildErrorMap() {
+        this.errorMap = this.stateVariable.errorMap;
+        return this;
+    }
+
     addMoney() {
         this.playerMoney = this.getCurrentFrame().money.slice();
         return this;
@@ -280,7 +288,7 @@ export default class Game {
             prevTowers = this.getPreviousFrame().towers;
 
         if (!currentTowers.hasChanged) {
-            return;
+            return this;
         }
 
         // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
@@ -313,6 +321,8 @@ export default class Game {
             if (tower.levelHasChanged)
                 this.updateTerrain(tower);
         }
+
+        return this;
     }
 
     updateTerrain(tower) {
@@ -349,6 +359,26 @@ export default class Game {
         let money = this.getCurrentFrame().money;
         this.playerMoney[0] = money[0];
         this.playerMoney[1] = money[1];
+        return this;
+    }
+
+    logErrors() {
+        let currErrors = this.getCurrentFrame().errors;
+
+        // If the current frame has errors, iterate through them
+        if (currErrors !== undefined) {
+            for (let i = 0; i < 2; ++i) {
+
+                // If the player has errors, iterate through them
+                if (JSON.stringify(currErrors[i]) !== JSON.stringify({})) {
+                    for (let errorCode of currErrors[i].errors) {
+
+                        // Log the current error code's corresponding string
+                        this.logFunction(this.errorMap[errorCode]);
+                    }
+                }
+            }
+        }
         return this;
     }
 

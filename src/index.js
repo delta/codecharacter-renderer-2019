@@ -7,16 +7,18 @@ import "./stylesheets/renderer.css";
 export default class CodeCharacterRenderer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            logFunction: this.props.logFunction
+        };
     }
 
     componentDidMount() {
-        initGame(this.props.logFile);
+        initGame(this.props.logFile, this.state.logFunction);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.logFile.toString() != this.props.logFile.toString()) {
-            initGame(nextProps.logFile);
+            initGame(nextProps.logFile, this.state.logFunction);
         }
     }
 

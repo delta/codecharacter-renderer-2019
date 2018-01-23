@@ -32,7 +32,8 @@ export default class Proto {
                 maxHps: rawDetails.towerMaxHps.slice(),
                 ranges: rawDetails.towerRanges.slice()
             },
-            states: this.processStates(rawDetails.states)
+            states: this.processStates(rawDetails.states),
+            errorMap: rawDetails.errorMap ? rawDetails.errorMap : {}
         };
 
         return stateVariable;
@@ -47,7 +48,8 @@ export default class Proto {
             let processedFrame = {
                 soldiers: this.processSoldiers(soldierList, frame.soldiers),
                 towers: JSON.parse(JSON.stringify(this.processTowers(towerList, frame.towers, deadTowers))),
-                money: frame.money.slice()
+                money: frame.money.slice(),
+                errors: frame.playerErrors
             };
 
             processedStates.push(processedFrame);
