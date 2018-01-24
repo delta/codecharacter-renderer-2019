@@ -2,6 +2,9 @@ import React                                from "react";
 import ReactDOM                             from "react-dom";
 import * as PIXI                            from 'pixi.js';
 import { initRenderer, initGame }           from "./javascripts/driver.js";
+import pauseAsset                           from "./assets/pause.svg";
+import slowDownAsset                        from "./assets/slow-down.svg";
+import speedUpAsset                         from "./assets/speed-up.svg";
 import "./stylesheets/renderer.css";
 
 export default class CodeCharacterRenderer extends React.Component {
@@ -24,7 +27,16 @@ export default class CodeCharacterRenderer extends React.Component {
 
     render() {
         return (
-            <div id="renderer-container" />
+            <div id="renderer-container">
+                <div className="bottom-container" id="pause-icon-container">
+                    <img className="icon" id="pause-icon" src={pauseAsset} />
+                </div>
+                <div className="bottom-container" id="speed-icons-container">
+                    <div className="label" id="speed-container">SPEED</div>
+                    <img className="icon speed-icon" id="slow-down-icon" src={slowDownAsset} />
+                    <img className="icon speed-icon" id="speed-up-icon" src={speedUpAsset} />
+                </div>
+            </div>
         );
     }
 }

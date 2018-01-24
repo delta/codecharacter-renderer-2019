@@ -2,10 +2,59 @@ div#renderer-container {
   position: fixed;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  background-color: grey;
-  /*position: absolute;*/
-  /*top: 10%;*/
-  /*left: 50%;*/
-  /*transform: translateX(-50%);*/
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+canvas {
+  position: fixed;
+  z-index: -1000;
+}
+
+div.bottom-container {
+  position: absolute;
+  bottom: 25px;
+}
+
+div#pause-icon-container {
+  left: 25px;
+}
+
+div#speed-icons-container {
+  right: 25px;
+}
+
+img.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  opacity: 0.5;
+  transition: opacity 0.1s, box-shadow 0.1s;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.icon:hover {
+  box-shadow: 0 1px 10px #bbbbbb, 0 0 30px #444444, 0 0 30px #aaaaaa;
+  opacity: 0.8;
+}
+
+.icon:active {
+  background-color: #666666;
+  opacity: 1;
+  box-shadow: 0 0 10px #444444;
+}
+
+div.label {
+  width: 100%;
+  margin: 10px 0px;
+  color: white;
+  font-size: 2em;
+  text-align: center;
+  text-shadow: 0 1px 10px #888888, 0 0 10px #000000;
+}
+
+img.speed-icon {
+  margin: 0px 10px;
 }

@@ -4,6 +4,8 @@ import Camera from './camera';
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
 import Tower from './state_objects/tower';
+import pauseAsset from "../assets/pause.svg";
+import playAsset from "../assets/play.svg";
 
 export default class Game {
     constructor() {
@@ -34,9 +36,12 @@ export default class Game {
     }
 
     static addListeners(game) {
-        let canvas = document.querySelector("canvas");
-        canvas.tabIndex = 1; // Allows event listeners to work
+        let canvas = document.querySelector("canvas"),
+            pauseIcon = document.querySelector("#pause-icon"),
+            slowDownIcon = document.querySelector("#slow-down-icon"),
+            speedUpIcon = document.querySelector("#speed-up-icon");
 
+        canvas.tabIndex = 1; // Allows event listeners to work
         canvas.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
             case 37:
@@ -81,24 +86,27 @@ export default class Game {
                 game.camera.commands.zoom.out = false;
                 break;
             case 80:
-                if (game.state != "stop")
-                    game.state = (game.state == "play")? "pause" : "play";
+                game.toggleState();
                 break;
             case 219:
-                if (game.speed.pointer > 0) {
-                    game.speed.pointer -= 1;
-                    game.speed.value = CONSTANTS.gameSpeed.actualValues[game.speed.pointer];
-                }
-                game.updateSpeedDisplay();
+                game.decreaseSpeed();
                 break;
             case 221:
-                if (game.speed.pointer < CONSTANTS.gameSpeed.actualValues.length - 1) {
-                    game.speed.pointer += 1;
-                    game.speed.value = CONSTANTS.gameSpeed.actualValues[game.speed.pointer];
-                }
-                game.updateSpeedDisplay();
+                game.increaseSpeed();
                 break;
             }
+        });
+
+        pauseIcon.addEventListener('click', () => {
+            game.toggleState();
+        });
+
+        slowDownIcon.addEventListener('click', () => {
+            game.decreaseSpeed();
+        });
+
+        speedUpIcon.addEventListener('click', () => {
+            game.increaseSpeed();
         });
     }
 
@@ -406,6 +414,35 @@ export default class Game {
 
 
     // UI Object methods
+    toggleState() {
+        if (this.state != "stop") {
+            let pauseIcon = document.querySelector("#pause-icon");
+            if (this.state == "play") {
+                this.state = "pause";
+                pauseIcon.src = playAsset;
+            } else {
+                this.state = "play";
+                pauseIcon.src = pauseAsset;
+            }
+        }
+    }
+
+    increaseSpeed() {
+        if (this.speed.pointer < CONSTANTS.gameSpeed.actualValues.length - 1) {
+            this.speed.pointer += 1;
+            this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
+            this.updateSpeedDisplay();
+        }
+    }
+
+    decreaseSpeed() {
+        if (this.speed.pointer > 0) {
+            this.speed.pointer -= 1;
+            this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
+            this.updateSpeedDisplay();
+        }
+    }
+
     updateSpeedDisplay() {
         console.log(`Speed: ${CONSTANTS.gameSpeed.displayValues[this.speed.pointer]}x`);
     }

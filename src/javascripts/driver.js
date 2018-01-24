@@ -26,7 +26,7 @@ export function initRenderer(callback) {
 export async function initGame(logFile, logFunction) {
     if (game) {
         game.app.ticker.stop();
-        game.container.removeChild(game.container.childNodes[0]);
+        game.container.removeChild(game.container.getElementsByTagName("canvas")[0]);
     }
 
     game = new Game();
