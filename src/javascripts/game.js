@@ -11,9 +11,13 @@ export default class Game {
         this.towers = {};
         this.terrain = [];
         this.playerMoney = [];
+
         this.frameNo = 0;
         this.timeCount = 0;
-        this.speed = Object.assign({}, CONSTANTS.game.speed);
+
+        this.speed = {};
+        this.speed.pointer = Number.parseInt(CONSTANTS.gameSpeed.actualValues.length / 2);
+        this.speed.value =  CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
 
         this.errorMap = {};
         this.logFunction = () => {};
@@ -80,12 +84,18 @@ export default class Game {
                     game.state = (game.state == "play")? "pause" : "play";
                 break;
             case 219:
-                if (game.speed.value > game.speed.min)
-                    game.speed.value = 1 / (game.speed.change + 1/game.speed.value);
+                if (game.speed.pointer > 0) {
+                    game.speed.pointer -= 1;
+                    game.speed.value = CONSTANTS.gameSpeed.actualValues[game.speed.pointer];
+                }
+                game.updateSpeedDisplay();
                 break;
             case 221:
-                if (game.speed.value < game.speed.max)
-                    game.speed.value = 1 / (1/game.speed.value - game.speed.change);
+                if (game.speed.pointer < CONSTANTS.gameSpeed.actualValues.length - 1) {
+                    game.speed.pointer += 1;
+                    game.speed.value = CONSTANTS.gameSpeed.actualValues[game.speed.pointer];
+                }
+                game.updateSpeedDisplay();
                 break;
             }
         });
@@ -394,6 +404,12 @@ export default class Game {
     }
 
 
+    // UI Object methods
+    updateSpeedDisplay() {
+        console.log(`Speed: ${CONSTANTS.gameSpeed.displayValues[this.speed.pointer]}x`);
+    }
+
+
     // Frame related methods
     previousFrame() {
         this.frameNo -= 1;
@@ -401,7 +417,7 @@ export default class Game {
 
     nextFrame() {
         if (this.timeCount >= 1/this.speed.value) {
-            this.timeCount = Math.floor(this.timeCount) % (1/this.speed.value);
+            this.timeCount = this.timeCount % (1/this.speed.value);
             this.frameNo += 1;
             return true;
         }

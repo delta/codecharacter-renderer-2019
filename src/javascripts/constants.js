@@ -1,12 +1,8 @@
 // Initial values or constant values
 const CONSTANTS = {
-    game: {
-        speed: {
-            value: 1/4,         // Default Value
-            change: 1/2,        // Amount to increment or decrement when given a user input
-            min: 1/10,
-            max: 1
-        }
+    gameSpeed: {
+        actualValues: [3/32, 1/6, 1/4, 1/2, 1],     // Range of actual game speed values (default speed value is the mid value)
+        displayValues: [0.5, 0.75, 1, 2, 4],        // Values displayed by the UI
     },
     camera: {
         actualPos: {
