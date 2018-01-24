@@ -317,6 +317,7 @@ export default class Game {
 
     updateTerrain(tower) {
         let towerLevel = tower.towerLevel;
+        let towerRange = this.stateVariable.tower.ranges[towerLevel - 1];
         let towerLocation = {
             x: Number.parseInt(tower.x / TerrainElement.sideLength),
             y: Number.parseInt(tower.y / TerrainElement.sideLength)
@@ -324,12 +325,12 @@ export default class Game {
 
         let blocksCovered = {
             x: {
-                start: (towerLocation.x - towerLevel >= 0) ? (towerLocation.x - towerLevel) : 0,
-                end: (towerLocation.x + towerLevel < this.terrain.length) ? (towerLocation.x + towerLevel) : this.terrain.length - 1
+                start: (towerLocation.x - towerRange >= 0) ? (towerLocation.x - towerRange) : 0,
+                end: (towerLocation.x + towerRange < this.terrain.length) ? (towerLocation.x + towerRange) : this.terrain.length - 1
             },
             y: {
-                start: (towerLocation.y - towerLevel >= 0) ? (towerLocation.y - towerLevel) : 0,
-                end: (towerLocation.y + towerLevel < this.terrain.length) ? (towerLocation.y + towerLevel) : this.terrain.length - 1
+                start: (towerLocation.y - towerRange >= 0) ? (towerLocation.y - towerRange) : 0,
+                end: (towerLocation.y + towerRange < this.terrain.length) ? (towerLocation.y + towerRange) : this.terrain.length - 1
             },
         };
 
