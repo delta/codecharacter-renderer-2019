@@ -10,13 +10,14 @@ export default class Game {
         this.soldiers = [];
         this.towers = {};
         this.terrain = [];
+        this.mapLength = 0;
         this.playerMoney = [];
 
         this.frameNo = 0;
         this.timeCount = 0;
 
         this.speed = {};
-        this.speed.pointer = Number.parseInt(CONSTANTS.gameSpeed.actualValues.length / 2);
+        this.speed.pointer = CONSTANTS.gameSpeed.default;
         this.speed.value =  CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
 
         this.errorMap = {};
