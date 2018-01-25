@@ -28,11 +28,14 @@ export default class CodeCharacterRenderer extends React.Component {
     render() {
         return (
             <div id="renderer-container">
+                <div id="top-container">
+                    <div className="label" id="money-container">Money: <div className="value" id="money-value"></div></div>
+                </div>
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
                 </div>
                 <div className="bottom-container" id="speed-icons-container">
-                    <div className="label" id="speed-container">SPEED: <div id="speed-value">1.0</div></div>
+                    <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value">1.0</div></div>
                     <img className="icon speed-icon" id="slow-down-icon" src={slowDownAsset} />
                     <img className="icon speed-icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>
