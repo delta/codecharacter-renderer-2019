@@ -11,9 +11,11 @@ canvas {
   z-index: -1000;
 }
 
-div.bottom-container {
+
+/*div*/.bottom-container {
   position: absolute;
   bottom: 25px;
+  text-align: center;
 }
 
 div#pause-icon-container {
@@ -24,7 +26,8 @@ div#speed-icons-container {
   right: 25px;
 }
 
-img.icon {
+
+/*img*/.icon {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -46,15 +49,24 @@ img.icon {
   box-shadow: 0 0 10px #444444;
 }
 
-div.label {
+img.speed-icon {
+  margin: 0px 10px;
+}
+
+
+/*div*/.label {
   width: 100%;
   margin: 10px 0px;
   color: white;
   font-size: 2em;
-  text-align: center;
-  text-shadow: 0 1px 10px #888888, 0 0 10px #000000;
+  text-shadow: 0 1px 1px #888888, 0 0 10px #444444;
 }
 
-img.speed-icon {
-  margin: 0px 10px;
+div#speed-value {
+  display: inline;
+}
+
+div.extreme {
+  color: #cc0000;
+  text-shadow: 0 0 1px #b30000, 0 0 1px #888888, 0 0 10px #aaaaaa;
 }

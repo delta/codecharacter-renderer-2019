@@ -444,7 +444,15 @@ export default class Game {
     }
 
     updateSpeedDisplay() {
-        console.log(`Speed: ${CONSTANTS.gameSpeed.displayValues[this.speed.pointer]}x`);
+        let speedValDiv = document.querySelector("#speed-value");
+
+        if (this.speed.pointer == 0 || this.speed.pointer == CONSTANTS.gameSpeed.actualValues.length - 1) {
+            speedValDiv.classList.add("extreme");
+        } else if (this.speed.pointer == 1 || this.speed.pointer == CONSTANTS.gameSpeed.actualValues.length - 2) {
+            speedValDiv.classList.remove("extreme");
+        }
+
+        speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
 
 

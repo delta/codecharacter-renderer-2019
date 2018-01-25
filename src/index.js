@@ -32,7 +32,7 @@ export default class CodeCharacterRenderer extends React.Component {
                     <img className="icon" id="pause-icon" src={pauseAsset} />
                 </div>
                 <div className="bottom-container" id="speed-icons-container">
-                    <div className="label" id="speed-container">SPEED</div>
+                    <div className="label" id="speed-container">SPEED: <div id="speed-value">1.0</div></div>
                     <img className="icon speed-icon" id="slow-down-icon" src={slowDownAsset} />
                     <img className="icon speed-icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>
