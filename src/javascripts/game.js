@@ -137,7 +137,7 @@ export default class Game {
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.soldiers);
         Tower.setSpriteConstants(CONSTANTS.towers);
-        TerrainElement.setOverlayOpacity(CONSTANTS.terrain.overlay);
+        TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
         let soldierTextures = this.getSoldierTextures();

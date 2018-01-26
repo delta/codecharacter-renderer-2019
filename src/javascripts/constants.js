@@ -88,7 +88,12 @@ const CONSTANTS = {
     },
     terrain: {
         overlay: {
-            opacity: 0.3
+            opacity: 0.3,
+            colors: {
+                player1Color: 0xff0000,
+                player2Color: 0x0000ff,
+                sharedColor: 0xaa00ff
+            }
         }
     },
     money: {

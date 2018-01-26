@@ -29,20 +29,20 @@ export default class GraphicsPrimitive {
         if (color === 0) {
             this.graphics.visible = false;
             return;
-        } else {
-            this.graphics.visible = true;
-            this.graphics.clear();
         }
+
+        this.graphics.visible = true;
+        this.graphics.clear();
 
         switch (color) {
         case 1:
-            this.graphics.beginFill(0xFF0000, GraphicsPrimitive.opacity);
+            this.graphics.beginFill(GraphicsPrimitive.colors.player1Color, GraphicsPrimitive.opacity);
             break;
         case 2:
-            this.graphics.beginFill(0x0000FF, GraphicsPrimitive.opacity);
+            this.graphics.beginFill(GraphicsPrimitive.colors.player2Color, GraphicsPrimitive.opacity);
             break;
         case 3:
-            this.graphics.beginFill(0xAA00FF, GraphicsPrimitive.opacity);
+            this.graphics.beginFill(GraphicsPrimitive.colors.sharedColor, GraphicsPrimitive.opacity);
             break;
         }
 
@@ -52,5 +52,9 @@ export default class GraphicsPrimitive {
 
     static setOpacity(opacity) {
         this.opacity = opacity;
+    }
+
+    static setColors(colors) {
+        this.colors = colors;
     }
 }

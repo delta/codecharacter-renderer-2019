@@ -57,7 +57,8 @@ export default class TerrainElement extends StateObject {
         this.textures = textures;
     }
 
-    static setOverlayOpacity(OVERLAY_CONSTANTS) {
+    static setOverlayConstants(OVERLAY_CONSTANTS) {
         GraphicsPrimitive.setOpacity(OVERLAY_CONSTANTS.opacity);
+        GraphicsPrimitive.setColors(OVERLAY_CONSTANTS.colors);
     }
 }
