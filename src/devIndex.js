@@ -15,8 +15,9 @@ function initGameLog() {
         response.arrayBuffer().then((buffer) => {
             let logFile = new Uint8Array(buffer);
             let logFunction = console.log;
+            let playerID = 1;
             ReactDOM.render((
-                <CodeCharacterRenderer logFile={logFile} logFunction={logFunction}/>
+                <CodeCharacterRenderer logFile={logFile} logFunction={logFunction} playerID={playerID} />
             ), document.getElementById("root"));
         });
     });

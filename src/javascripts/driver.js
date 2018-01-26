@@ -23,7 +23,7 @@ export function initRenderer(callback) {
         .load(callback);
 }
 
-export async function initGame(logFile, logFunction) {
+export async function initGame(logFile, logFunction, playerID) {
     if (game) {
         game.app.ticker.stop();
         game.container.removeChild(game.container.getElementsByTagName("canvas")[0]);
@@ -32,6 +32,9 @@ export async function initGame(logFile, logFunction) {
     game = new Game();
     game.stateVariable = await getGameDetails(logFile);
     game.logFunction = logFunction;
+
+    game.playerID = playerID;
+
     console.log("Processed State: ", game.stateVariable);
 
     game.buildStateClasses()

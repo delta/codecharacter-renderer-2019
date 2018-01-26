@@ -11,17 +11,18 @@ export default class CodeCharacterRenderer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            logFunction: this.props.logFunction
+            logFunction: this.props.logFunction,
+            playerID: this.props.playerID
         };
     }
 
     componentDidMount() {
-        initGame(this.props.logFile, this.state.logFunction);
+        initGame(this.props.logFile, this.state.logFunction, this.state.playerID);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.logFile.toString() != this.props.logFile.toString()) {
-            initGame(nextProps.logFile, this.state.logFunction);
+            initGame(nextProps.logFile, this.state.logFunction, nextProps.playerID);
         }
     }
 

@@ -18,6 +18,8 @@ export default class Game {
         this.frameNo = 0;
         this.timeCount = 0;
 
+        this.playerID = 1;
+
         this.speed = {};
         this.speed.pointer = CONSTANTS.gameSpeed.default;
         this.speed.value =  CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
