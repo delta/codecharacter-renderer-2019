@@ -410,15 +410,14 @@ export default class Game {
 
         // If the current frame has errors, iterate through them
         if (currErrors !== undefined) {
-            for (let i = 0; i < 2; ++i) {
 
-                // If the player has errors, iterate through them
-                if (JSON.stringify(currErrors[i]) !== JSON.stringify({})) {
-                    for (let errorCode of currErrors[i].errors) {
+            // If the player has errors, iterate through them
+            if (JSON.stringify(currErrors[this.playerID - 1])
+                !== JSON.stringify({})) {
 
-                        // Log the current error code's corresponding string
-                        this.logFunction(this.errorMap[errorCode]);
-                    }
+                for (let errorCode of currErrors[this.playerID - 1].errors) {
+                    // Log the current error code's corresponding string
+                    this.logFunction(this.errorMap[errorCode]);
                 }
             }
         }
