@@ -14,10 +14,12 @@ function initGameLog() {
     fetch('proto/game.log').then((response) => {
         response.arrayBuffer().then((buffer) => {
             let logFile = new Uint8Array(buffer);
-            let logFunction = console.log;
-            let playerID = 1;
+            let options = {
+                logFunction: console.log,
+                playerID: 1
+            };
             ReactDOM.render((
-                <CodeCharacterRenderer logFile={logFile} logFunction={logFunction} playerID={playerID} />
+                <CodeCharacterRenderer logFile={logFile} options={options} />
             ), document.getElementById("root"));
         });
     });

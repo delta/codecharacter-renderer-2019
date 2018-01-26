@@ -23,7 +23,15 @@ export function initRenderer(callback) {
         .load(callback);
 }
 
-export async function initGame(logFile, logFunction, playerID) {
+/**
+ * Function to initialize main main game object
+ * Takes the game logFile and an options map as paramenters
+ *
+ * @param[in]    logFile   A Uint8Array containing the Protobuf dump
+ * @param[in]    options   Contains logFunction -> Function to log errors to
+ *                                  playerID    -> PlayerID of current player
+ */
+export async function initGame(logFile, options) {
     if (game) {
         game.app.ticker.stop();
         game.container.removeChild(game.container.getElementsByTagName("canvas")[0]);
@@ -31,9 +39,10 @@ export async function initGame(logFile, logFunction, playerID) {
 
     game = new Game();
     game.stateVariable = await getGameDetails(logFile);
-    game.logFunction = logFunction;
 
-    game.playerID = playerID;
+    game.logFunction = options.logFunction;
+
+    game.playerID = options.playerID;
 
     console.log("Processed State: ", game.stateVariable);
 
