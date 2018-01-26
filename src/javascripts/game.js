@@ -37,6 +37,21 @@ export default class Game {
         Game.addListeners(this);
     }
 
+    setStateVariable(stateVar) {
+        this.stateVariable = stateVar;
+        return this;
+    }
+
+    setLogFunction(fn) {
+        this.logFunction = fn;
+        return this;
+    }
+
+    setPlayerID(id) {
+        this.playerID = id;
+        return this;
+    }
+
     static addListeners(game) {
         let canvas = document.querySelector("canvas"),
             pauseIcon = document.querySelector("#pause-icon"),

@@ -38,11 +38,9 @@ export async function initGame(logFile, options) {
     }
 
     game = new Game();
-    game.stateVariable = await getGameDetails(logFile);
-
-    game.logFunction = options.logFunction;
-
-    game.playerID = options.playerID;
+    game.setStateVariable(await getGameDetails(logFile))
+        .setLogFunction(options.logFunction)
+        .setPlayerID(options.playerID);
 
     console.log("Processed State: ", game.stateVariable);
 
