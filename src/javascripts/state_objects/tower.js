@@ -59,19 +59,19 @@ export default class Tower extends StateObject {
 
         switch (towerLevel) {
         case 0:
-            details.texture = this.textures[playerID].deadTexture;
+            details.texture = this.textures[playerID - 1].deadTexture;
             details.dimensions = this.spriteDimensions.deadSprite;
             break;
         case 1:
-            details.texture = this.textures[playerID].lv1Texture;
+            details.texture = this.textures[playerID - 1].lv1Texture;
             details.dimensions = this.spriteDimensions.lv1Sprite;
             break;
         case 2:
-            details.texture = this.textures[playerID].lv2Texture;
+            details.texture = this.textures[playerID - 1].lv2Texture;
             details.dimensions = this.spriteDimensions.lv2Sprite;
             break;
         case 3:
-            details.texture = this.textures[playerID].lv3Texture;
+            details.texture = this.textures[playerID - 1].lv3Texture;
             details.dimensions = this.spriteDimensions.lv3Sprite;
             break;
         }

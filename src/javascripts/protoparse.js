@@ -70,7 +70,7 @@ export default class Proto {
             if (!soldiers[i].hasOwnProperty('state'))
                 soldiers[i].state = 0;
 
-            soldiers[i].playerId = (i < soldiers.length/2) ? 0 : 1;
+            soldiers[i].playerId = (i < soldiers.length/2) ? 1 : 2;
 
             if (!soldierList.hasOwnProperty(i)) {
                 soldierList[i] = Object.assign({}, soldiers[i]);
@@ -115,8 +115,9 @@ export default class Proto {
         for (let tower of towers) {
             if (!tower.hasOwnProperty('id'))
                 tower.id = 0;
-            if (!tower.hasOwnProperty('playerId'))
-                tower.playerId = 0;
+            if (!tower.hasOwnProperty('playerId') || tower.playerId === 0)
+                tower.playerId = 1;
+            else tower.playerId = 2;
 
             if (towerList.hasOwnProperty(tower.id)) {
                 if (tower.isDead) {

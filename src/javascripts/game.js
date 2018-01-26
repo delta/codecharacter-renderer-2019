@@ -252,7 +252,7 @@ export default class Game {
         this.playerMoney = this.getCurrentFrame().money.slice();
         let moneyValDiv = document.querySelector("#money-value");
 
-        moneyValDiv.innerHTML = this.playerMoney[this.playerID];
+        moneyValDiv.innerHTML = this.playerMoney[this.playerID - 1];
         moneyValDiv.style.color = this.playerID === 1 ?
             CONSTANTS.money.player1Color :
             CONSTANTS.money.player2Color;
@@ -401,9 +401,9 @@ export default class Game {
         for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
             for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
                 if (tower.updateMethod == "destroy") {
-                    this.terrain[i][j].removeOwnership(tower.playerId + 1, tower.id);
+                    this.terrain[i][j].removeOwnership(tower.playerId, tower.id);
                 } else {
-                    this.terrain[i][j].addOwnership(tower.playerId + 1, tower.id);
+                    this.terrain[i][j].addOwnership(tower.playerId, tower.id);
                 }
             }
         }
@@ -413,7 +413,7 @@ export default class Game {
         let money = this.getCurrentFrame().money;
         this.playerMoney[0] = money[0];
         this.playerMoney[1] = money[1];
-        document.querySelector("#money-value").innerHTML = this.playerMoney[this.playerID];
+        document.querySelector("#money-value").innerHTML = this.playerMoney[this.playerID - 1];
 
         return this;
     }

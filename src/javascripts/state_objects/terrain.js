@@ -12,7 +12,7 @@ export default class TerrainElement extends StateObject {
     }
 
     addOwnership(playerID, towerID) {
-        this.addTower(playerID - 1, towerID);
+        this.addTower(playerID, towerID);
 
         if (this.playerID == playerID || this.playerID == 3)
             return;
@@ -28,7 +28,7 @@ export default class TerrainElement extends StateObject {
         if (this.playerID == 0 || (this.playerID != 3 && this.playerID != playerID))
             return;
 
-        this.removeTower(playerID - 1, towerID);
+        this.removeTower(playerID, towerID);
 
         if ( Object.keys(this.getNearbyTowers(playerID)).length === 0 ) {
             this.playerID -= playerID;
@@ -37,11 +37,11 @@ export default class TerrainElement extends StateObject {
     }
 
     addTower(playerID, towerID) {
-        this.nearbyTowers[playerID][towerID] = null;
+        this.nearbyTowers[playerID - 1][towerID] = null;
     }
 
     removeTower(playerID, towerID) {
-        delete this.nearbyTowers[playerID][towerID];
+        delete this.nearbyTowers[playerID - 1][towerID];
     }
 
     getNearbyTowers(playerID) {

@@ -52,19 +52,19 @@ export default class Soldier extends StateObject {
 
         switch (soldierState) {
         case 0:
-            details.texture = this.textures[playerID].idleTexture;
+            details.texture = this.textures[playerID - 1].idleTexture;
             details.dimensions = this.spriteDimensions.idleSprite;
             break;
         case 1:
-            details.texture = this.textures[playerID].moveTexture;
+            details.texture = this.textures[playerID - 1].moveTexture;
             details.dimensions = this.spriteDimensions.moveSprite;
             break;
         case 2:
-            details.texture = this.textures[playerID].atkTexture;
+            details.texture = this.textures[playerID - 1].atkTexture;
             details.dimensions = this.spriteDimensions.atkSprite;
             break;
         case 3:
-            details.texture = this.textures[playerID].deadTexture;
+            details.texture = this.textures[playerID - 1].deadTexture;
             details.dimensions = this.spriteDimensions.deadSprite;
             break;
         }
