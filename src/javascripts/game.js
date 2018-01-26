@@ -237,11 +237,10 @@ export default class Game {
         this.playerMoney = this.getCurrentFrame().money.slice();
         let moneyValDiv = document.querySelector("#money-value");
 
-        // // Add `this.playerID to constructor.
-        // moneyValDiv.innerHTML = this.playerMoney[this.playerID];
-        // (this.playerID == 0)? moneyValDiv.style.color = "#b30000" : moneyValDiv.style.color = "#000099";
-        moneyValDiv.innerHTML = this.playerMoney[1];
-        moneyValDiv.style.color = "#000099";
+        moneyValDiv.innerHTML = this.playerMoney[this.playerID];
+        moneyValDiv.style.color = this.playerID === 1 ?
+            CONSTANTS.money.player1Color :
+            CONSTANTS.money.player2Color;
 
         return this;
     }
@@ -399,8 +398,7 @@ export default class Game {
         let money = this.getCurrentFrame().money;
         this.playerMoney[0] = money[0];
         this.playerMoney[1] = money[1];
-        // document.querySelector("#money-value").innerHTML = this.playerMoney[this.playerID];
-        document.querySelector("#money-value").innerHTML = this.playerMoney[1];
+        document.querySelector("#money-value").innerHTML = this.playerMoney[this.playerID];
 
         return this;
     }

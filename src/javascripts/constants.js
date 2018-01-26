@@ -90,6 +90,10 @@ const CONSTANTS = {
         overlay: {
             opacity: 0.3
         }
+    },
+    money: {
+        player1Color: "#b30000",
+        player2Color: "#000099"
     }
 };
 
