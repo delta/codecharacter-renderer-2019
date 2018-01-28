@@ -239,7 +239,7 @@ export default class Game {
 
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
-            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldier.hp, soldier.state, soldier.playerId);
+            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId);
         }
 
         return this;
@@ -355,8 +355,9 @@ export default class Game {
             this.soldiers[i].updatePosition(soldier.x, soldier.y);
             this.soldiers[i].updateHP(soldier.hp);
 
-            if (soldier.stateHasChanged)
-                this.soldiers[i].updateState(soldier.state);
+            if (soldier.stateHasChanged) {
+                this.soldiers[i].updateState(soldier.state, soldier.direction);
+            }
         }
 
         return this;

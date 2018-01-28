@@ -59,6 +59,7 @@ export async function initGame(logFile, options) {
         .addSoldiers()
         .addMoney();
 
+
     game.app.ticker.add(delta => render(delta));
 }
 

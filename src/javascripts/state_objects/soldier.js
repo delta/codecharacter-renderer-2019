@@ -1,7 +1,7 @@
 import StateObject from './stateobject';
 
 export default class Soldier extends StateObject {
-    constructor(x, y, hp, state, playerID) {
+    constructor(x, y, hp, state, direction, playerID) {
         let spriteDetails = Soldier.getSpriteDetails(playerID, state);
         let width = spriteDetails.dimensions.width,
             height = spriteDetails.dimensions.height,
@@ -12,6 +12,7 @@ export default class Soldier extends StateObject {
 
         this.hp = hp;
         this.state = state;
+        this.direction = direction;
         this.playerID = playerID;
     }
 
@@ -23,9 +24,11 @@ export default class Soldier extends StateObject {
         this.hp = hp;
     }
 
-    updateState(state) {
+    updateState(state, direction) {
         this.state = state;
-        let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state);
+        this.direction = direction;
+
+        let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state, this.direction);
         this.sprite.texture = spriteDetails.texture;
         this.setSpriteDimensions(spriteDetails.dimensions.width, spriteDetails.dimensions.height);
     }
@@ -47,7 +50,7 @@ export default class Soldier extends StateObject {
         this.textures = [p1Textures, p2Textures];
     }
 
-    static getSpriteDetails(playerID, soldierState) {
+    static getSpriteDetails(playerID, soldierState, soldierDirection) {
         let details = {texture: null, dimensions: null};
 
         switch (soldierState) {

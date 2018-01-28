@@ -73,16 +73,46 @@ export default class Proto {
             soldiers[i].playerId = (i < soldiers.length/2) ? 1 : 2;
 
             if (!soldierList.hasOwnProperty(i)) {
+                soldiers[i].direction = "down";
                 soldierList[i] = Object.assign({}, soldiers[i]);
             } else {
-                if (soldierList[i].state != soldiers[i].state) {
+                // Set soldier direction
+                if (soldiers[i].state == 1) {
+                    soldiers[i].direction = this.getMovementDirection(soldiers[i].x, soldiers[i].y, soldierList[i].x, soldierList[i].y);
+                } else {
+                    soldiers[i].direction = soldierList[i].direction;
+                }
+
+                // Check if state/direction has changed
+                if (soldierList[i].state != soldiers[i].state || soldierList[i].direction != soldiers[i].direction) {
                     soldierList[i].state = soldiers[i].state;
+                    soldierList[i].direction = soldiers[i].direction;
                     soldiers[i].stateHasChanged = true;
                 }
+
+                // Update temp list for next frame
+                soldierList[i].x = soldiers[i].x;
+                soldierList[i].y = soldiers[i].y;
             }
         }
 
         return soldiers;
+    }
+
+    getMovementDirection(currentX, currentY, prevX, prevY) {
+        if (currentY - prevY > currentX - prevX) {
+            if (currentY > prevY) {
+                return "down";
+            } else {
+                return "up";
+            }
+        } else {
+            if (currentX > prevX) {
+                return "right";
+            } else {
+                return "left";
+            }
+        }
     }
 
     processTowers(towerList, towers, deadTowers) {
