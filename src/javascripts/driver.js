@@ -30,6 +30,8 @@ export function initRenderer(callback) {
  * @param[in]    logFile   A Uint8Array containing the Protobuf dump
  * @param[in]    options   Contains logFunction -> Function to log errors to
  *                                  playerID    -> PlayerID of current player
+ *                                  player1Log  -> Debug logs of Player1
+ *                                  player2Log  -> Debug logs of Player2
  */
 export async function initGame(logFile, options) {
     if (game) {
@@ -40,7 +42,8 @@ export async function initGame(logFile, options) {
     game = new Game();
     game.setStateVariable(await getGameDetails(logFile))
         .setLogFunction(options.logFunction)
-        .setPlayerID(options.playerID);
+        .setPlayerID(options.playerID)
+        .setPlayerLogs(options.player1Log, options.player2Log);
 
     console.log("Processed State: ", game.stateVariable);
 
@@ -83,7 +86,8 @@ function render(delta) {
         game.updateSoldiers()
             .updateMoney()
             .updateTowers()
-            .logErrors();
+            .logErrors()
+            .logPlayerLogs();
     }
 
 }

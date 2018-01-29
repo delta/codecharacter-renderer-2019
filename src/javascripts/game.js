@@ -27,6 +27,8 @@ export default class Game {
         this.errorMap = {};
         this.logFunction = () => {};
 
+        this.playerLogs = {1: [], 2: []};
+
         this.camera = new Camera(CONSTANTS.camera);
         this.container = document.querySelector("#renderer-container");
 
@@ -49,6 +51,30 @@ export default class Game {
 
     setPlayerID(id) {
         this.playerID = id;
+        return this;
+    }
+
+    setPlayerLogs(player1Log, player2Log) {
+        // Initialize logs to "" if undefined
+        let logs = [player1Log, player2Log].map(log => log || "");
+
+        // Set the log delimiter, if there exists atleast one log to read from.
+        // The delimiter is the first line of the log, for ex. ">>>LOG START<<<"
+        let delim = "";
+        for (let playerLog of logs) {
+            delim = playerLog ? playerLog.split('\n', 1)[0] : "";
+        }
+
+        // Split each playerLog as a list of each turn's logs
+        // Remove the first split, it'll always just be an empty string
+        logs = logs.map(log => log.split(delim).slice(1));
+
+        // Set the logs in state
+        this.playerLogs = {
+            1: logs[0],
+            2: logs[1]
+        };
+
         return this;
     }
 
@@ -437,6 +463,16 @@ export default class Game {
         return this;
     }
 
+    logPlayerLogs() {
+        // Read the current player's current turn's logs (if any), and write them
+        let currentTurnLogs
+            = this.playerLogs[this.playerID][this.frameNo];
+        if (currentTurnLogs) {
+            this.logFunction(currentTurnLogs);
+        }
+
+        return this;
+    }
 
     // UI Object methods
     toggleState() {
