@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
 export default class Tower extends StateObject {
@@ -50,8 +51,21 @@ export default class Tower extends StateObject {
         }
     }
 
-    static setTextures(p1Textures, p2Textures) {
-        this.textures = [p1Textures, p2Textures];
+    static setTextures() {
+        this.textures = {
+            1: {
+                deadTexture: PIXI.loader.resources.towerP1L1.texture,
+                lv1Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv2Texture: PIXI.loader.resources.towerP1L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP1L1.texture
+            },
+            2: {
+                deadTexture: PIXI.loader.resources.towerP2L1.texture,
+                lv1Texture: PIXI.loader.resources.towerP2L1.texture,
+                lv2Texture: PIXI.loader.resources.towerP2L1.texture,
+                lv3Texture: PIXI.loader.resources.towerP2L1.texture
+            }
+        };
     }
 
     static getSpriteDetails(playerID, towerLevel) {
@@ -59,19 +73,19 @@ export default class Tower extends StateObject {
 
         switch (towerLevel) {
         case 0:
-            details.texture = this.textures[playerID - 1].deadTexture;
+            details.texture = this.textures[playerID].deadTexture;
             details.dimensions = this.spriteDimensions.deadSprite;
             break;
         case 1:
-            details.texture = this.textures[playerID - 1].lv1Texture;
+            details.texture = this.textures[playerID].lv1Texture;
             details.dimensions = this.spriteDimensions.lv1Sprite;
             break;
         case 2:
-            details.texture = this.textures[playerID - 1].lv2Texture;
+            details.texture = this.textures[playerID].lv2Texture;
             details.dimensions = this.spriteDimensions.lv2Sprite;
             break;
         case 3:
-            details.texture = this.textures[playerID - 1].lv3Texture;
+            details.texture = this.textures[playerID].lv3Texture;
             details.dimensions = this.spriteDimensions.lv3Sprite;
             break;
         }

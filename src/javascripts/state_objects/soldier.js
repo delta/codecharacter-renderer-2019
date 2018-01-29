@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
 export default class Soldier extends StateObject {
@@ -46,8 +47,21 @@ export default class Soldier extends StateObject {
         }
     }
 
-    static setTextures(p1Textures, p2Textures) {
-        this.textures = [p1Textures, p2Textures];
+    static setTextures() {
+        this.textures = {
+            1: {
+                idleTexture: PIXI.loader.resources.soldierP1.texture,
+                moveTexture: PIXI.loader.resources.soldierP1.texture,
+                atkTexture: PIXI.loader.resources.soldierP1Atk.texture,
+                deadTexture: PIXI.loader.resources.soldierP1.texture
+            },
+            2: {
+                idleTexture: PIXI.loader.resources.soldierP2.texture,
+                moveTexture: PIXI.loader.resources.soldierP2.texture,
+                atkTexture: PIXI.loader.resources.soldierP2Atk.texture,
+                deadTexture: PIXI.loader.resources.soldierP2.texture
+            }
+        };
     }
 
     static getSpriteDetails(playerID, soldierState, soldierDirection) {
@@ -55,19 +69,19 @@ export default class Soldier extends StateObject {
 
         switch (soldierState) {
         case 0:
-            details.texture = this.textures[playerID - 1].idleTexture;
+            details.texture = this.textures[playerID].idleTexture;
             details.dimensions = this.spriteDimensions.idleSprite;
             break;
         case 1:
-            details.texture = this.textures[playerID - 1].moveTexture;
+            details.texture = this.textures[playerID].moveTexture;
             details.dimensions = this.spriteDimensions.moveSprite;
             break;
         case 2:
-            details.texture = this.textures[playerID - 1].atkTexture;
+            details.texture = this.textures[playerID].atkTexture;
             details.dimensions = this.spriteDimensions.atkSprite;
             break;
         case 3:
-            details.texture = this.textures[playerID - 1].deadTexture;
+            details.texture = this.textures[playerID].deadTexture;
             details.dimensions = this.spriteDimensions.deadSprite;
             break;
         }

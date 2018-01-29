@@ -166,56 +166,11 @@ export default class Game {
         TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
-        let soldierTextures = this.getSoldierTextures();
-        Soldier.setTextures(soldierTextures.p1Textures, soldierTextures.p2Textures);
-
-        let towerTextures = this.getTowerTextures();
-        Tower.setTextures(towerTextures.p1Textures, towerTextures.p2Textures);
-
-        let terrainTextures = this.getTerrainTextures();
-        TerrainElement.setTextures(terrainTextures);
+        Soldier.setTextures();
+        Tower.setTextures();
+        TerrainElement.setTextures();
 
         return this;
-    }
-
-    getSoldierTextures() {
-        return {
-            p1Textures: {
-                idleTexture: PIXI.loader.resources.soldierP1.texture,
-                moveTexture: PIXI.loader.resources.soldierP1.texture,
-                atkTexture: PIXI.loader.resources.soldierP1Atk.texture,
-                deadTexture: PIXI.loader.resources.soldierP1.texture
-            },
-            p2Textures: {
-                idleTexture: PIXI.loader.resources.soldierP2.texture,
-                moveTexture: PIXI.loader.resources.soldierP2.texture,
-                atkTexture: PIXI.loader.resources.soldierP2Atk.texture,
-                deadTexture: PIXI.loader.resources.soldierP2.texture
-            }
-        };
-    }
-
-    getTowerTextures() {
-        return {
-            p1Textures: {
-                deadTexture: PIXI.loader.resources.towerP1L1.texture,
-                lv1Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv2Texture: PIXI.loader.resources.towerP1L1.texture,
-                lv3Texture: PIXI.loader.resources.towerP1L1.texture
-            },
-            p2Textures: {
-                deadTexture: PIXI.loader.resources.towerP2L1.texture,
-                lv1Texture: PIXI.loader.resources.towerP2L1.texture,
-                lv2Texture: PIXI.loader.resources.towerP2L1.texture,
-                lv3Texture: PIXI.loader.resources.towerP2L1.texture
-            }
-        };
-    }
-
-    getTerrainTextures() {
-        return {
-            landTexture: PIXI.loader.resources.land.texture
-        };
     }
 
 

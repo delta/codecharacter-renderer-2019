@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 import GraphicsPrimitive from './graphicsprimitive';
 
@@ -6,7 +7,7 @@ export default class TerrainElement extends StateObject {
         super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.textures.landTexture);
 
         this.playerID = 0;
-        this.nearbyTowers = [{}, {}];    // [{p1Towers}, {p2Towers}]
+        this.nearbyTowers = { 1: {}, 2: {} };
 
         this.overlay = new GraphicsPrimitive(x, y, TerrainElement.sideLength, TerrainElement.sideLength);
     }
@@ -37,15 +38,15 @@ export default class TerrainElement extends StateObject {
     }
 
     addTower(playerID, towerID) {
-        this.nearbyTowers[playerID - 1][towerID] = null;
+        this.nearbyTowers[playerID][towerID] = null;
     }
 
     removeTower(playerID, towerID) {
-        delete this.nearbyTowers[playerID - 1][towerID];
+        delete this.nearbyTowers[playerID][towerID];
     }
 
     getNearbyTowers(playerID) {
-        return this.nearbyTowers[playerID - 1];
+        return this.nearbyTowers[playerID];
     }
 
 
@@ -53,8 +54,10 @@ export default class TerrainElement extends StateObject {
         this.sideLength = len;
     }
 
-    static setTextures(textures) {
-        this.textures = textures;
+    static setTextures() {
+        this.textures = {
+            landTexture: PIXI.loader.resources.land.texture
+        };
     }
 
     static setOverlayConstants(OVERLAY_CONSTANTS) {
