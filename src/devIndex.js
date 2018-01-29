@@ -10,17 +10,21 @@ document.body.style.padding = "0";
 
 initializeRendererAssets(initGameLog);
 
-function initGameLog() {
-    fetch('proto/game.log').then((response) => {
-        response.arrayBuffer().then((buffer) => {
-            let logFile = new Uint8Array(buffer);
-            let options = {
-                logFunction: console.log,
-                playerID: 1
-            };
-            ReactDOM.render((
-                <CodeCharacterRenderer logFile={logFile} options={options} />
-            ), document.getElementById("root"));
-        });
-    });
+async function initGameLog() {
+    let response = fetch('proto/game.log');
+    let gameLog1 = fetch('proto/player_1.dlog');
+    let gameLog2 = fetch('proto/player_2.dlog');
+
+    let buffer = await (await response).arrayBuffer();
+    let logFile = new Uint8Array(buffer);
+
+    let options = {
+        logFunction: console.log,
+        playerID: 2,
+        player1Log: await (await gameLog1).text(),
+        player2Log: await (await gameLog2).text()
+    };
+    ReactDOM.render((
+        <CodeCharacterRenderer logFile={logFile} options={options} />
+    ), document.getElementById("root"));
 }
