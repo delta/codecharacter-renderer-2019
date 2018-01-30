@@ -1,3 +1,5 @@
+import SPRITE_CONSTANTS from './spriteconstants.js';
+
 // Initial values or constant values
 const CONSTANTS = {
     gameSpeed: {
@@ -49,42 +51,8 @@ const CONSTANTS = {
             }
         }
     },
-    soldiers: {
-        idleSprite: {
-            width: 50,
-            height: 50
-        },
-        moveSprite: {
-            width: 50,
-            height: 50
-        },
-        atkSprite: {
-            width: 50,
-            height: 50
-        },
-        deadSprite: {
-            width: 50,
-            height: 50
-        }
-    },
     towers: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
-        deadSprite: {
-            width: 30,
-            height: 10
-        },
-        lv1Sprite: {
-            width: 40,
-            height: 80
-        },
-        lv2Sprite: {
-            width: 50,
-            height: 100
-        },
-        lv3Sprite: {
-            width: 60,
-            height: 120
-        }
     },
     terrain: {
         overlay: {
@@ -101,5 +69,6 @@ const CONSTANTS = {
         player2Color: "#000099"
     }
 };
+CONSTANTS.spriteConstants = SPRITE_CONSTANTS;
 
 export default CONSTANTS;

@@ -42,13 +42,8 @@ export default class Tower extends StateObject {
         this.ranges = ranges.slice();
     }
 
-    static setSpriteConstants(TOWER_CONSTANTS) {
-        this.spriteDimensions = {
-            deadSprite: TOWER_CONSTANTS.deadSprite,
-            lv1Sprite: TOWER_CONSTANTS.lv1Sprite,
-            lv2Sprite: TOWER_CONSTANTS.lv2Sprite,
-            lv3Sprite: TOWER_CONSTANTS.lv3Sprite
-        }
+    static setSpriteConstants(TOWER_DIMENSIONS) {
+        this.spriteDimensions = TOWER_DIMENSIONS;
     }
 
     static setTextures() {

@@ -4,8 +4,8 @@ import StateObject from './stateobject';
 export default class Soldier extends StateObject {
     constructor(x, y, hp, state, direction, playerID) {
         let spriteDetails = Soldier.getSpriteDetails(playerID, state, direction);
-        let width = spriteDetails.dimensions.width,
-            height = spriteDetails.dimensions.height,
+        let width = Soldier.displayDimensions.width,
+            height = Soldier.displayDimensions.height,
             textures = spriteDetails.textures,
             isAnimated = true;
 
@@ -39,13 +39,9 @@ export default class Soldier extends StateObject {
         this.maxHP = hp;
     }
 
-    static setSpriteConstants(SOLDIER_CONSTANTS) {
-        this.spriteDimensions = {
-            idleSprite: SOLDIER_CONSTANTS.idleSprite,
-            moveSprite: SOLDIER_CONSTANTS.moveSprite,
-            atkSprite: SOLDIER_CONSTANTS.atkSprite,
-            deadSprite: SOLDIER_CONSTANTS.deadSprite
-        }
+    static setSpriteConstants(SOLDIER_SPRITE_CONSTANTS) {
+        this.displayDimensions = SOLDIER_SPRITE_CONSTANTS.displayDimensions;
+        this.spriteSheetData = SOLDIER_SPRITE_CONSTANTS.spriteSheetData;
     }
 
     // Texture related methods
@@ -74,15 +70,18 @@ export default class Soldier extends StateObject {
     static getIdleTextures(playerID) {
         var base = this.baseTextures[playerID];
 
+        let pos = Soldier.spriteSheetData.idleSequence.initPositions,
+            frame = Soldier.spriteSheetData.frameDetails;
+
         let leftTexture = new PIXI.Texture(base);
         let upTexture = new PIXI.Texture(base);
         let downTexture = new PIXI.Texture(base);
         let rightTexture = new PIXI.Texture(base);
 
-        leftTexture.frame = new PIXI.Rectangle(0, 0, 100, 100);
-        upTexture.frame = new PIXI.Rectangle(100, 0, 100, 100);
-        downTexture.frame = new PIXI.Rectangle(200, 0, 100, 100);
-        rightTexture.frame = new PIXI.Rectangle(300, 0, 100, 100);
+        leftTexture.frame = new PIXI.Rectangle( pos.left.x, pos.left.y, frame.width, frame.height );
+        upTexture.frame = new PIXI.Rectangle( pos.up.x, pos.up.y, frame.width, frame.height );
+        downTexture.frame = new PIXI.Rectangle( pos.down.x, pos.down.y, frame.width, frame.height );
+        rightTexture.frame = new PIXI.Rectangle( pos.right.x, pos.right.y, frame.width, frame.height );
 
         return {
             up: [upTexture, upTexture],
@@ -95,50 +94,43 @@ export default class Soldier extends StateObject {
     static getMoveTextures(playerID) {
         var base = this.baseTextures[playerID];
         let texture = null;
+
+        let frameSet = Soldier.spriteSheetData.moveSequence.frameSequence,
+            pos = Soldier.spriteSheetData.moveSequence.initPositions,
+            frame = Soldier.spriteSheetData.frameDetails;
+
         let upTextures = [],
             downTextures = [],
             leftTextures = [],
             rightTextures = [];
 
         // Left movement
-        for (let i = 0; i < 3; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 100, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.left.x + frame.jump*frameNo, pos.left.y, frame.width, frame.height );
             leftTextures.push(texture);
         }
-        texture = new PIXI.Texture(base);
-        texture.frame = new PIXI.Rectangle(100, 100, 100, 100);
-        leftTextures.push(texture);
 
         // Right movement
-        for (let i = 0; i < 3; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 400, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.right.x + frame.jump*frameNo, pos.right.y, frame.width, frame.height );
             rightTextures.push(texture);
         }
-        texture = new PIXI.Texture(base);
-        texture.frame = new PIXI.Rectangle(100, 400, 100, 100);
-        rightTextures.push(texture);
 
         // Down movement
-        for (let i = 0; i < 3; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 700, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.down.x + frame.jump*frameNo, pos.down.y, frame.width, frame.height );
             downTextures.push(texture);
         }
-        texture = new PIXI.Texture(base);
-        texture.frame = new PIXI.Rectangle(100, 700, 100, 100);
-        downTextures.push(texture);
 
         // Up movement
-        for (let i = 0; i < 3; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 1000, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.up.x + frame.jump*frameNo, pos.up.y, frame.width, frame.height );
             upTextures.push(texture);
         }
-        texture = new PIXI.Texture(base);
-        texture.frame = new PIXI.Rectangle(100, 1000, 100, 100);
-        upTextures.push(texture);
 
         return {
             up: upTextures,
@@ -151,56 +143,41 @@ export default class Soldier extends StateObject {
     static getAtkTextures(playerID) {
         var base = this.baseTextures[playerID];
         let texture = null;
+
+        let frameSet = Soldier.spriteSheetData.atkSequence.frameSequence,
+            pos = Soldier.spriteSheetData.atkSequence.initPositions,
+            frame = Soldier.spriteSheetData.frameDetails;
+
         let upTextures = [],
             downTextures = [],
             leftTextures = [],
             rightTextures = [];
 
         // Left Attack
-        for (let i = 0; i < 4; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 200, 100, 100);
-            leftTextures.push(texture);
-        }
-        for (let i = 2; i > 1; i--) {
-            texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 200, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.left.x + frame.jump*frameNo, pos.left.y, frame.width, frame.height );
             leftTextures.push(texture);
         }
 
         // Right Attack
-        for (let i = 0; i < 4; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 500, 100, 100);
-            rightTextures.push(texture);
-        }
-        for (let i = 2; i > 1; i--) {
-            texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 500, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.right.x + frame.jump*frameNo, pos.right.y, frame.width, frame.height );
             rightTextures.push(texture);
         }
 
         // Down Attack
-        for (let i = 0; i < 4; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 800, 100, 100);
-            downTextures.push(texture);
-        }
-        for (let i = 2; i > 1; i--) {
-            texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 800, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.down.x + frame.jump*frameNo, pos.down.y, frame.width, frame.height );
             downTextures.push(texture);
         }
 
         // Up Attack
-        for (let i = 0; i < 4; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 1100, 100, 100);
-            upTextures.push(texture);
-        }
-        for (let i = 2; i > 1; i--) {
-            texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 1100, 100, 100);
+            texture.frame = new PIXI.Rectangle( pos.up.x + frame.jump*frameNo, pos.up.y, frame.width, frame.height );
             upTextures.push(texture);
         }
 
@@ -214,42 +191,39 @@ export default class Soldier extends StateObject {
 
     static getDeadTexture(playerID) {
         var base = this.baseTextures[playerID];
+
+        let frameSet = Soldier.spriteSheetData.deadSequence.frameSequence,
+            pos = Soldier.spriteSheetData.deadSequence.initPositions,
+            frame = Soldier.spriteSheetData.frameDetails;
+
         let texture = null,
             deadTextures = [];
 
-        for (let i = 0; i < 4; i++) {
+        for (let frameNo of frameSet) {
             texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(100*i, 300, 100, 93);
-            deadTextures.push(texture);
-        }
-        for (let i = 0; i < 6; i++) {
-            texture = new PIXI.Texture(base);
-            texture.frame = new PIXI.Rectangle(300, 300, 100, 93);
+            texture.frame = new PIXI.Rectangle( pos.x + frame.jump*frameNo, pos.y, frame.width, frame.height);
             deadTextures.push(texture);
         }
 
         return deadTextures;
     }
 
+    // get sprite details for a particular soldier state
     static getSpriteDetails(playerID, soldierState, soldierDirection) {
-        let details = {textures: null, dimensions: null};
+        let details = {textures: null};
 
         switch (soldierState) {
         case 0:
             details.textures = this.textures[playerID].idleTextures[soldierDirection];
-            details.dimensions = this.spriteDimensions.idleSprite;
             break;
         case 1:
             details.textures = this.textures[playerID].moveTextures[soldierDirection];
-            details.dimensions = this.spriteDimensions.moveSprite;
             break;
         case 2:
             details.textures = this.textures[playerID].atkTextures[soldierDirection];
-            details.dimensions = this.spriteDimensions.atkSprite;
             break;
         case 3:
             details.textures = this.textures[playerID].deadTexture;
-            details.dimensions = this.spriteDimensions.deadSprite;
             break;
         }
 

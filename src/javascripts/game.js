@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import CONSTANTS from './constants';
+import CONSTANTS from './constants/constants.js';
 import Camera from './camera';
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
@@ -161,8 +161,8 @@ export default class Game {
         Tower.setRanges(this.stateVariable.tower.ranges);
 
         // Set Sprite related constants
-        Soldier.setSpriteConstants(CONSTANTS.soldiers);
-        Tower.setSpriteConstants(CONSTANTS.towers);
+        Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
+        Tower.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
         TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures

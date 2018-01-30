@@ -1,6 +1,6 @@
 import * as PROTOBUF from 'protobufjs';
 import gameProtoFile from "../proto/game.proto";
-import CONSTANTS from './constants';
+import CONSTANTS from './constants/constants.js';
 
 export default class Proto {
     constructor(logFile) {
