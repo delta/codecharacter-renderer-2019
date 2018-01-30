@@ -310,17 +310,16 @@ export default class Game {
             this.soldiers[i].updatePosition(soldier.x, soldier.y);
             this.soldiers[i].updateHP(soldier.hp);
 
-            // if (soldier.stateHasChanged) {
-            //     this.soldiers[i].updateState(soldier.state, soldier.direction);
-            // }
+            if (soldier.stateHasChanged) {
+                this.soldiers[i].updateState(soldier.state, soldier.direction);
+            }
         }
 
         return this;
     }
 
     updateTowers() {
-        let currentTowers = this.getCurrentFrame().towers,
-            prevTowers = this.getPreviousFrame().towers;
+        let currentTowers = this.getCurrentFrame().towers;
 
         if (!currentTowers.hasChanged) {
             return this;

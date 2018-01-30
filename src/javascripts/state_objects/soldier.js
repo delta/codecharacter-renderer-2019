@@ -3,7 +3,7 @@ import StateObject from './stateobject';
 
 export default class Soldier extends StateObject {
     constructor(x, y, hp, state, direction, playerID) {
-        let spriteDetails = Soldier.getSpriteDetails(playerID, state);
+        let spriteDetails = Soldier.getSpriteDetails(playerID, state, direction);
         let width = spriteDetails.dimensions.width,
             height = spriteDetails.dimensions.height,
             textures = spriteDetails.textures,
@@ -30,9 +30,9 @@ export default class Soldier extends StateObject {
         this.state = state;
         this.direction = direction;
 
-        let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state);
-        this.sprite.texture = spriteDetails.texture;
-        this.setSpriteDimensions(spriteDetails.dimensions.width, spriteDetails.dimensions.height);
+        let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state, this.direction);
+        this.sprite.textures = spriteDetails.textures;
+        this.sprite.play();
     }
 
     static setMaxHP(hp) {
@@ -232,10 +232,26 @@ export default class Soldier extends StateObject {
     }
 
     static getSpriteDetails(playerID, soldierState, soldierDirection) {
-        let details = {
-            textures: this.textures[playerID].moveTextures.left,
-            dimensions: this.spriteDimensions.idleSprite
-        };
+        let details = {textures: null, dimensions: null};
+
+        switch (soldierState) {
+        case 0:
+            details.textures = this.textures[playerID].idleTextures[soldierDirection];
+            details.dimensions = this.spriteDimensions.idleSprite;
+            break;
+        case 1:
+            details.textures = this.textures[playerID].moveTextures[soldierDirection];
+            details.dimensions = this.spriteDimensions.moveSprite;
+            break;
+        case 2:
+            details.textures = this.textures[playerID].atkTextures[soldierDirection];
+            details.dimensions = this.spriteDimensions.atkSprite;
+            break;
+        case 3:
+            details.textures = this.textures[playerID].deadTexture;
+            details.dimensions = this.spriteDimensions.deadSprite;
+            break;
+        }
 
         return details;
     }
