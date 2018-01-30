@@ -51,20 +51,20 @@ const CONSTANTS = {
     },
     soldiers: {
         idleSprite: {
-            width: 24,
-            height: 30
+            width: 50,
+            height: 50
         },
         moveSprite: {
-            width: 24,
-            height: 30
+            width: 50,
+            height: 50
         },
         atkSprite: {
-            width: 24,
-            height: 38
+            width: 50,
+            height: 50
         },
         deadSprite: {
-            width: 40,
-            height: 20
+            width: 50,
+            height: 50
         }
     },
     towers: {
@@ -74,16 +74,16 @@ const CONSTANTS = {
             height: 10
         },
         lv1Sprite: {
-            width: 30,
-            height: 60
+            width: 40,
+            height: 80
         },
         lv2Sprite: {
-            width: 36,
-            height: 72
+            width: 50,
+            height: 100
         },
         lv3Sprite: {
-            width: 42,
-            height: 84
+            width: 60,
+            height: 120
         }
     },
     terrain: {

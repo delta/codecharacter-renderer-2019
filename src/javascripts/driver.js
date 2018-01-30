@@ -4,8 +4,6 @@ import Proto from './protoparse.js';
 import landAsset from "../assets/land.jpg";
 import soldierP1Asset from "../assets/soldierP1.png";
 import soldierP2Asset from "../assets/soldierP2.png";
-import soldierP1AtkAsset from "../assets/soldierP1Atk.png";
-import soldierP2AtkAsset from "../assets/soldierP2Atk.png";
 import towerP1L1Asset from "../assets/towerP1L1.png";
 import towerP2L1Asset from "../assets/towerP2L1.png";
 
@@ -14,10 +12,8 @@ var game;
 export function initRenderer(callback) {
     PIXI.loader
         .add("land", landAsset)
-        .add("soldierP1", soldierP1Asset)
-        .add("soldierP2", soldierP2Asset)
-        .add("soldierP1Atk", soldierP1AtkAsset)
-        .add("soldierP2Atk", soldierP2AtkAsset)
+        .add("soldierP1Sheet", soldierP1Asset)
+        .add("soldierP2Sheet", soldierP2Asset)
         .add("towerP1L1", towerP1L1Asset)
         .add("towerP2L1", towerP2L1Asset)
         .load(callback);
