@@ -30,7 +30,14 @@ export default class CodeCharacterRenderer extends React.Component {
         return (
             <div id="renderer-container">
                 <div id="top-container">
-                    <div className="label" id="money-container">Money: <div className="value" id="money-value"></div></div>
+                    <div className="label" id="score-container">
+                        <div className="value" id="player-details">Score:</div>
+                        <div className="value p1-color" id="p1-score"></div> | <div className="value p2-color" id="p2-score"></div>
+                    </div>
+                    <div className="label" id="money-container">
+                        <div className="value" id="player-details">$: </div>
+                        <div className="value" id="money-value"></div>
+                    </div>
                 </div>
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />

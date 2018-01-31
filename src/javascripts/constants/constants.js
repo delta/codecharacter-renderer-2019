@@ -63,10 +63,6 @@ const CONSTANTS = {
                 sharedColor: 0xaa00ff
             }
         }
-    },
-    money: {
-        player1Color: "#b30000",
-        player2Color: "#000099"
     }
 };
 CONSTANTS.spriteConstants = SPRITE_CONSTANTS;

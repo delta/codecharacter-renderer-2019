@@ -47,14 +47,14 @@ export async function initGame(logFile, options) {
         .buildTerrain()
         .buildTowers()
         .buildSoldiers()
+        .buildMoney()
+        .buildScores()
         .buildMap()
         .buildErrorMap();
 
     game.addTerrain()
         .addTowers()
-        .addSoldiers()
-        .addMoney();
-
+        .addSoldiers();
 
     game.app.ticker.add(delta => render(delta));
 }

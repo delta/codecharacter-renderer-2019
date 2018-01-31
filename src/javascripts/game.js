@@ -235,14 +235,22 @@ export default class Game {
         return this;
     }
 
-    addMoney() {
+    buildMoney() {
         this.playerMoney = this.getCurrentFrame().money.slice();
         let moneyValDiv = document.querySelector("#money-value");
 
         moneyValDiv.innerHTML = this.playerMoney[this.playerID - 1];
-        moneyValDiv.style.color = this.playerID === 1 ?
-            CONSTANTS.money.player1Color :
-            CONSTANTS.money.player2Color;
+        (this.playerID === 1) ? moneyValDiv.classList.add("p1-color") : moneyValDiv.classList.add("p2-color");
+
+        return this;
+    }
+
+    buildScores() {
+        let playerScoreDiv = (this.playerID === 1) ?
+            document.querySelector("#p1-score") :
+            document.querySelector("#p2-score") ;
+
+        playerScoreDiv.classList.add("highlight");
 
         return this;
     }
@@ -399,7 +407,8 @@ export default class Game {
     }
 
     updateScore(ownership) {
-        console.log(ownership);
+        document.querySelector("#p1-score").innerHTML = ` ${ownership[1]}`;
+        document.querySelector("#p2-score").innerHTML = ` ${ownership[2]}`;
     }
 
     updateMoney() {
