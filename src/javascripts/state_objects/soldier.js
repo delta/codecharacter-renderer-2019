@@ -2,14 +2,14 @@ import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
 export default class Soldier extends StateObject {
-    constructor(x, y, hp, state, direction, playerID) {
+    constructor(x, y, hp, state, direction, playerID, animationSpeed) {
         let spriteDetails = Soldier.getSpriteDetails(playerID, state, direction);
         let width = Soldier.displayDimensions.width,
             height = Soldier.displayDimensions.height,
             textures = spriteDetails.textures,
             isAnimated = true;
 
-        super(x, y, width, height, textures, isAnimated);
+        super(x, y, width, height, textures, isAnimated, animationSpeed);
         this.setSpriteAnchors(0.5, 1);
 
         this.hp = hp;

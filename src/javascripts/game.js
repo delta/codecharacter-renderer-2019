@@ -192,9 +192,12 @@ export default class Game {
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
 
+        let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
-            this.soldiers[i] = new Soldier(soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId);
+            this.soldiers[i] = new Soldier(
+                soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId, animationSpeed
+            );
         }
 
         return this;
@@ -436,10 +439,31 @@ export default class Game {
             if (this.state == "play") {
                 this.state = "pause";
                 pauseIcon.src = playAsset;
+
+                // Pause Animations
+                for (let soldier of this.soldiers) {
+                    soldier.pauseAnimation();
+                }
             } else {
                 this.state = "play";
                 pauseIcon.src = pauseAsset;
+
+                // Resume Animations
+                for (let soldier of this.soldiers) {
+                    soldier.playAnimation();
+                }
             }
+
+
+        }
+    }
+
+    end() {
+        this.state = "stop";
+
+        // Stop Animations
+        for (let soldier of this.soldiers) {
+            soldier.pauseAnimation();
         }
     }
 
@@ -448,6 +472,11 @@ export default class Game {
             this.speed.pointer += 1;
             this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
             this.updateSpeedDisplay();
+
+            let speed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+            for (let soldier of this.soldiers) {
+                soldier.setAnimationSpeed(speed);
+            }
         }
     }
 
@@ -456,6 +485,11 @@ export default class Game {
             this.speed.pointer -= 1;
             this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
             this.updateSpeedDisplay();
+
+            let speed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+            for (let soldier of this.soldiers) {
+                soldier.setAnimationSpeed(speed);
+            }
         }
     }
 

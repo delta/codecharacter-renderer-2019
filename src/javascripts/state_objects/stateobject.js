@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 
 export default class StateObject {
-    constructor(x, y, width, height, textureData, isAnimated = false) {
+    constructor(x, y, width, height, textureData, isAnimated = false, animationSpeed = 0) {
         if (isAnimated) {
             this.sprite = new PIXI.extras.AnimatedSprite(textureData);
-            this.setAnimationSpeed();
-            this.sprite.play();
+            this.setAnimationSpeed(animationSpeed);
+            this.playAnimation();
         } else {
             this.sprite = new PIXI.Sprite(textureData);
         }
@@ -28,10 +28,20 @@ export default class StateObject {
         this.sprite.anchor.y = y;
     }
 
-    setAnimationSpeed() {
-        this.sprite.animationSpeed = 0.17;
+    // Animation related functions
+    setAnimationSpeed(speed) {
+        this.sprite.animationSpeed = speed;
     }
 
+    playAnimation() {
+        this.sprite.play();
+    }
+
+    pauseAnimation() {
+        this.sprite.stop();
+    }
+
+    // Methods to add and remove sprites
     addSprite(stage) {
         stage.addChild(this.sprite);
     }

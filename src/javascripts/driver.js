@@ -72,10 +72,11 @@ function render(delta) {
 
     // Check for Game End
     if (game.frameNo >= game.stateVariable.states.length) {
-        if (game.state != "stop")
+        if (game.state != "stop") {
             console.log("done");
+            game.end();
+        }
 
-        game.state = "stop";
     }
 
     // Update Game Objects

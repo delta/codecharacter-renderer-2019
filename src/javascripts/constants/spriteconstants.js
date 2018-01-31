@@ -6,6 +6,10 @@ const SPRITE_CONSTANTS = {
             width: 50,
             height: 50
         },
+        animationSpeed: {
+            values: [0.07, 0.17, 0.28, 0.37, 0.45, 0.6, 0.8],
+            default: 2
+        },
 
         // Spritesheet data
         spriteSheetData: {
