@@ -1,13 +1,17 @@
 // Constants relating to sprites onscreen and spritesheets
 const SPRITE_CONSTANTS = {
+    spriteAnchors: {
+        x: 0.5,
+        y: 1
+    },
     soldierSprites: {
         // On screen data
         displayDimensions: {
-            width: 50,
-            height: 50
+            width: 30,
+            height: 30
         },
         animationSpeed: {
-            values: [0.07, 0.17, 0.28, 0.37, 0.45, 0.6, 0.8],
+            values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
             default: 2
         },
 
@@ -54,21 +58,30 @@ const SPRITE_CONSTANTS = {
         }
     },
     towerSprites: {
-        deadSprite: {
-            width: 30,
-            height: 10
-        },
-        lv1Sprite: {
-            width: 40,
-            height: 80
-        },
-        lv2Sprite: {
+        // On screen data
+        displayDimensions: {
             width: 50,
-            height: 100
+            height: 50
         },
-        lv3Sprite: {
-            width: 60,
-            height: 120
+
+        // Spritesheet data
+        spriteSheetData: {
+            frameDetails: {
+                width: 100,
+                height: 100
+            },
+            deadTexture: {
+                pos: {x: 0, y: 0}
+            },
+            lv1Texture: {
+                pos: {x: 100, y: 0}
+            },
+            lv2Texture: {
+                pos: {x: 200, y: 0}
+            },
+            lv3Texture: {
+                pos: {x: 300, y: 0}
+            },
         }
     },
 };

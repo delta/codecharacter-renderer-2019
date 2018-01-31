@@ -10,7 +10,7 @@ export default class Soldier extends StateObject {
             isAnimated = true;
 
         super(x, y, width, height, textures, isAnimated, animationSpeed);
-        this.setSpriteAnchors(0.5, 1);
+        this.setSpriteAnchors();
 
         this.hp = hp;
         this.state = state;

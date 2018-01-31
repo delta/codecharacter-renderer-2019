@@ -23,9 +23,9 @@ export default class StateObject {
         this.sprite.height = height;
     }
 
-    setSpriteAnchors(x, y) {
-        this.sprite.anchor.x = x;
-        this.sprite.anchor.y = y;
+    setSpriteAnchors() {
+        this.sprite.anchor.x = StateObject.anchor.x;
+        this.sprite.anchor.y = StateObject.anchor.y;
     }
 
     // Animation related functions
@@ -48,5 +48,10 @@ export default class StateObject {
 
     removeSprite(stage) {
         stage.removeChild(this.sprite);
+    }
+
+
+    static setSpriteAnchors(anchorData) {
+        this.anchor = anchorData;
     }
 }

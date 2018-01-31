@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import CONSTANTS from './constants/constants.js';
 import Camera from './camera';
+import StateObject from './state_objects/stateobject'
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
 import Tower from './state_objects/tower';
@@ -158,6 +159,7 @@ export default class Game {
         TerrainElement.createOwnershipObject();
 
         // Set Constants
+        StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
         TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Tower.setMaxHPs(this.stateVariable.tower.maxHps);

@@ -4,8 +4,8 @@ import Proto from './protoparse.js';
 import landAsset from "../assets/land.jpg";
 import soldierP1Asset from "../assets/soldierP1.png";
 import soldierP2Asset from "../assets/soldierP2.png";
-import towerP1L1Asset from "../assets/towerP1L1.png";
-import towerP2L1Asset from "../assets/towerP2L1.png";
+import towerP1Asset from "../assets/towerP1.png";
+import towerP2Asset from "../assets/towerP2.png";
 
 var game;
 
@@ -14,8 +14,8 @@ export function initRenderer(callback) {
         .add("land", landAsset)
         .add("soldierP1Sheet", soldierP1Asset)
         .add("soldierP2Sheet", soldierP2Asset)
-        .add("towerP1L1", towerP1L1Asset)
-        .add("towerP2L1", towerP2L1Asset)
+        .add("towerP1", towerP1Asset)
+        .add("towerP2", towerP2Asset)
         .load(callback);
 }
 
