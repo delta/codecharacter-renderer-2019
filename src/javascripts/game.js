@@ -154,6 +154,9 @@ export default class Game {
     }
 
     buildStateClasses() {
+        // Create TerrainElement Ownership Object
+        TerrainElement.createOwnershipObject();
+
         // Set Constants
         TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
@@ -391,6 +394,12 @@ export default class Game {
                 }
             }
         }
+
+        this.updateScore(TerrainElement.getOwnership());
+    }
+
+    updateScore(ownership) {
+        console.log(ownership);
     }
 
     updateMoney() {
