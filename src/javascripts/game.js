@@ -372,7 +372,6 @@ export default class Game {
                 if (tower.framesLeft == CONSTANTS.towers.maxDeathFrames) {
                     this.towers[towerID].destroy();
                 } else if (tower.framesLeft == 0) {
-
                     this.towers[towerID].removeSprite(this.app.stage);
                     delete this.towers[towerID];
                 }

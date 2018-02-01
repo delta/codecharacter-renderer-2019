@@ -136,8 +136,9 @@ export default class Proto {
                 deadTower.framesLeft--;
                 deadTower.levelHasChanged = false;
             } else {
-                deadTowers.splice(i, 1);
                 delete towerList[deadTower.id];
+                deadTowers.splice(i, 1);
+                i -= 1;
             }
         }
 
