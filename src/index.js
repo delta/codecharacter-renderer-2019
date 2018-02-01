@@ -3,6 +3,7 @@ import ReactDOM                             from "react-dom";
 import * as PIXI                            from 'pixi.js';
 import { initRenderer, initGame }           from "./javascripts/driver.js";
 import pauseAsset                           from "./assets/pause.svg";
+import resetAsset                           from "./assets/restart.svg";
 import slowDownAsset                        from "./assets/slow-down.svg";
 import speedUpAsset                         from "./assets/speed-up.svg";
 import "./stylesheets/renderer.css";
@@ -12,7 +13,8 @@ export default class CodeCharacterRenderer extends React.Component {
         super(props);
         this.state = {
             logFunction: this.props.logFunction,
-            playerID: this.props.playerID
+            playerID: this.props.playerID,
+            resetGame: () => initGame(this.props.logFile, this.props.options)
         };
     }
 
@@ -41,11 +43,12 @@ export default class CodeCharacterRenderer extends React.Component {
                 </div>
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
+                    <img className="icon" id="reset-icon" onClick={this.state.resetGame} src={resetAsset} />
                 </div>
                 <div className="bottom-container" id="speed-icons-container">
                     <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value">1.0</div></div>
-                    <img className="icon speed-icon" id="slow-down-icon" src={slowDownAsset} />
-                    <img className="icon speed-icon" id="speed-up-icon" src={speedUpAsset} />
+                    <img className="icon" id="slow-down-icon" src={slowDownAsset} />
+                    <img className="icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>
             </div>
         );
