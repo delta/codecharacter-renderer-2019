@@ -2,7 +2,7 @@
 const SPRITE_CONSTANTS = {
     spriteAnchors: {
         x: 0.5,
-        y: 1
+        y: 0.5
     },
     soldierSprites: {
         // On screen data
@@ -60,7 +60,7 @@ const SPRITE_CONSTANTS = {
     towerSprites: {
         // On screen data
         displayDimensions: {
-            width: 50,
+            width: 60,
             height: 50
         },
 
