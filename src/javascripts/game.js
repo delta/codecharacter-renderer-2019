@@ -257,6 +257,13 @@ export default class Game {
         return this;
     }
 
+    buildSpeedDiv() {
+        let speedValDiv = document.querySelector("#speed-value");
+        speedValDiv.innerHTML = "1.0";
+        speedValDiv.classList.remove("extreme");
+        return this;
+    }
+
 
     // Add sprites to canvas
     addTerrain() {

@@ -46,7 +46,7 @@ export default class CodeCharacterRenderer extends React.Component {
                     <img className="icon" id="reset-icon" onClick={this.state.resetGame} src={resetAsset} />
                 </div>
                 <div className="bottom-container" id="speed-icons-container">
-                    <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value">1.0</div></div>
+                    <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value"></div></div>
                     <img className="icon" id="slow-down-icon" src={slowDownAsset} />
                     <img className="icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>

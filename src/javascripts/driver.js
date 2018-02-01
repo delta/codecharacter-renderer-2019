@@ -49,6 +49,7 @@ export async function initGame(logFile, options) {
         .buildSoldiers()
         .buildMoney()
         .buildScores()
+        .buildSpeedDiv()
         .buildMap()
         .buildErrorMap();
 
