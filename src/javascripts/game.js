@@ -264,6 +264,12 @@ export default class Game {
         return this;
     }
 
+    buildPauseIcon() {
+        let icon = document.querySelector("#pause-icon");
+        icon.src = pauseAsset;
+        return this;
+    }
+
 
     // Add sprites to canvas
     addTerrain() {

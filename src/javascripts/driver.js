@@ -50,6 +50,7 @@ export async function initGame(logFile, options) {
         .buildMoney()
         .buildScores()
         .buildSpeedDiv()
+        .buildPauseIcon()
         .buildMap()
         .buildErrorMap();
 
