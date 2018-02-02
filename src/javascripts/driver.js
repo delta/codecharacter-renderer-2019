@@ -53,6 +53,7 @@ export async function initGame(logFile, options) {
         .buildScores()
         .buildSpeedDiv()
         .buildPauseIcon()
+        .buildInstructionCount()
         .buildMap()
         .buildErrorMap();
 
@@ -85,7 +86,8 @@ function render(delta) {
 
     // Update Game Objects
     if (game.state == "play") {
-        game.updateSoldiers()
+        game.checkInstructionCount()
+            .updateSoldiers()
             .updateMoney()
             .updateTowers()
             .logErrors()

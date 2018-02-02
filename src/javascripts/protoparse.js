@@ -28,6 +28,7 @@ export default class Proto {
             soldierMaxHp: rawDetails.soldierMaxHp,
             terrainLength: rawDetails.terrainSize,
             terrainElementSize: rawDetails.terrainElementSize,
+            instructionLimit: rawDetails.instLimitTurn,
             tower: {
                 maxHps: rawDetails.towerMaxHps.slice(),
                 ranges: rawDetails.towerRanges.slice()
@@ -49,6 +50,7 @@ export default class Proto {
                 soldiers: this.processSoldiers(soldierList, frame.soldiers),
                 towers: JSON.parse(JSON.stringify(this.processTowers(towerList, frame.towers, deadTowers))),
                 money: frame.money.slice(),
+                instructionCounts: frame.instructionCounts.slice(),
                 errors: frame.playerErrors
             };
 

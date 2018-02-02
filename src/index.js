@@ -31,14 +31,18 @@ export default class CodeCharacterRenderer extends React.Component {
     render() {
         return (
             <div id="renderer-container">
-                <div id="top-container">
-                    <div className="label" id="score-container">
-                        <div className="value" id="player-details">Score:</div>
+                <div className="top-container" id="top-right-container">
+                    <div className="label top-label" id="score-container">
+                        <div className="value player-details">Score:</div>
                         <div className="value p1-color" id="p1-score"></div> | <div className="value p2-color" id="p2-score"></div>
                     </div>
-                    <div className="label" id="money-container">
-                        <div className="value" id="player-details">$: </div>
+                    <div className="label top-label" id="money-container">
+                        <div className="value player-details">$: </div>
                         <div className="value" id="money-value"></div>
+                    </div>
+                    <div className="label top-label" id="instr-count-container">
+                        <div className="value player-details">Instr: </div>
+                        <div className="value" id="instr-count-value"></div> / <div className="value" id="instr-count-limit"></div>
                     </div>
                 </div>
                 <div className="bottom-container" id="pause-icon-container">

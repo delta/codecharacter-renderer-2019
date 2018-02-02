@@ -254,6 +254,14 @@ export default class Game {
         return this;
     }
 
+    buildInstructionCount() {
+        this.instructionLimit = this.stateVariable.instructionLimit;
+        document.querySelector("#instr-count-limit").innerHTML = `${this.instructionLimit/1000000}M`;
+        document.querySelector("#instr-count-value").classList.remove("extreme");
+        document.querySelector("#instr-count-limit").classList.remove("extreme");
+        return this;
+    }
+
     buildMoney() {
         this.playerMoney = this.getCurrentFrame().money.slice();
         let moneyValDiv = document.querySelector("#money-value");
@@ -480,6 +488,26 @@ export default class Game {
 
         return this;
     }
+
+    checkInstructionCount() {
+        let instrCount = this.getCurrentFrame().instructionCounts[this.playerID-1];
+        let instrCountDisplay = (instrCount/1000000).toFixed(3).toString();
+        if (instrCountDisplay.length > 5) {
+            instrCountDisplay = instrCountDisplay.substring(0, instrCountDisplay.length - 1);
+        }
+        document.querySelector("#instr-count-value").innerHTML = `${instrCountDisplay}M`;
+
+        if (instrCount > this.stateVariable.instructionLimit) {
+            document.querySelector("#instr-count-value").classList.add("extreme");
+            document.querySelector("#instr-count-limit").classList.add("extreme");
+        } else {
+            document.querySelector("#instr-count-value").classList.remove("extreme");
+            document.querySelector("#instr-count-limit").classList.remove("extreme");
+        }
+
+        return this;
+    }
+
 
     // UI Object methods
     toggleState() {
