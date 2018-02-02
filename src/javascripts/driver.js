@@ -33,11 +33,13 @@ export async function initGame(logFile, options) {
     if (game) {
         game.app.ticker.stop();
         game.container.removeChild(game.container.getElementsByTagName("canvas")[0]);
+        game.logClearFunction();
     }
 
     game = new Game();
     game.setStateVariable(await getGameDetails(logFile))
         .setLogFunction(options.logFunction)
+        .setLogClearFunction(options.logClearFunction)
         .setPlayerID(options.playerID)
         .setPlayerLogs(options.player1Log, options.player2Log);
 

@@ -20,6 +20,7 @@ async function initGameLog() {
 
     let options = {
         logFunction: console.log,
+        logClearFunction: console.clear,
         playerID: 2,
         player1Log: await (await gameLog1).text(),
         player2Log: await (await gameLog2).text()

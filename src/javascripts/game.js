@@ -27,6 +27,7 @@ export default class Game {
 
         this.errorMap = {};
         this.logFunction = () => {};
+        this.logClearFunction = () => {};
 
         this.playerLogs = {1: [], 2: []};
 
@@ -47,6 +48,11 @@ export default class Game {
 
     setLogFunction(fn) {
         this.logFunction = fn;
+        return this;
+    }
+
+    setLogClearFunction(fn) {
+        this.logClearFunction = fn;
         return this;
     }
 
