@@ -7,11 +7,24 @@ div#renderer-container {
   z-index: 0;
 }
 
+div#renderer-container:focus-within:after {
+  border: 1px solid orange;
+  content: '';
+  display: block;
+  height: calc(100% - 2px);
+  position: relative;
+  top: 0;
+  width: calc(100% - 2px);
+}
+
 canvas {
   position: fixed;
   z-index: -1000;
 }
 
+canvas:focus {
+  outline: none;
+}
 
 /*div*/#top-container {
   margin: 10px;
