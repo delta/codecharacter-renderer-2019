@@ -92,6 +92,11 @@ export default class Game {
             speedUpIcon = document.querySelector("#speed-up-icon");
 
         canvas.tabIndex = 1; // Allows event listeners to work
+
+        canvas.addEventListener("mousedown", (e) => {
+            e.target.focus();
+        });
+
         canvas.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
             case 37:
@@ -106,10 +111,13 @@ export default class Game {
             case 40:
                 game.camera.commands.move.down = true;
                 break;
-            case 187:
+            }
+
+            switch (e.key) {
+            case '=':
                 game.camera.commands.zoom.in = true;
                 break;
-            case 189:
+            case '-':
                 game.camera.commands.zoom.out = true;
                 break;
             }
@@ -129,12 +137,6 @@ export default class Game {
             case 40:
                 game.camera.commands.move.down = false;
                 break;
-            case 187:
-                game.camera.commands.zoom.in = false;
-                break;
-            case 189:
-                game.camera.commands.zoom.out = false;
-                break;
             case 80:
                 game.toggleState();
                 break;
@@ -143,6 +145,15 @@ export default class Game {
                 break;
             case 221:
                 game.increaseSpeed();
+                break;
+            }
+
+            switch (e.key) {
+            case '=':
+                game.camera.commands.zoom.in = false;
+                break;
+            case '-':
+                game.camera.commands.zoom.out = false;
                 break;
             }
         });
