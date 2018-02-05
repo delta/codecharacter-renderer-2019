@@ -23,9 +23,10 @@
   },
   "dependencies": {
     "pixi.js": "^4.6.2",
+    "protobufjs": "^6.8.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "protobufjs": "^6.8.4"
+    "screenfull": "^3.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

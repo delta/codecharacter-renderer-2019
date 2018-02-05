@@ -7,6 +7,7 @@ import Soldier from './state_objects/soldier';
 import Tower from './state_objects/tower';
 import pauseAsset from "../assets/pause.svg";
 import playAsset from "../assets/play.svg";
+import * as screenfull from 'screenfull';
 
 export default class Game {
     constructor() {
@@ -37,6 +38,7 @@ export default class Game {
         this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
         this.container.appendChild(this.app.view);
         this.state = "play";
+        this.isFullscreen = false;
 
         Game.addListeners(this);
     }
@@ -154,6 +156,17 @@ export default class Game {
                 break;
             case '-':
                 game.camera.commands.zoom.out = false;
+                break;
+            case 'f':
+                if (screenfull.enabled) {
+                    if (game.isFullscreen === true) {
+                        screenfull.exit();
+                        game.isFullscreen = false;
+                    } else {
+                        screenfull.request(game.container);
+                        game.isFullscreen = true;
+                    }
+                }
                 break;
             }
         });
