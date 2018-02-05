@@ -54,6 +54,10 @@ export default class CodeCharacterRenderer extends React.Component {
                     <img className="icon" id="slow-down-icon" src={slowDownAsset} />
                     <img className="icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>
+                <div className="bottom-container" id="game-over-container">
+                    <div className="label" id="game-over-msg">Game Complete</div>
+                    <div className="label" id="game-outcome"></div>
+                </div>
             </div>
         );
     }

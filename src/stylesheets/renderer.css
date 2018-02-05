@@ -128,3 +128,20 @@ div.extreme {
   color: #ff0101;
   text-shadow: 0 0 1px #b30000, 0 1px 1px #888888, 0 0 10px #ffffff;
 }
+
+
+div#game-over-container {
+  left: 50%;
+  display: none;
+  padding: 5px 20px;
+  border-radius: 5px;
+  background-color: rgba(220, 220, 220, 0.75);
+  transform: translateX(-50%);
+  animation: blink 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes blink {
+  0%   { opacity: 0; }
+  50%  { opacity: 1; }
+  100% { opacity: 1; }
+}

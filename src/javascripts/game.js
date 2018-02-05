@@ -508,7 +508,7 @@ export default class Game {
         let instrCount = this.getCurrentFrame().instructionCounts[this.playerID-1];
         let instrCountDisplay = (instrCount/1000000).toFixed(3).toString();
         if (instrCountDisplay.length > 5) {
-            instrCountDisplay = instrCountDisplay.substring(0, instrCountDisplay.length - 1);
+            instrCountDisplay = instrCountDisplay.substring(0, 5);
         }
         document.querySelector("#instr-count-value").innerHTML = `${instrCountDisplay}M`;
 
@@ -552,6 +552,31 @@ export default class Game {
 
     end() {
         this.state = "stop";
+        document.querySelector("#game-over-container").style.display = "block";
+        let p1Score = Number.parseInt(document.querySelector("#p1-score").innerHTML),
+            p2Score = Number.parseInt(document.querySelector("#p2-score").innerHTML);
+        let gameOutcomeDiv = document.querySelector("#game-outcome");
+
+        if (p1Score > p2Score) {
+            if (this.playerID == 1) {
+                gameOutcomeDiv.innerHTML = "You won!";
+                gameOutcomeDiv.style.color = "#b2deb5";
+            } else {
+                gameOutcomeDiv.innerHTML = "You lost";
+                gameOutcomeDiv.style.color = "#ffb4b4";
+            }
+        } else if (p1Score < p2Score) {
+            if (this.playerID == 1) {
+                gameOutcomeDiv.innerHTML = "You lost";
+                gameOutcomeDiv.style.color = "#ffb4b4";
+            } else {
+                gameOutcomeDiv.innerHTML = "You won!";
+                gameOutcomeDiv.style.color = "#b2deb5";
+            }
+        } else {
+            gameOutcomeDiv.innerHTML = "The game is a draw";
+            gameOutcomeDiv.style.color = "#fff8b4";
+        }
 
         // Stop Animations
         for (let soldier of this.soldiers) {
