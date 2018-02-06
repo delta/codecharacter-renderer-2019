@@ -71,7 +71,7 @@ export default class Game {
         // The delimiter is the first line of the log, for ex. ">>>LOG START<<<"
         let delim = "";
         for (let playerLog of logs) {
-            delim = playerLog ? playerLog.split('\n', 1)[0] : "";
+            delim = playerLog ? playerLog.split('\n', 1)[0] + '\n': "";
         }
 
         // Split each playerLog as a list of each turn's logs
@@ -473,6 +473,7 @@ export default class Game {
     }
 
     logErrors() {
+        this.logFunction(`TURN ${this.frameNo} :\n`);
         let currErrors = this.getCurrentFrame().errors;
 
         // If the current frame has errors, iterate through them
@@ -484,8 +485,9 @@ export default class Game {
 
                 for (let errorCode of currErrors[this.playerID - 1].errors) {
                     // Log the current error code's corresponding string
-                    this.logFunction(this.errorMap[errorCode]);
+                    this.logFunction(this.errorMap[errorCode] + '\n');
                 }
+                this.logFunction('\n');
             }
         }
         return this;
@@ -496,7 +498,7 @@ export default class Game {
         let currentTurnLogs
             = this.playerLogs[this.playerID][this.frameNo];
         if (currentTurnLogs) {
-            this.logFunction(currentTurnLogs);
+            this.logFunction(currentTurnLogs + '\n');
         }
 
         return this;
