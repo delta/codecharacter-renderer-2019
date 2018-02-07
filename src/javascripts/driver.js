@@ -52,6 +52,7 @@ export async function initGame(logFile, options) {
         .buildMoney()
         .buildScores()
         .buildSpeedDiv()
+        .buildGameOverDiv()
         .buildPauseIcon()
         .buildInstructionCount()
         .buildMap()

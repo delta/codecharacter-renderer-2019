@@ -302,6 +302,11 @@ export default class Game {
         return this;
     }
 
+    buildGameOverDiv() {
+        document.querySelector("#game-over-container").style.display = "none" ;
+        return this;
+    }
+
     buildPauseIcon() {
         let icon = document.querySelector("#pause-icon");
         icon.src = pauseAsset;
