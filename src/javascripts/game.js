@@ -95,8 +95,9 @@ export default class Game {
 
         canvas.tabIndex = 1; // Allows event listeners to work
 
-        canvas.addEventListener("mousedown", (e) => {
-            e.target.focus();
+        game.container.addEventListener("mousedown", (e) => {
+            canvas.focus();
+            e.preventDefault();
         });
 
         canvas.addEventListener("keydown", (e) => {
