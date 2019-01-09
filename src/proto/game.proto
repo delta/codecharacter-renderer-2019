@@ -6,116 +6,131 @@
 syntax = "proto3";
 package proto;
 
-enum SOLDIER_STATE {
-	IDLE = 0;
-	MOVE = 1;
-	ATTACK = 2;
-	DEAD = 3;
+enum SoldierState {
+    SOLDIER_IDLE = 0;
+    SOLDIER_MOVE = 1;
+    SOLDIER_ATTACK = 2;
+    SOLDIER_DEAD = 3;
 };
 
+enum VillagerState {
+    VILLAGER_IDLE = 0;
+    VILLAGER_MOVE = 1;
+    VILLAGER_ATTACK = 2;
+    VILLAGER_MINE = 3;
+    VILLAGER_BUILD = 4;
+    VILLAGER_DEAD = 5;
+};
+
+enum FactoryState {
+    FACTORY_UNBUILT = 0;
+    FACTORY_IDLE = 1;
+    FACTORY_VILLAGER_PRODUCTION = 2;
+    FACTORY_SOLDIER_PRODUCTION = 3;
+    FACTORY_DESTROYED = 4;
+};
+
+enum TerrainType {
+    LAND = 0;
+    WATER = 1;
+    GOLD_MINE = 2;
+};
+
+// Delete soldier when hp becomes 0 or state is set to DEAD.
 message Soldier {
-	int32 hp = 3;
-	int32 x = 4;
-	int32 y = 5;
-	SOLDIER_STATE state = 6;
+    int32 id = 1;
+    int32 player_id = 2;
+    int32 hp = 3;
+    int32 x = 4;
+    int32 y = 5;
+    SoldierState state = 6;
+    int32 target_x = 7; //
+    int32 target_y = 8; // Set to -1 if no target set
 }
 
-message Tower {
-	int32 id = 1;
-	int32 player_id = 2;   // Sent first time only
-	int32 hp = 3;
-	int32 x = 4;           // Sent first time only
-	int32 y = 5;           // Sent first time only
-	bool is_base = 7;      // Sent first time only
-	int32 tower_level = 8; // Sent if tower is upgraded
-	bool is_dead = 9;      // Sent if tower is destroyed
+// Delete villager when hp becomes 0 or state is set to DEAD.
+message Villager {
+    int32 id = 1;
+    int32 player_id = 2;
+    int32 hp = 3;
+    int32 x = 4;
+    int32 y = 5;
+    VillagerState state = 6;
+    int32 target_x = 7; //
+    int32 target_y = 8; // Set to -1 if no target set
+}
+
+message Factory {
+    int32 id = 1;
+    int32 player_id = 2;
+    int32 hp = 3;
+    int32 x = 4;
+    int32 y = 5;
+    FactoryState state = 6;
+    int32 build_percent = 7;
 }
 
 message PlayerError { repeated int32 errors = 1; }
 
-/**
- * Represents the state of a game at a particular frame
- */
 message GameState {
-
-	/**
-	 * List of all soldiers whose properties change
-	 * All soldiers are sent during the first frame
-	 */
-	repeated Soldier soldiers = 1;
-
-	/**
-	 * List of all towers whose properties change
-	 * All towers are sent during the first frame
-	 */
-	repeated Tower towers = 2;
-
-	/**
-	 * Player money
-	 */
-	repeated int64 money = 3;
-
-	/**
-	 * Instruction counts corresponding to each player
-	 * If the instruction limit causes a complete game abort, the last frame's
-	 * instruction_limit_error will hold the offending frame's inst. count
-	 */
-	repeated int64 instruction_counts = 4;
-
-	/**
-	 * Runtime rule violation errors corresponding to each player
-	 * Stores only the error codes, the error_map will contain the messages
-	 */
-	repeated PlayerError player_errors = 5;
+    repeated Soldier soldiers = 1;
+    repeated Villager villagers = 2;
+    repeated Factory factories = 3;
+    repeated int64 gold = 4;
+    repeated int64 instruction_counts = 5;
+    repeated PlayerError player_errors = 6;
 }
 
-/**
- * Represents a complete game, which is a sequence of frames
- */
 message Game {
 
-	/**
-	 * Range of a tower, corresponding to each tower level
-	 */
-	repeated int32 tower_ranges = 1;
+    /**
+     * Maximum HP of a soldier
+     */
+    int32 soldier_max_hp = 1;
 
-	/**
-	 * Maximum HP of a tower, corresponding to each tower level
-	 */
-	repeated int32 tower_max_hps = 2;
+    /**
+     * Maximum HP of a villager
+     */
+    int32 villager_max_hp = 2;
 
-	/**
-	 * Maximum HP of a soldier
-	 */
-	int32 soldier_max_hp = 3;
+    /**
+     * Maximum HP of a factory
+     */
+    int64 factory_max_hp = 3;
 
-	/**
-	 * Mapping of error codes and error strings
-	 */
-	map<int32, string> error_map = 4;
+    /**
+     * Player turn is cancelled if this inst. limit is crossed
+     */
+    int64 inst_limit_turn = 4;
 
-	/**
-	 * Player turn is cancelled if this inst. limit is crossed
-	 */
-	int64 inst_limit_turn = 5;
+    /**
+     * Player game is cancelled if this inst. limit is crossed
+     */
+    int64 inst_limit_game = 5;
 
-	/**
-	 * Player game is cancelled if this inst. limit is crossed
-	 */
-	int64 inst_limit_game = 6;
+    /**
+     * Size of the map, in number of elements
+     */
+    int32 map_size = 6;
 
-	/**
-	 * Size of the map, in number of elements
-	 */
-	int32 terrain_size = 7;
+    /**
+     * Size of one map element
+     */
+    int32 map_element_size = 7;
 
-	/**
-	 * Size of one terrain element
-	 */
-	int32 terrain_element_size = 8;
+    /**
+     * A list of states, representing the entire game
+     */
+    repeated GameState states = 8;
 
-	/**
-	 * A list of states, representing the entire game
-	 */
-	repeated GameState states = 9;
+    /**
+     * Mapping of error codes and error strings
+     */
+    map<int32, string> error_map = 9;
+
+    /**
+     * List of terrain of each element on map which is of size map_size *
+     * map_size
+     */
+    repeated TerrainType map_elements = 10;
 }
