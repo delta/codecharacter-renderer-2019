@@ -26,13 +26,11 @@ export default class Proto {
 
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
-            terrainLength: rawDetails.terrainSize,
-            terrainElementSize: rawDetails.terrainElementSize,
+            villagerMaxHp: rawDetails.villagerMaxHp,
+            factoryMaxHps: rawDetails.factoryMaxHps.slice(),
+            mapSize: rawDetails.mapize,
+            mapElementSize: rawDetails.mapElementSize,
             instructionLimit: rawDetails.instLimitTurn,
-            tower: {
-                maxHps: rawDetails.towerMaxHps.slice(),
-                ranges: rawDetails.towerRanges.slice()
-            },
             states: this.processStates(rawDetails.states),
             errorMap: rawDetails.errorMap ? rawDetails.errorMap : {}
         };
@@ -42,14 +40,14 @@ export default class Proto {
 
     processStates(decodedStates) {
         let processedStates = [];
-        let soldierList = {};
         let towerList = {},
             deadTowers = [];
         for (let frame of decodedStates) {
             let processedFrame = {
-                soldiers: this.processSoldiers(soldierList, frame.soldiers),
+                soldiers: this.processSoldiers(frame.soldiers),
+                villagers: this.processVillagers(frame.soldiers),
                 towers: JSON.parse(JSON.stringify(this.processTowers(towerList, frame.towers, deadTowers))),
-                money: frame.money.slice(),
+                gold: frame.gold.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
                 errors: frame.playerErrors
             };
@@ -60,7 +58,7 @@ export default class Proto {
         return processedStates;
     }
 
-    processSoldiers(soldierList, soldiers) {
+    processSoldiers(soldiers) {
         for (let i = 0; i < soldiers.length; i++) {
             soldiers[i].stateHasChanged = false;
             if (!soldiers[i].hasOwnProperty('hp'))
@@ -72,33 +70,46 @@ export default class Proto {
             if (!soldiers[i].hasOwnProperty('state'))
                 soldiers[i].state = 0;
 
-            soldiers[i].playerId = (i < soldiers.length/2) ? 1 : 2;
+            soldiers[i].playerId = soldiers[i].playerId;
 
-            if (!soldierList.hasOwnProperty(i)) {
+            if (!soldiers[i].hasOwnProperty('direction')) {
                 soldiers[i].direction = "down";
-                soldierList[i] = Object.assign({}, soldiers[i]);
             } else {
-                // Set soldier direction
-                if (soldiers[i].state == 1) {
-                    soldiers[i].direction = this.getMovementDirection(soldiers[i].x, soldiers[i].y, soldierList[i].x, soldierList[i].y);
-                } else {
-                    soldiers[i].direction = soldierList[i].direction;
+                if(soldiers[i].state == 1) {
+                    soldiers[i].direction = this.getMovementDirection(soldiers[i].targetX, soldiers[i].targetY, soldiers[i].x, soldiers[i].y);
                 }
-
-                // Check if state/direction has changed
-                if (soldierList[i].state != soldiers[i].state || soldierList[i].direction != soldiers[i].direction) {
-                    soldierList[i].state = soldiers[i].state;
-                    soldierList[i].direction = soldiers[i].direction;
-                    soldiers[i].stateHasChanged = true;
-                }
-
-                // Update temp list for next frame
-                soldierList[i].x = soldiers[i].x;
-                soldierList[i].y = soldiers[i].y;
             }
+
         }
 
         return soldiers;
+    }
+
+    processVillagers(villagers) {
+        for (let i = 0; i < villagers.length; i++) {
+            villagers[i].stateHasChanged = false;
+            if (!villagers[i].hasOwnProperty('hp'))
+                villagers[i].hp = 0;
+            if (!villagers[i].hasOwnProperty('x'))
+                villagers[i].x = 0;
+            if (!villagers[i].hasOwnProperty('y'))
+                villagers[i].y = 0;
+            if (!villagers[i].hasOwnProperty('state'))
+                villagers[i].state = 0;
+
+            villagers[i].playerId = villagers[i].playerId;
+
+            if (!villagers[i].hasOwnProperty('direction')) {
+                villagers[i].direction = "down";
+            } else {
+                if(villagers[i].state == 1) {
+                    villagers[i].direction = this.getMovementDirection(villagers[i].targetX, villagers[i].targetY, villagers[i].x, villagers[i].y);
+                }
+            }
+
+        }
+
+        return villagers;
     }
 
     getMovementDirection(currentX, currentY, prevX, prevY) {
