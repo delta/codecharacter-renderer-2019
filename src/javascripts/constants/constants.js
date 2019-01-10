@@ -51,7 +51,7 @@ const CONSTANTS = {
             }
         }
     },
-    towers: {
+    factories: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
     },
     terrain: {

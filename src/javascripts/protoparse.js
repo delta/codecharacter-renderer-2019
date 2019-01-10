@@ -40,13 +40,13 @@ export default class Proto {
 
     processStates(decodedStates) {
         let processedStates = [];
-        let towerList = {},
-            deadTowers = [];
+        let factoryList = {},
+            deadFactory = [];
         for (let frame of decodedStates) {
             let processedFrame = {
                 soldiers: this.processSoldiers(frame.soldiers),
-                villagers: this.processVillagers(frame.soldiers),
-                towers: JSON.parse(JSON.stringify(this.processTowers(towerList, frame.towers, deadTowers))),
+                villagers: this.processVillagers(frame.villagers),
+                factories: JSON.parse(JSON.stringify(this.processFactory(factoryList, frame.factories, deadFactory))),
                 gold: frame.gold.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
                 errors: frame.playerErrors
@@ -128,86 +128,83 @@ export default class Proto {
         }
     }
 
-    processTowers(towerList, towers, deadTowers) {
-        if (towers === undefined && deadTowers.length === 0) {
-            towerList.hasChanged = false;
-            return towerList;
+    processFactory(factoryList, factories, deadFactory) {
+        // No changes from frame
+        if (factories === undefined && deadFactory.length === 0) {
+            factoryList.hasChanged = false;
+            return factoryList;
         }
 
-        if (towers === undefined)
-            towers = [];
+        if (factories== undefined)
+            factories = [];
 
-        towerList.hasChanged = true;
-        let towerCheckList = this.getCheckList(towerList);
+        factoryList.hasChanged = true;
+        let factoryCheckList = this.getCheckList(factoryList);
 
-        // Updating dead towers
-        for (let i = 0; i < deadTowers.length; i++) {
-            let deadTower = towerList[deadTowers[i]];
-            delete towerCheckList[deadTower.id];
+        // Updating dead factory
+        for (let i = 0; i < deadFactory.length; i++) {
+            let dyingFactory = factoryList[deadFactory[i]];
+            delete factoryCheckList[dyingFactory.id];
 
-            if (deadTower.framesLeft >= 0) {
-                deadTower.framesLeft--;
-                deadTower.levelHasChanged = false;
+            if (dyingFactory.framesLeft >= 0) {
+                dyingFactory.framesLeft--;
+                dyingFactory.levelHasChanged = false;
             } else {
-                delete towerList[deadTower.id];
-                deadTowers.splice(i, 1);
+                delete factoryList[deadFactory.id];
+                deadFactory.splice(i, 1);
                 i -= 1;
             }
         }
 
-        // Updating towerList
-        for (let tower of towers) {
-            if (!tower.hasOwnProperty('id'))
-                tower.id = 0;
-            if (!tower.hasOwnProperty('playerId') || tower.playerId === 0)
-                tower.playerId = 1;
-            else tower.playerId = 2;
+        // Updating factoryList
+        for (let factory of factories) {
+            if (!factory.hasOwnProperty('id'))
+                factory.id = 0;
 
-            if (towerList.hasOwnProperty(tower.id)) {
-                if (tower.isDead) {
-                    // Tower Destroyed
-                    towerList[tower.id].isDead = true;
-                    towerList[tower.id].levelHasChanged = true;
-                    towerList[tower.id].updateMethod = "destroy";
-                    towerList[tower.id].framesLeft = CONSTANTS.towers.maxDeathFrames;
+            if (factoryList.hasOwnProperty(factory.id)) {
+                if (factory.isDead) {
+                    // factory Destroyed
+                    factoryList[factory.id].isDead = true;
+                    factoryList[factory.id].levelHasChanged = true;
+                    factoryList[factory.id].updateMethod = "destroy";
+                    factoryList[factory.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
 
-                    deadTowers.push(tower.id);
+                    deadFactory.push(factory.id);
                 } else {
-                    // Tower level and/or HP have changed
-                    towerList[tower.id].levelHasChanged =
-                        (towerList[tower.id].towerLevel == tower.towerLevel) ? false : true;
+                    // factory state and/or HP and/or build have changed
 
-                    towerList[tower.id].hp = tower.hp;
-                    towerList[tower.id].towerLevel = tower.towerLevel;
+                    factoryList[factory.id].hp = factory.hp;
+                    factoryList[factory.id].state = factory.state;
+                    factoryList[factory.id].buildPercent = factory.buildPercent;
 
-                    towerList[tower.id].updateMethod = "update";
+                    factoryList[factory.id].updateMethod = "update";
                 }
 
-                delete towerCheckList[tower.id];
+                delete factoryCheckList[factory.id];
 
             } else {
-                // New Tower
-                if (!tower.hasOwnProperty('x'))
-                    tower.x = 0;
-                if (!tower.hasOwnProperty('y'))
-                    tower.y = 0;
-                if (!tower.hasOwnProperty('isBase'))
-                    tower.isBase = false;
+                // New Factory
+                if (!factory.hasOwnProperty('x'))
+                    factory.x = 0;
+                if (!factory.hasOwnProperty('y'))
+                    factory.y = 0;
+                if (!factory.hasOwnProperty('buildPercent'))
+                    factory.buildPercent = 0;
 
-                tower.levelHasChanged = true;
-                tower.updateMethod = "create";
-                towerList[tower.id] = Object.assign({}, tower);
+                factory.levelHasChanged = true;
+                factory.updateMethod = "create";
+                factoryList[factory.id] = Object.assign({}, factory);
             }
         }
 
-        for (let towerID in towerCheckList) {
+        for (let towerID in factoryCheckList) {
             if ( isNaN(parseInt(towerID)) )
                 continue;
 
-            towerList[towerID].updateMethod = "none";
+            factoryList[towerID].updateMethod = "none";
         }
 
-        return towerList;
+        return factoryList;
     }
 
     getCheckList(towerList) {
