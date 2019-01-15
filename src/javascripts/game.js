@@ -421,7 +421,7 @@ export default class Game {
                 }
 
             } else if (factory.updateMethod == "update") {
-                this.factories[factoriesID].update(factory.hp, factory.towerLevel);
+                this.factories[factoriesID].update(factory.hp, factory.state , factory.buildPercent);
             }
 
             // Update ownership details

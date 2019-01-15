@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
+import { build } from 'protobufjs';
 
 export default class Factory extends StateObject {
-    constructor(x, y, playerID, hp, towerLevel, isBase) {
+    constructor(id, playerId, hp, x, y, state, buildPercent) {
         let spriteDetails = Factory.getSpriteDetails(playerID, towerLevel);
         let width = Factory.displayDimensions.width,
             height = Factory.displayDimensions.height,
@@ -11,23 +12,26 @@ export default class Factory extends StateObject {
         super(x, y, width, height, texture);
         this.setSpriteAnchors();
 
-        this.playerID = playerID;
+        this.playerId = playerId;
         this.hp = hp;
-        this.level = towerLevel;
-        this.isBase = isBase;
+        this.state = state;
+        this.buildPercent = buildPercent;
+
+
     }
 
-    update(hp, level) {
+    update(hp, state, buildPercent) {
         this.hp = hp;
-        this.updateLevel(level);
+        this.state = state;
+        this.updateLevel(buildPercent);
     }
 
     destroy() {
         this.updateLevel(0);
     }
 
-    updateLevel(level) {
-        this.level = level;
+    updateLevel(buildPercent) {
+        this.buildPercent = buildPercent;
 
         let spriteDetails = Factory.getSpriteDetails(this.playerID, this.level);
         this.sprite.texture = spriteDetails.texture;
@@ -37,9 +41,6 @@ export default class Factory extends StateObject {
         this.maxHPs = hpArray.slice();
     }
 
-    static setRanges(ranges) {
-        this.ranges = ranges.slice();
-    }
 
     static setSpriteConstants(TOWER_SPRITE_CONSTANTS) {
         this.displayDimensions = TOWER_SPRITE_CONSTANTS.displayDimensions;
@@ -113,21 +114,21 @@ export default class Factory extends StateObject {
     }
 
     static getSpriteDetails(playerID, towerLevel) {
-        let details = {texture: null};
+        let details = { texture: null };
 
         switch (towerLevel) {
-        case 0:
-            details.texture = this.textures[playerID].deadTexture;
-            break;
-        case 1:
-            details.texture = this.textures[playerID].lv1Texture;
-            break;
-        case 2:
-            details.texture = this.textures[playerID].lv2Texture;
-            break;
-        case 3:
-            details.texture = this.textures[playerID].lv3Texture;
-            break;
+            case 0:
+                details.texture = this.textures[playerID].deadTexture;
+                break;
+            case 1:
+                details.texture = this.textures[playerID].lv1Texture;
+                break;
+            case 2:
+                details.texture = this.textures[playerID].lv2Texture;
+                break;
+            case 3:
+                details.texture = this.textures[playerID].lv3Texture;
+                break;
         }
 
         return details;
