@@ -30,6 +30,7 @@ export default class Proto {
             factoryMaxHps: rawDetails.factoryMaxHp,
             mapSize: rawDetails.mapSize,
             mapElementSize: rawDetails.mapElementSize,
+            mapElements: rawDetails.mapElements,
             instructionLimit: rawDetails.instLimitTurn,
             states: this.processStates(rawDetails.states),
             errorMap: rawDetails.errorMap ? rawDetails.errorMap : {}
