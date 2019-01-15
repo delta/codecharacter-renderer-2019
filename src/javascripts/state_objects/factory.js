@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
-export default class Tower extends StateObject {
+export default class Factory extends StateObject {
     constructor(x, y, playerID, hp, towerLevel, isBase) {
-        let spriteDetails = Tower.getSpriteDetails(playerID, towerLevel);
-        let width = Tower.displayDimensions.width,
-            height = Tower.displayDimensions.height,
+        let spriteDetails = Factory.getSpriteDetails(playerID, towerLevel);
+        let width = Factory.displayDimensions.width,
+            height = Factory.displayDimensions.height,
             texture = spriteDetails.texture;
 
         super(x, y, width, height, texture);
@@ -29,7 +29,7 @@ export default class Tower extends StateObject {
     updateLevel(level) {
         this.level = level;
 
-        let spriteDetails = Tower.getSpriteDetails(this.playerID, this.level);
+        let spriteDetails = Factory.getSpriteDetails(this.playerID, this.level);
         this.sprite.texture = spriteDetails.texture;
     }
 
@@ -70,8 +70,8 @@ export default class Tower extends StateObject {
 
     static getDeadTexture(playerID) {
         let base = this.baseTextures[playerID];
-        let pos = Tower.spriteSheetData.deadTexture.pos,
-            frame = Tower.spriteSheetData.frameDetails;
+        let pos = Factory.spriteSheetData.deadTexture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
 
         let texture = new PIXI.Texture(base);
         texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
@@ -81,8 +81,8 @@ export default class Tower extends StateObject {
 
     static getLv1Texture(playerID) {
         let base = this.baseTextures[playerID];
-        let pos = Tower.spriteSheetData.lv1Texture.pos,
-            frame = Tower.spriteSheetData.frameDetails;
+        let pos = Factory.spriteSheetData.lv1Texture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
 
         let texture = new PIXI.Texture(base);
         texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
@@ -92,8 +92,8 @@ export default class Tower extends StateObject {
 
     static getLv2Texture(playerID) {
         let base = this.baseTextures[playerID];
-        let pos = Tower.spriteSheetData.lv2Texture.pos,
-            frame = Tower.spriteSheetData.frameDetails;
+        let pos = Factory.spriteSheetData.lv2Texture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
 
         let texture = new PIXI.Texture(base);
         texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
@@ -103,8 +103,8 @@ export default class Tower extends StateObject {
 
     static getLv3Texture(playerID) {
         let base = this.baseTextures[playerID];
-        let pos = Tower.spriteSheetData.lv3Texture.pos,
-            frame = Tower.spriteSheetData.frameDetails;
+        let pos = Factory.spriteSheetData.lv3Texture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
 
         let texture = new PIXI.Texture(base);
         texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
