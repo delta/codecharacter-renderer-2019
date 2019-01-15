@@ -47,7 +47,7 @@ export async function initGame(logFile, options) {
 
     game.buildStateClasses()
         .buildTerrain()
-        .buildTowers()
+        .buildFactories()
         .buildSoldiers()
         .buildMoney()
         .buildScores()
@@ -59,7 +59,7 @@ export async function initGame(logFile, options) {
         .buildErrorMap();
 
     game.addTerrain()
-        .addTowers()
+        .addFactories()
         .addSoldiers();
 
     game.app.ticker.add(delta => render(delta));
@@ -90,7 +90,7 @@ function render(delta) {
         game.checkInstructionCount()
             .updateSoldiers()
             .updateMoney()
-            .updateTowers()
+            .updateFactories()
             .logErrors()
             .logPlayerLogs();
     }

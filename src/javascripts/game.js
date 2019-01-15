@@ -4,7 +4,7 @@ import Camera from './camera';
 import StateObject from './state_objects/stateobject'
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
-import Tower from './state_objects/tower';
+import Factory from './state_objects/factory';
 import pauseAsset from "../assets/pause.svg";
 import playAsset from "../assets/play.svg";
 import * as screenfull from 'screenfull';
@@ -12,7 +12,8 @@ import * as screenfull from 'screenfull';
 export default class Game {
     constructor() {
         this.soldiers = [];
-        this.towers = {};
+        this.villagers = [];
+        this.factories = {};
         this.terrain = [];
         this.mapLength = 0;
         this.playerMoney = [];
@@ -193,17 +194,16 @@ export default class Game {
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
         TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
-        Tower.setMaxHPs(this.stateVariable.tower.maxHps);
-        Tower.setRanges(this.stateVariable.tower.ranges);
+        Factory.setMaxHPs(this.stateVariable.factoryMaxHp);
 
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
-        Tower.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
+        Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
         TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
         Soldier.setTextures();
-        Tower.setTextures();
+        Factory.setTextures();
         TerrainElement.setTextures();
 
         return this;
@@ -239,18 +239,18 @@ export default class Game {
         return this;
     }
 
-    buildTowers() {
-        let stateTowers = this.getCurrentFrame().towers;
+    buildFactories() {
+        let stateFactories = this.getCurrentFrame().factories;
 
-        for (let towerID in stateTowers) {
-            if ( isNaN(parseInt(towerID)) )    // Create New Towers only for actual tower objects
+        for (let factoriesID in stateFactories) {
+            if ( isNaN(parseInt(factoriesID)) )    // Create New Towers only for actual tower objects
                 continue;
 
-            let tower = stateTowers[towerID];
-            this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
+            let factory = stateFactories[factoriesID];
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.playerId, factory.hp, factory.towerLevel, factory.isBase);
 
             // Add ownership details
-            this.updateTerrain(tower);
+            this.updateTerrain(factory);
         }
 
         return this;
@@ -335,10 +335,10 @@ export default class Game {
         return this;
     }
 
-    addTowers() {
-        for (let towerID in this.towers) {
-            let tower = this.towers[towerID];
-            tower.addSprite(this.app.stage);
+    addFactories() {
+        for (let factoriesID in this.factories) {
+            let factory = this.factories[factoriesID];
+            factory.addSprite(this.app.stage);
         }
 
         return this;
@@ -391,42 +391,42 @@ export default class Game {
         return this;
     }
 
-    updateTowers() {
-        let currentTowers = this.getCurrentFrame().towers;
+    updateFactories() {
+        let currentFactories = this.getCurrentFrame().factories;
 
-        if (!currentTowers.hasChanged) {
+        if (!currentFactories.hasChanged) {
             return this;
         }
 
         // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
 
-        for (let towerID in currentTowers) {
-            if ( isNaN(parseInt(towerID)) )    // Update Towers only for actual tower objects
+        for (let factoriesID in currentFactories) {
+            if ( isNaN(parseInt(factoriesID)) )    // Update Towers only for actual tower objects
                 continue;
 
-            let tower = currentTowers[towerID];
-            if (tower.updateMethod == "none")
+            let factory = currentFactories[factoriesID];
+            if (factory.updateMethod == "none")
                 continue;
 
-            if (tower.updateMethod == "create") {
-                this.towers[towerID] = new Tower(tower.x, tower.y, tower.playerId, tower.hp, tower.towerLevel, tower.isBase);
-                this.towers[towerID].addSprite(this.app.stage);
-            } else if (tower.updateMethod == "destroy") {
+            if (factory.updateMethod == "create") {
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.playerId, factory.hp, factory.towerLevel, factory.isBase);
+                this.factories[factoriesID].addSprite(this.app.stage);
+            } else if (factory.updateMethod == "destroy") {
 
-                if (tower.framesLeft == CONSTANTS.towers.maxDeathFrames) {
-                    this.towers[towerID].destroy();
-                } else if (tower.framesLeft == 0) {
-                    this.towers[towerID].removeSprite(this.app.stage);
-                    delete this.towers[towerID];
+                if (factory.framesLeft == CONSTANTS.factories.maxDeathFrames) {
+                    this.factories[factoriesID].destroy();
+                } else if (factory.framesLeft == 0) {
+                    this.factories[factoriesID].removeSprite(this.app.stage);
+                    delete this.factories[factoriesID];
                 }
 
-            } else if (tower.updateMethod == "update") {
-                this.towers[towerID].update(tower.hp, tower.towerLevel);
+            } else if (factory.updateMethod == "update") {
+                this.factories[factoriesID].update(factory.hp, factory.towerLevel);
             }
 
             // Update ownership details
-            if (tower.levelHasChanged)
-                this.updateTerrain(tower);
+            // if (tower.levelHasChanged)
+            //     this.updateTerrain(tower);
         }
 
         return this;
