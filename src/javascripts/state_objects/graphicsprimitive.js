@@ -1,9 +1,10 @@
 import * as PIXI from 'pixi.js';
 
 export default class GraphicsPrimitive {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, terrianType) {
         this.width = width;
         this.height = height;
+        this.terrianType = terrianType;
         this.graphics = new PIXI.Graphics();
         this.setPosition(x, y);
         this.build();
@@ -15,7 +16,7 @@ export default class GraphicsPrimitive {
     }
 
     build() {
-        this.graphics.beginFill(0x0000FF, GraphicsPrimitive.opacity);
+        this.graphics.beginFill(this.setTerrianTypeColor, GraphicsPrimitive.opacity);
         this.graphics.drawRect(0, 0, this.width, this.height);
         this.graphics.endFill();
         this.graphics.visible = false;
@@ -23,6 +24,16 @@ export default class GraphicsPrimitive {
 
     addPrimitive(stage) {
         stage.addChild(this.graphics);
+    }
+
+    setTerrianTypeColor(type) {
+        if (this.terrianType == 2) {
+            return "0x0000FF"
+        } else if (this.terrianType == 1) {
+            return "0x00FF00"
+        } else {
+            return "0xFF0000"
+        }
     }
 
     fill(color) {

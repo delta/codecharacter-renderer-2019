@@ -188,11 +188,11 @@ export default class Game {
 
     buildStateClasses() {
         // Create TerrainElement Ownership Object
-        TerrainElement.createOwnershipObject();
+        // TerrainElement.createOwnershipObject();
 
         // Set Constants
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
-        TerrainElement.setSideLength(this.stateVariable.terrainElementSize);
+        TerrainElement.setSideLength(this.stateVariable.mapElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Factory.setMaxHPs(this.stateVariable.factoryMaxHp);
 
@@ -212,13 +212,14 @@ export default class Game {
 
     // Game building functions
     buildTerrain() {
-        let terrainLength = this.stateVariable.terrainLength;
+        let terrainLength = this.stateVariable.mapSize;
         let len = TerrainElement.sideLength;
+        let terrianArray = this.stateVariable.mapElements;
 
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                this.terrain[i][j] = new TerrainElement(len*i, len*j);
+                this.terrain[i][j] = new TerrainElement(len*i, len*j, terrianArray[i*len+j]);
             }
         }
 
