@@ -25,18 +25,18 @@ export default class Game {
 
         this.speed = {};
         this.speed.pointer = CONSTANTS.gameSpeed.default;
-        this.speed.value =  CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
+        this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
 
         this.errorMap = {};
-        this.logFunction = () => {};
-        this.logClearFunction = () => {};
+        this.logFunction = () => { };
+        this.logClearFunction = () => { };
 
-        this.playerLogs = {1: [], 2: []};
+        this.playerLogs = { 1: [], 2: [] };
 
         this.camera = new Camera(CONSTANTS.camera);
         this.container = document.querySelector("#renderer-container");
 
-        this.app = new PIXI.Application({width: this.container.offsetWidth, height: this.container.offsetHeight});
+        this.app = new PIXI.Application({ width: this.container.offsetWidth, height: this.container.offsetHeight });
         this.container.appendChild(this.app.view);
         this.state = "play";
         this.isFullscreen = false;
@@ -72,7 +72,7 @@ export default class Game {
         // The delimiter is the first line of the log, for ex. ">>>LOG START<<<"
         let delim = "";
         for (let playerLog of logs) {
-            delim = playerLog ? playerLog.split('\n', 1)[0] + '\n': "";
+            delim = playerLog ? playerLog.split('\n', 1)[0] + '\n' : "";
         }
 
         // Split each playerLog as a list of each turn's logs
@@ -103,73 +103,73 @@ export default class Game {
 
         canvas.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
-            case 37:
-                game.camera.commands.move.left = true;
-                break;
-            case 38:
-                game.camera.commands.move.up = true;
-                break;
-            case 39:
-                game.camera.commands.move.right = true;
-                break;
-            case 40:
-                game.camera.commands.move.down = true;
-                break;
+                case 37:
+                    game.camera.commands.move.left = true;
+                    break;
+                case 38:
+                    game.camera.commands.move.up = true;
+                    break;
+                case 39:
+                    game.camera.commands.move.right = true;
+                    break;
+                case 40:
+                    game.camera.commands.move.down = true;
+                    break;
             }
 
             switch (e.key) {
-            case '=':
-                game.camera.commands.zoom.in = true;
-                break;
-            case '-':
-                game.camera.commands.zoom.out = true;
-                break;
+                case '=':
+                    game.camera.commands.zoom.in = true;
+                    break;
+                case '-':
+                    game.camera.commands.zoom.out = true;
+                    break;
             }
         });
 
         canvas.addEventListener("keyup", (e) => {
-            switch(e.keyCode) {
-            case 37:
-                game.camera.commands.move.left = false;
-                break;
-            case 38:
-                game.camera.commands.move.up = false;
-                break;
-            case 39:
-                game.camera.commands.move.right = false;
-                break;
-            case 40:
-                game.camera.commands.move.down = false;
-                break;
-            case 80:
-                game.toggleState();
-                break;
-            case 219:
-                game.decreaseSpeed();
-                break;
-            case 221:
-                game.increaseSpeed();
-                break;
+            switch (e.keyCode) {
+                case 37:
+                    game.camera.commands.move.left = false;
+                    break;
+                case 38:
+                    game.camera.commands.move.up = false;
+                    break;
+                case 39:
+                    game.camera.commands.move.right = false;
+                    break;
+                case 40:
+                    game.camera.commands.move.down = false;
+                    break;
+                case 80:
+                    game.toggleState();
+                    break;
+                case 219:
+                    game.decreaseSpeed();
+                    break;
+                case 221:
+                    game.increaseSpeed();
+                    break;
             }
 
             switch (e.key) {
-            case '=':
-                game.camera.commands.zoom.in = false;
-                break;
-            case '-':
-                game.camera.commands.zoom.out = false;
-                break;
-            case 'f':
-                if (screenfull.enabled) {
-                    if (game.isFullscreen === true) {
-                        screenfull.exit();
-                        game.isFullscreen = false;
-                    } else {
-                        screenfull.request(game.container);
-                        game.isFullscreen = true;
+                case '=':
+                    game.camera.commands.zoom.in = false;
+                    break;
+                case '-':
+                    game.camera.commands.zoom.out = false;
+                    break;
+                case 'f':
+                    if (screenfull.enabled) {
+                        if (game.isFullscreen === true) {
+                            screenfull.exit();
+                            game.isFullscreen = false;
+                        } else {
+                            screenfull.request(game.container);
+                            game.isFullscreen = true;
+                        }
                     }
-                }
-                break;
+                    break;
             }
         });
 
@@ -194,7 +194,7 @@ export default class Game {
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
         TerrainElement.setSideLength(this.stateVariable.mapElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
-        Factory.setMaxHPs(this.stateVariable.factoryMaxHp);
+        Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
 
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
@@ -219,7 +219,7 @@ export default class Game {
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                this.terrain[i][j] = new TerrainElement(len*i, len*j, terrianArray[i*len+j]);
+                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[i * len + j]);
             }
         }
 
@@ -244,14 +244,14 @@ export default class Game {
         let stateFactories = this.getCurrentFrame().factories;
 
         for (let factoriesID in stateFactories) {
-            if ( isNaN(parseInt(factoriesID)) )    // Create New Towers only for actual tower objects
+            if (isNaN(parseInt(factoriesID)))    // Create New Towers only for actual tower objects
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.playerId, factory.hp, factory.towerLevel, factory.isBase);
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID, factory.hp, factory.state, factory.buildPercent);
 
             // Add ownership details
-            this.updateTerrain(factory);
+            // this.updateTerrain(factory);
         }
 
         return this;
@@ -259,7 +259,7 @@ export default class Game {
 
     buildMap() {
         this.mapLength = TerrainElement.sideLength * this.terrain.length;
-        this.camera.zoom.min = Math.min(this.container.offsetHeight/this.mapLength, this.container.offsetWidth/this.mapLength);
+        this.camera.zoom.min = Math.min(this.container.offsetHeight / this.mapLength, this.container.offsetWidth / this.mapLength);
 
         return this;
     }
@@ -271,7 +271,7 @@ export default class Game {
 
     buildInstructionCount() {
         this.instructionLimit = this.stateVariable.instructionLimit;
-        document.querySelector("#instr-count-limit").innerHTML = `${this.instructionLimit/1000000}M`;
+        document.querySelector("#instr-count-limit").innerHTML = `${this.instructionLimit / 1000000}M`;
         document.querySelector("#instr-count-value").classList.remove("extreme");
         document.querySelector("#instr-count-limit").classList.remove("extreme");
         return this;
@@ -290,7 +290,7 @@ export default class Game {
     buildScores() {
         let playerScoreDiv = (this.playerID === 1) ?
             document.querySelector("#p1-score") :
-            document.querySelector("#p2-score") ;
+            document.querySelector("#p2-score");
 
         playerScoreDiv.classList.add("highlight");
 
@@ -305,7 +305,7 @@ export default class Game {
     }
 
     buildGameOverDiv() {
-        document.querySelector("#game-over-container").style.display = "none" ;
+        document.querySelector("#game-over-container").style.display = "none";
         return this;
     }
 
@@ -354,7 +354,7 @@ export default class Game {
 
         if (this.app.renderer.width != containerWidth || this.app.renderer.height != containerHeight) {
             this.app.renderer.resize(containerWidth, containerHeight);
-            this.camera.zoom.min = Math.min(containerHeight/mapLength, containerWidth/mapLength);
+            this.camera.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
         }
 
         return this;
@@ -402,7 +402,7 @@ export default class Game {
         // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
 
         for (let factoriesID in currentFactories) {
-            if ( isNaN(parseInt(factoriesID)) )    // Update Towers only for actual tower objects
+            if (isNaN(parseInt(factoriesID)))    // Update Towers only for actual tower objects
                 continue;
 
             let factory = currentFactories[factoriesID];
@@ -410,7 +410,7 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.playerId, factory.hp, factory.towerLevel, factory.isBase);
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID, factory.hp, factory.state, factory.buildPercent);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
 
@@ -422,7 +422,7 @@ export default class Game {
                 }
 
             } else if (factory.updateMethod == "update") {
-                this.factories[factoriesID].update(factory.hp, factory.towerLevel);
+                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent);
             }
 
             // Update ownership details
@@ -512,8 +512,8 @@ export default class Game {
     }
 
     checkInstructionCount() {
-        let instrCount = this.getCurrentFrame().instructionCounts[this.playerID-1];
-        let instrCountDisplay = (instrCount/1000000).toFixed(3).toString();
+        let instrCount = this.getCurrentFrame().instructionCounts[this.playerID - 1];
+        let instrCountDisplay = (instrCount / 1000000).toFixed(3).toString();
         if (instrCountDisplay.length > 5) {
             instrCountDisplay = instrCountDisplay.substring(0, 5);
         }
@@ -636,8 +636,8 @@ export default class Game {
     }
 
     nextFrame() {
-        if (this.timeCount >= 1/this.speed.value) {
-            this.timeCount = this.timeCount % (1/this.speed.value);
+        if (this.timeCount >= 1 / this.speed.value) {
+            this.timeCount = this.timeCount % (1 / this.speed.value);
             this.frameNo += 1;
             return true;
         }
