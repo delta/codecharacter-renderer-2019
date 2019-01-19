@@ -4,7 +4,7 @@ import GraphicsPrimitive from './graphicsprimitive';
 
 export default class TerrainElement extends StateObject {
     constructor(x, y, terrianType) {
-        super(x, y, terrianType, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.textures.landTexture);
+        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.textures.landTexture);
 
         this.playerID = 0;
         this.nearbyTowers = { 1: {}, 2: {} };
