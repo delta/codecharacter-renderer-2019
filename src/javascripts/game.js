@@ -103,73 +103,73 @@ export default class Game {
 
         canvas.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
-                case 37:
-                    game.camera.commands.move.left = true;
-                    break;
-                case 38:
-                    game.camera.commands.move.up = true;
-                    break;
-                case 39:
-                    game.camera.commands.move.right = true;
-                    break;
-                case 40:
-                    game.camera.commands.move.down = true;
-                    break;
+            case 37:
+                game.camera.commands.move.left = true;
+                break;
+            case 38:
+                game.camera.commands.move.up = true;
+                break;
+            case 39:
+                game.camera.commands.move.right = true;
+                break;
+            case 40:
+                game.camera.commands.move.down = true;
+                break;
             }
 
             switch (e.key) {
-                case '=':
-                    game.camera.commands.zoom.in = true;
-                    break;
-                case '-':
-                    game.camera.commands.zoom.out = true;
-                    break;
+            case '=':
+                game.camera.commands.zoom.in = true;
+                break;
+            case '-':
+                game.camera.commands.zoom.out = true;
+                break;
             }
         });
 
         canvas.addEventListener("keyup", (e) => {
             switch (e.keyCode) {
-                case 37:
-                    game.camera.commands.move.left = false;
-                    break;
-                case 38:
-                    game.camera.commands.move.up = false;
-                    break;
-                case 39:
-                    game.camera.commands.move.right = false;
-                    break;
-                case 40:
-                    game.camera.commands.move.down = false;
-                    break;
-                case 80:
-                    game.toggleState();
-                    break;
-                case 219:
-                    game.decreaseSpeed();
-                    break;
-                case 221:
-                    game.increaseSpeed();
-                    break;
+            case 37:
+                game.camera.commands.move.left = false;
+                break;
+            case 38:
+                game.camera.commands.move.up = false;
+                break;
+            case 39:
+                game.camera.commands.move.right = false;
+                break;
+            case 40:
+                game.camera.commands.move.down = false;
+                break;
+            case 80:
+                game.toggleState();
+                break;
+            case 219:
+                game.decreaseSpeed();
+                break;
+            case 221:
+                game.increaseSpeed();
+                break;
             }
 
             switch (e.key) {
-                case '=':
-                    game.camera.commands.zoom.in = false;
-                    break;
-                case '-':
-                    game.camera.commands.zoom.out = false;
-                    break;
-                case 'f':
-                    if (screenfull.enabled) {
-                        if (game.isFullscreen === true) {
-                            screenfull.exit();
-                            game.isFullscreen = false;
-                        } else {
-                            screenfull.request(game.container);
-                            game.isFullscreen = true;
-                        }
+            case '=':
+                game.camera.commands.zoom.in = false;
+                break;
+            case '-':
+                game.camera.commands.zoom.out = false;
+                break;
+            case 'f':
+                if (screenfull.enabled) {
+                    if (game.isFullscreen === true) {
+                        screenfull.exit();
+                        game.isFullscreen = false;
+                    } else {
+                        screenfull.request(game.container);
+                        game.isFullscreen = true;
                     }
-                    break;
+                }
+                break;
             }
         });
 
@@ -233,7 +233,7 @@ export default class Game {
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
-                soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId, animationSpeed
+                soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId=1, animationSpeed
             );
         }
 
@@ -248,7 +248,7 @@ export default class Game {
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID, factory.hp, factory.state, factory.buildPercent);
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID=1, factory.hp, factory.state, factory.buildPercent);
 
             // Add ownership details
             // this.updateTerrain(factory);
@@ -278,7 +278,7 @@ export default class Game {
     }
 
     buildMoney() {
-        this.playerMoney = this.getCurrentFrame().money.slice();
+        this.playerMoney = this.getCurrentFrame().gold.slice();
         let moneyValDiv = document.querySelector("#money-value");
 
         moneyValDiv.innerHTML = this.playerMoney[this.playerID - 1];
@@ -410,7 +410,7 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID, factory.hp, factory.state, factory.buildPercent);
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID=1, factory.hp, factory.state, factory.buildPercent);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
 
@@ -471,7 +471,7 @@ export default class Game {
     }
 
     updateMoney() {
-        let money = this.getCurrentFrame().money;
+        let money = this.getCurrentFrame().gold;
         this.playerMoney[0] = money[0];
         this.playerMoney[1] = money[1];
         document.querySelector("#money-value").innerHTML = this.playerMoney[this.playerID - 1];
