@@ -7,8 +7,8 @@ const SPRITE_CONSTANTS = {
     soldierSprites: {
         // On screen data
         displayDimensions: {
-            width: 30,
-            height: 30
+            width: 9,
+            height: 9
         },
         animationSpeed: {
             values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
@@ -24,27 +24,27 @@ const SPRITE_CONSTANTS = {
             },
             idleSequence: {
                 initPositions: {
-                    left: {x: 0, y: 0},
-                    up: {x: 100, y: 0},
-                    down: {x: 200, y: 0},
-                    right: {x: 300, y: 0},
+                    left: { x: 0, y: 0 },
+                    up: { x: 100, y: 0 },
+                    down: { x: 200, y: 0 },
+                    right: { x: 300, y: 0 },
                 }
             },
             moveSequence: {
                 initPositions: {
-                    left: {x: 0, y: 100},
-                    right: {x: 0, y: 400},
-                    down: {x: 0, y: 700},
-                    up: {x: 0, y: 1000},
+                    left: { x: 0, y: 100 },
+                    right: { x: 0, y: 400 },
+                    down: { x: 0, y: 700 },
+                    up: { x: 0, y: 1000 },
                 },
                 frameSequence: [0, 1, 2, 1]     // sequence of frame indices to be added to textures array
             },
             atkSequence: {
                 initPositions: {
-                    left: {x: 0, y: 200},
-                    right: {x: 0, y: 500},
-                    down: {x: 0, y: 800},
-                    up: {x: 0, y: 1100},
+                    left: { x: 0, y: 200 },
+                    right: { x: 0, y: 500 },
+                    down: { x: 0, y: 800 },
+                    up: { x: 0, y: 1100 },
                 },
                 frameSequence: [0, 1, 2, 3, 2]
             },
@@ -60,8 +60,8 @@ const SPRITE_CONSTANTS = {
     towerSprites: {
         // On screen data
         displayDimensions: {
-            width: 60,
-            height: 50
+            width: 12,
+            height: 10
         },
 
         // Spritesheet data
@@ -71,16 +71,16 @@ const SPRITE_CONSTANTS = {
                 height: 100
             },
             deadTexture: {
-                pos: {x: 0, y: 0}
+                pos: { x: 0, y: 0 }
             },
             lv1Texture: {
-                pos: {x: 100, y: 0}
+                pos: { x: 100, y: 0 }
             },
             lv2Texture: {
-                pos: {x: 200, y: 0}
+                pos: { x: 200, y: 0 }
             },
             lv3Texture: {
-                pos: {x: 300, y: 0}
+                pos: { x: 300, y: 0 }
             },
         }
     },
