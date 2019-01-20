@@ -4,7 +4,7 @@ import GraphicsPrimitive from './graphicsprimitive';
 
 export default class TerrainElement extends StateObject {
     constructor(x, y, terrianType) {
-        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.textures.landTexture);
+        super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.getTerrainTexture(terrianType));
 
         this.playerID = 0;
         // this.nearbyTowers = { 1: {}, 2: {} };
@@ -88,8 +88,8 @@ export default class TerrainElement extends StateObject {
     static setTextures() {
         this.textures = {
             landTexture: PIXI.loader.resources.land.texture,
-            waterTexture: PIXI.loader.resources.land.texture,
-            goldTexture: PIXI.loader.resources.land.texture
+            waterTexture: PIXI.loader.resources.water.texture,
+            goldTexture: PIXI.loader.resources.gold.texture
         };
     }
 

@@ -219,7 +219,7 @@ export default class Game {
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[i * len + j]);
+                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[i * terrainLength + j]);
             }
         }
 
@@ -228,12 +228,14 @@ export default class Game {
 
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
+        let mapTileLength = this.stateVariable.mapElementSize;
+        let mapTileOffset = mapTileLength / 2;
 
         let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
-                soldier.x, soldier.y, soldier.hp, soldier.state, soldier.direction, soldier.playerId=1, animationSpeed
+                soldier.x * mapTileLength + mapTileOffset, soldier.mapTileLength + mapTileOffset, soldier.hp, soldier.state, soldier.direction, soldier.playerId = 1, animationSpeed
             );
         }
 
@@ -242,13 +244,15 @@ export default class Game {
 
     buildFactories() {
         let stateFactories = this.getCurrentFrame().factories;
+        let mapTileLength = this.stateVariable.mapElementSize;
+        let mapTileOffset = mapTileLength / 2;
 
         for (let factoriesID in stateFactories) {
             if (isNaN(parseInt(factoriesID)))    // Create New Towers only for actual tower objects
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID=1, factory.hp, factory.state, factory.buildPercent);
+            this.factories[factoriesID] = new Factory(factory.x * mapTileLength + mapTileOffset, factory.y * mapTileLength + mapTileOffset, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
 
             // Add ownership details
             // this.updateTerrain(factory);
@@ -410,7 +414,9 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID=1, factory.hp, factory.state, factory.buildPercent);
+                let mapTileLength = this.stateVariable.mapElementSize;
+                let mapTileOffset = mapTileLength / 2;
+                this.factories[factoriesID] = new Factory(factory.x * mapTileLength + mapTileOffset, factory.y * mapTileLength + mapTileOffset, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
 
@@ -422,7 +428,7 @@ export default class Game {
                 }
 
             } else if (factory.updateMethod == "update") {
-                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent);
+                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent = 0);
             }
 
             // Update ownership details
