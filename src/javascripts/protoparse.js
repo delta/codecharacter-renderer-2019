@@ -73,13 +73,13 @@ export default class Proto {
 
             soldiers[i].playerId = soldiers[i].playerId;
 
-            if (!soldiers[i].hasOwnProperty('direction')) {
-                soldiers[i].direction = "down";
-            } else {
-                if(soldiers[i].state == 1) {
-                    soldiers[i].direction = this.getMovementDirection(soldiers[i].targetX, soldiers[i].targetY, soldiers[i].x, soldiers[i].y);
-                }
-            }
+            // if (!soldiers[i].hasOwnProperty('direction')) {
+            //     soldiers[i].direction = "down";
+            // } else {
+            //     if(soldiers[i].state == 1) {
+            //         soldiers[i].direction = this.getMovementDirection(soldiers[i].targetX, soldiers[i].targetY, soldiers[i].x, soldiers[i].y);
+            //     }
+            // }
 
         }
 
@@ -100,13 +100,13 @@ export default class Proto {
 
             villagers[i].playerId = villagers[i].playerId;
 
-            if (!villagers[i].hasOwnProperty('direction')) {
-                villagers[i].direction = "down";
-            } else {
-                if(villagers[i].state == 1) {
-                    villagers[i].direction = this.getMovementDirection(villagers[i].targetX, villagers[i].targetY, villagers[i].x, villagers[i].y);
-                }
-            }
+            // if (!villagers[i].hasOwnProperty('direction')) {
+            //     villagers[i].direction = "down";
+            // } else {
+            //     if(villagers[i].state == 1) {
+            //         villagers[i].direction = this.getMovementDirection(villagers[i].targetX, villagers[i].targetY, villagers[i].x, villagers[i].y);
+            //     }
+            // }
 
         }
 

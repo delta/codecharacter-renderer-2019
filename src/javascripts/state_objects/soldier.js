@@ -1,8 +1,25 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
+function getDirection(x1, y1, x2, y2) {
+    if (y2 - y1 > x2 - x1) {
+        if (y2 > y1) {
+            return "down";
+        } else {
+            return "up";
+        }
+    } else {
+        if (x2 > x1) {
+            return "right";
+        } else {
+            return "left";
+        }
+    }
+}
+
 export default class Soldier extends StateObject {
-    constructor(x, y, hp, state, direction, playerID, animationSpeed) {
+    constructor(x, y, targetX, targetY, hp, state, playerID, animationSpeed) {
+        let direction = getDirection(x, y, targetX, targetY);
         let spriteDetails = Soldier.getSpriteDetails(playerID, state, direction);
         let width = Soldier.displayDimensions.width,
             height = Soldier.displayDimensions.height,
@@ -26,8 +43,9 @@ export default class Soldier extends StateObject {
         this.hp = hp;
     }
 
-    updateState(state, direction) {
+    updateState(state, x, y, targetX, targetY) {
         this.state = state;
+        let direction = getDirection(x, y, targetX, targetY);
         this.direction = direction;
 
         let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state, this.direction);
