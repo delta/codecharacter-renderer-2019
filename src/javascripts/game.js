@@ -433,42 +433,42 @@ export default class Game {
         return this;
     }
 
-    updateTerrain(tower) {
-        let towerLevel = tower.towerLevel;
-        let towerRange = this.stateVariable.tower.ranges[towerLevel - 1];
-        let towerLocation = {
-            x: Number.parseInt(tower.x / TerrainElement.sideLength),
-            y: Number.parseInt(tower.y / TerrainElement.sideLength)
-        };
+    // updateTerrain(tower) {
+    //     let towerLevel = tower.towerLevel;
+    //     let towerRange = this.stateVariable.tower.ranges[towerLevel - 1];
+    //     let towerLocation = {
+    //         x: Number.parseInt(tower.x / TerrainElement.sideLength),
+    //         y: Number.parseInt(tower.y / TerrainElement.sideLength)
+    //     };
 
-        let blocksCovered = {
-            x: {
-                start: (towerLocation.x - towerRange >= 0) ? (towerLocation.x - towerRange) : 0,
-                end: (towerLocation.x + towerRange < this.terrain.length) ? (towerLocation.x + towerRange) : this.terrain.length - 1
-            },
-            y: {
-                start: (towerLocation.y - towerRange >= 0) ? (towerLocation.y - towerRange) : 0,
-                end: (towerLocation.y + towerRange < this.terrain.length) ? (towerLocation.y + towerRange) : this.terrain.length - 1
-            },
-        };
+    //     let blocksCovered = {
+    //         x: {
+    //             start: (towerLocation.x - towerRange >= 0) ? (towerLocation.x - towerRange) : 0,
+    //             end: (towerLocation.x + towerRange < this.terrain.length) ? (towerLocation.x + towerRange) : this.terrain.length - 1
+    //         },
+    //         y: {
+    //             start: (towerLocation.y - towerRange >= 0) ? (towerLocation.y - towerRange) : 0,
+    //             end: (towerLocation.y + towerRange < this.terrain.length) ? (towerLocation.y + towerRange) : this.terrain.length - 1
+    //         },
+    //     };
 
-        for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
-            for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
-                if (tower.updateMethod == "destroy") {
-                    this.terrain[i][j].removeOwnership(tower.playerId, tower.id);
-                } else {
-                    this.terrain[i][j].addOwnership(tower.playerId, tower.id);
-                }
-            }
-        }
+    //     for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
+    //         for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
+    //             if (tower.updateMethod == "destroy") {
+    //                 this.terrain[i][j].removeOwnership(tower.playerId, tower.id);
+    //             } else {
+    //                 this.terrain[i][j].addOwnership(tower.playerId, tower.id);
+    //             }
+    //         }
+    //     }
 
-        this.updateScore(TerrainElement.getOwnership());
-    }
+    //     this.updateScore(TerrainElement.getOwnership());
+    // }
 
-    updateScore(ownership) {
-        document.querySelector("#p1-score").innerHTML = ` ${ownership[1]}`;
-        document.querySelector("#p2-score").innerHTML = ` ${ownership[2]}`;
-    }
+    // updateScore(ownership) {
+    //     document.querySelector("#p1-score").innerHTML = ` ${ownership[1]}`;
+    //     document.querySelector("#p2-score").innerHTML = ` ${ownership[2]}`;
+    // }
 
     updateMoney() {
         let money = this.getCurrentFrame().gold;
