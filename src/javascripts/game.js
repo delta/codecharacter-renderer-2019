@@ -235,7 +235,7 @@ export default class Game {
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
-                soldier.x * mapTileLength + mapTileOffset, soldier.mapTileLength + mapTileOffset, soldier.hp, soldier.state, soldier.direction, soldier.playerId = 1, animationSpeed
+                (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset, (soldier.targetX * mapTileLength) + mapTileOffset, (soldier.targetY * mapTileLength) + mapTileOffset, soldier.hp, soldier.state, soldier.playerId = 1, animationSpeed
             );
         }
 
@@ -382,14 +382,16 @@ export default class Game {
     // Game Objects update
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
+        let mapTileLength = this.stateVariable.mapElementSize;
+        let mapTileOffset = mapTileLength / 2;
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updatePosition(soldier.x, soldier.y);
+            this.soldiers[i].updatePosition((soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset);
             this.soldiers[i].updateHP(soldier.hp);
 
             if (soldier.stateHasChanged) {
-                this.soldiers[i].updateState(soldier.state, soldier.direction);
+                this.soldiers[i].updateState(soldier.state, (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset, (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset);
             }
         }
 
