@@ -7,8 +7,8 @@ const SPRITE_CONSTANTS = {
     soldierSprites: {
         // On screen data
         displayDimensions: {
-            width: 9,
-            height: 9
+            width: 1,
+            height: 1
         },
         animationSpeed: {
             values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
@@ -60,8 +60,8 @@ const SPRITE_CONSTANTS = {
     towerSprites: {
         // On screen data
         displayDimensions: {
-            width: 12,
-            height: 10
+            width: 5,
+            height:4
         },
 
         // Spritesheet data
