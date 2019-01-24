@@ -4,6 +4,7 @@ import Camera from './camera';
 import StateObject from './state_objects/stateobject'
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
+import Villager from './state_objects/villager';
 import Factory from './state_objects/factory';
 import pauseAsset from "../assets/pause.svg";
 import playAsset from "../assets/play.svg";
@@ -194,15 +195,18 @@ export default class Game {
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
         TerrainElement.setSideLength(this.stateVariable.mapElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
+        Villager.setMaxHP(this.stateVariable.villagerMaxHp);
         Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
 
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
+        Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
         TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
         Soldier.setTextures();
+        Villager.setTextures();
         Factory.setTextures();
         TerrainElement.setTextures();
 
@@ -236,6 +240,22 @@ export default class Game {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
                 (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset, (soldier.targetX * mapTileLength) + mapTileOffset, (soldier.targetY * mapTileLength) + mapTileOffset, soldier.hp, soldier.state, soldier.playerId = 1, animationSpeed
+            );
+        }
+
+        return this;
+    }
+
+    buildVillagers() {
+        let stateVillagers = this.getCurrentFrame().villagers;  // Current Frame Number is 0
+        let mapTileLength = this.stateVariable.mapElementSize;
+        let mapTileOffset = mapTileLength / 2;
+
+        let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+        for (let i = 0; i < stateVillagers.length; i++) {
+            let villager = stateVillagers[i];
+            this.villagers[i] = new Villager(
+                (villager.x * mapTileLength) + mapTileOffset, (villager.y * mapTileLength) + mapTileOffset, (villager.targetX * mapTileLength) + mapTileOffset, (villager.targetY * mapTileLength) + mapTileOffset, villager.hp, villager.state, villager.playerId = 1, animationSpeed
             );
         }
 
@@ -340,6 +360,14 @@ export default class Game {
         return this;
     }
 
+    addVillagers() {
+        for (let villager of this.villagers) {
+            villager.addSprite(this.app.stage);
+        }
+
+        return this;
+    }
+
     addFactories() {
         for (let factoriesID in this.factories) {
             let factory = this.factories[factoriesID];
@@ -392,6 +420,24 @@ export default class Game {
 
             if (soldier.stateHasChanged) {
                 this.soldiers[i].updateState(soldier.state, (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset, (soldier.x * mapTileLength) + mapTileOffset, (soldier.y * mapTileLength) + mapTileOffset);
+            }
+        }
+
+        return this;
+    }
+
+    updateVillagers() {
+        let currentVillagers = this.getCurrentFrame().villagers;
+        let mapTileLength = this.stateVariable.mapElementSize;
+        let mapTileOffset = mapTileLength / 2;
+
+        for (let i = 0; i < this.soldiers.length; i++) {
+            let villager = currentVillagers[i];
+            this.villagers[i].updatePosition((villager.x * mapTileLength) + mapTileOffset, (villager.y * mapTileLength) + mapTileOffset);
+            this.villagers[i].updateHP(villager.hp);
+
+            if (villager.stateHasChanged) {
+                this.villagers[i].updateState(villager.state, (villager.x * mapTileLength) + mapTileOffset, (villager.y * mapTileLength) + mapTileOffset, (villager.x * mapTileLength) + mapTileOffset, (villager.y * mapTileLength) + mapTileOffset);
             }
         }
 

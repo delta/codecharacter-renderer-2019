@@ -52,6 +52,7 @@ export async function initGame(logFile, options) {
     game.buildStateClasses()
         .buildTerrain()
         .buildFactories()
+        .buildVillagers()
         .buildSoldiers()
         .buildMoney()
         .buildScores()
@@ -64,6 +65,7 @@ export async function initGame(logFile, options) {
 
     game.addTerrain()
         .addFactories()
+        .addVillagers()
         .addSoldiers();
 
     game.app.ticker.add(delta => render(delta));
@@ -93,6 +95,7 @@ function render(delta) {
     if (game.state == "play") {
         game.checkInstructionCount()
             .updateSoldiers()
+            .updateVillagers()
             .updateMoney()
             .updateFactories()
             .logErrors()
