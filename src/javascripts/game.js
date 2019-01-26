@@ -223,7 +223,7 @@ export default class Game {
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
-        TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
+        //TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
         Soldier.setTextures();
@@ -359,7 +359,7 @@ export default class Game {
         for (let row of this.terrain) {
             for (let element of row) {
                 element.addSprite(this.app.stage);
-                element.overlay.addPrimitive(this.app.stage);
+                //element.overlay.addPrimitive(this.app.stage);
             }
         }
 
