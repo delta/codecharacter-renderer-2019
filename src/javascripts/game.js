@@ -223,7 +223,7 @@ export default class Game {
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[i * terrainLength + j]);
+                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[j * terrainLength + i]);
             }
         }
 
@@ -267,7 +267,6 @@ export default class Game {
 
             let factory = stateFactories[factoriesID];
             this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
-
             // Add ownership details
             // this.updateTerrain(factory);
         }
@@ -452,7 +451,6 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-
                 this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
@@ -465,7 +463,7 @@ export default class Game {
                 }
 
             } else if (factory.updateMethod == "update") {
-                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent = 0);
+                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent);
             }
 
             // Update ownership details
