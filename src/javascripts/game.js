@@ -45,6 +45,11 @@ export default class Game {
         Game.addListeners(this);
     }
 
+    /**
+     * Essential member funtion to set certian constants and functions.
+     * Check driver.js for these function calls
+     */
+
     setStateVariable(stateVar) {
         this.stateVariable = stateVar;
         return this;
@@ -88,6 +93,10 @@ export default class Game {
 
         return this;
     }
+
+    /**
+     * All the game controls from keyboard to renderer.
+     */
 
     static addListeners(game) {
         let canvas = document.querySelector("canvas"),
@@ -187,9 +196,21 @@ export default class Game {
         });
     }
 
+    /**
+     * All the build functions for the game.
+     * Check driver.js for these function calls.
+     * Builds the following :
+     * 1. States
+     * 2. Terrian
+     * 3. Soldiers and Villagers
+     * 4. Factories
+     * 5. Map and ErrorMap
+     * 6. Instruction Count
+     * 7. Money(gold) and Score
+     * 8. Game divs
+     */
+
     buildStateClasses() {
-        // Create TerrainElement Ownership Object
-        // TerrainElement.createOwnershipObject();
 
         // Set Constants
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
@@ -262,13 +283,11 @@ export default class Game {
         let stateFactories = this.getCurrentFrame().factories;
 
         for (let factoriesID in stateFactories) {
-            if (isNaN(parseInt(factoriesID)))    // Create New Towers only for actual tower objects
+            if (isNaN(parseInt(factoriesID)))    // Create New factories only for actual factory objects
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
-            // Add ownership details
-            // this.updateTerrain(factory);
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent);
         }
 
         return this;
@@ -332,8 +351,10 @@ export default class Game {
         return this;
     }
 
+    /**
+     * Adds sprites to above builded renderer elements onto the canvas.
+     */
 
-    // Add sprites to canvas
     addTerrain() {
         for (let row of this.terrain) {
             for (let element of row) {
@@ -399,8 +420,10 @@ export default class Game {
         return this;
     }
 
+    /**
+     * Updating game objects
+     */
 
-    // Game Objects update
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
 
@@ -440,10 +463,10 @@ export default class Game {
             return this;
         }
 
-        // If user has skipped to another state, call buildTowers and addTowers on the previous frame and continue.
+        // If user has skipped to another state, call buildFactories and addFactories on the previous frame and continue.
 
         for (let factoriesID in currentFactories) {
-            if (isNaN(parseInt(factoriesID)))    // Update Towers only for actual tower objects
+            if (isNaN(parseInt(factoriesID)))    // Update Factories only for actual factory objects
                 continue;
 
             let factory = currentFactories[factoriesID];
@@ -451,7 +474,7 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent = 0);
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
 
@@ -465,51 +488,10 @@ export default class Game {
             } else if (factory.updateMethod == "update") {
                 this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent);
             }
-
-            // Update ownership details
-            // if (tower.levelHasChanged)
-            //     this.updateTerrain(tower);
         }
 
         return this;
     }
-
-    // updateTerrain(tower) {
-    //     let towerLevel = tower.towerLevel;
-    //     let towerRange = this.stateVariable.tower.ranges[towerLevel - 1];
-    //     let towerLocation = {
-    //         x: Number.parseInt(tower.x / TerrainElement.sideLength),
-    //         y: Number.parseInt(tower.y / TerrainElement.sideLength)
-    //     };
-
-    //     let blocksCovered = {
-    //         x: {
-    //             start: (towerLocation.x - towerRange >= 0) ? (towerLocation.x - towerRange) : 0,
-    //             end: (towerLocation.x + towerRange < this.terrain.length) ? (towerLocation.x + towerRange) : this.terrain.length - 1
-    //         },
-    //         y: {
-    //             start: (towerLocation.y - towerRange >= 0) ? (towerLocation.y - towerRange) : 0,
-    //             end: (towerLocation.y + towerRange < this.terrain.length) ? (towerLocation.y + towerRange) : this.terrain.length - 1
-    //         },
-    //     };
-
-    //     for (let i = blocksCovered.x.start; i <= blocksCovered.x.end; i++) {
-    //         for (let j = blocksCovered.y.start; j <= blocksCovered.y.end; j++) {
-    //             if (tower.updateMethod == "destroy") {
-    //                 this.terrain[i][j].removeOwnership(tower.playerId, tower.id);
-    //             } else {
-    //                 this.terrain[i][j].addOwnership(tower.playerId, tower.id);
-    //             }
-    //         }
-    //     }
-
-    //     this.updateScore(TerrainElement.getOwnership());
-    // }
-
-    // updateScore(ownership) {
-    //     document.querySelector("#p1-score").innerHTML = ` ${ownership[1]}`;
-    //     document.querySelector("#p2-score").innerHTML = ` ${ownership[2]}`;
-    // }
 
     updateMoney() {
         let money = this.getCurrentFrame().gold;
@@ -632,6 +614,11 @@ export default class Game {
         }
     }
 
+    /**
+     * Responds to -/+ buttons in game.
+     * Check constants.js for values.
+     */
+
     increaseSpeed() {
         if (this.speed.pointer < CONSTANTS.gameSpeed.actualValues.length - 1) {
             this.speed.pointer += 1;
@@ -670,8 +657,10 @@ export default class Game {
         speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
 
+    /**
+     * Functions to manipulate frames, i.e, states.
+     */
 
-    // Frame related methods
     previousFrame() {
         this.frameNo -= 1;
     }
