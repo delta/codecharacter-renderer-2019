@@ -1,13 +1,9 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
-function getBuildLevel(buildPercent) {
-    return Math.floor(buildPercent/25);
-}
-
 export default class Factory extends StateObject {
     constructor(x, y, id, playerID, hp, state, buildPercent) {
-        let buildLevel = getBuildLevel(buildPercent);
+        let buildLevel = Math.floor(buildPercent*Factory.buildLevelMultiplier);
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
         let width = Factory.displayDimensions.width,
             height = Factory.displayDimensions.height,
@@ -27,11 +23,16 @@ export default class Factory extends StateObject {
         this.hp = hp;
         this.factoryState = factoryState;
         this.buildPercent = buildPercent;
-        this.updateBuildTexture(getBuildLevel(buildPercent));
+        this.setBuildLevel(buildPercent);
+        this.updateBuildTexture(this.buildLevel);
     }
 
     destroy() {
         this.updateBuildTexture(0);
+    }
+
+    setBuildLevel(buildPercent) {
+        this.buildLevel = Math.floor(buildPercent*Factory.buildLevelMultiplier);
     }
 
     updateBuildTexture(level) {
@@ -41,6 +42,10 @@ export default class Factory extends StateObject {
 
     static setMaxHPs(hpArray) {
         this.maxHPs = hpArray;
+    }
+
+    static setBuildMultiplier(MULTIPLIER_CONSTANT) {
+        this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
     }
 
     static setSpriteConstants(TOWER_SPRITE_CONSTANTS) {

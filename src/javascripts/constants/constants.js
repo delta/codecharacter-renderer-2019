@@ -3,9 +3,9 @@ import SPRITE_CONSTANTS from './spriteconstants.js';
 // Initial values or constant values
 const CONSTANTS = {
     gameSpeed: {
-        actualValues: [3/32, 1/6, 3/32, 3/8, 1/2, 3/4, 1],                   // Range of actual game speed values
+        actualValues: [3/32, 1/6, 1/4, 3/8, 1/2, 3/4, 1],                   // Range of actual game speed values
         displayValues: ["0.5", "0.7", "1.0", "1.5", "2.0", "3.0", "4.0"],   // Values displayed by the UI
-        default: 2                                                          // Default array index to use
+        default: 0                                                          // Default array index to use
     },
     camera: {
         actualPos: {
@@ -53,6 +53,7 @@ const CONSTANTS = {
     },
     factories: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
+        factoryBuildLevelMultiplier: 0.04
     },
     terrain: {
         overlay: {

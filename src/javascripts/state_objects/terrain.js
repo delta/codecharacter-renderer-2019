@@ -1,14 +1,10 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
-import GraphicsPrimitive from './graphicsprimitive';
 
 export default class TerrainElement extends StateObject {
     constructor(x, y, terrianType) {
         super(x, y, TerrainElement.sideLength, TerrainElement.sideLength, TerrainElement.getTerrainTexture(terrianType));
-
         this.playerID = 0;
-
-        //this.overlay = new GraphicsPrimitive(x, y, TerrainElement.sideLength, TerrainElement.sideLength, terrianType);
     }
 
     static getTerrainTexture(terrianType) {
@@ -32,9 +28,4 @@ export default class TerrainElement extends StateObject {
             goldTexture: PIXI.loader.resources.gold.texture
         };
     }
-
-    // static setOverlayConstants(OVERLAY_CONSTANTS) {
-    //     GraphicsPrimitive.setOpacity(OVERLAY_CONSTANTS.opacity);
-    //     GraphicsPrimitive.setColors(OVERLAY_CONSTANTS.colors);
-    // }
 }

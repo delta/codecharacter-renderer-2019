@@ -49,7 +49,6 @@ export default class Game {
      * Essential member funtion to set certian constants and functions.
      * Check driver.js for these function calls
      */
-
     setStateVariable(stateVar) {
         this.stateVariable = stateVar;
         return this;
@@ -97,7 +96,6 @@ export default class Game {
     /**
      * All the game controls from keyboard to renderer.
      */
-
     static addListeners(game) {
         let canvas = document.querySelector("canvas"),
             pauseIcon = document.querySelector("#pause-icon"),
@@ -112,74 +110,138 @@ export default class Game {
         });
 
         canvas.addEventListener("keydown", (e) => {
-            switch (e.keyCode) {
-            case 37:
-                game.camera.commands.move.left = true;
-                break;
-            case 38:
-                game.camera.commands.move.up = true;
-                break;
-            case 39:
-                game.camera.commands.move.right = true;
-                break;
-            case 40:
-                game.camera.commands.move.down = true;
-                break;
-            }
-
-            switch (e.key) {
-            case '=':
-                game.camera.commands.zoom.in = true;
-                break;
-            case '-':
-                game.camera.commands.zoom.out = true;
-                break;
+            if (e.key !== undefined) {
+                switch (e.key) {
+                case 'ArrowLeft':
+                    game.camera.commands.move.left = true;
+                    break;
+                case 'ArrowUp':
+                    game.camera.commands.move.up = true;
+                    break;
+                case 'ArrowRight':
+                    game.camera.commands.move.right = true;
+                    break;
+                case 'ArrowDown':
+                    game.camera.commands.move.down = true;
+                    break;
+                case '+':
+                case '=':
+                    game.camera.commands.zoom.in = true;    //for +, shift+ on keyboard and numpad
+                    break;
+                case '-':
+                    game.camera.commands.zoom.out = true;   //for - on keyboard and numpad
+                    break;
+                }
+            } else {
+                switch (e.keyCode) {
+                case 37:
+                    game.camera.commands.move.left = true;  //left arrow
+                    break;
+                case 38:
+                    game.camera.commands.move.up = true;    //up arrow
+                    break;
+                case 39:
+                    game.camera.commands.move.right = true; //right arrow
+                    break;
+                case 40:
+                    game.camera.commands.move.down = true;  //down arrow
+                    break;
+                case 187:
+                case 107:
+                    game.camera.commands.zoom.in = true;    //for + on keyboard and numpad
+                    break;
+                case 189:
+                case 109:
+                    game.camera.commands.zoom.out = true;   //for - on keyboard and numpad
+                    break;
+                }
             }
         });
 
         canvas.addEventListener("keyup", (e) => {
-            switch (e.keyCode) {
-            case 37:
-                game.camera.commands.move.left = false;
-                break;
-            case 38:
-                game.camera.commands.move.up = false;
-                break;
-            case 39:
-                game.camera.commands.move.right = false;
-                break;
-            case 40:
-                game.camera.commands.move.down = false;
-                break;
-            case 80:
-                game.toggleState();
-                break;
-            case 219:
-                game.decreaseSpeed();
-                break;
-            case 221:
-                game.increaseSpeed();
-                break;
-            }
-
-            switch (e.key) {
-            case '=':
-                game.camera.commands.zoom.in = false;
-                break;
-            case '-':
-                game.camera.commands.zoom.out = false;
-                break;
-            case 'f':
-                if (screenfull.enabled) {
-                    if (game.isFullscreen === true) {
-                        screenfull.exit();
-                        game.isFullscreen = false;
-                    } else {
-                        screenfull.request(game.container);
-                        game.isFullscreen = true;
+            if (e.key !== undefined) {
+                switch (e.key) {
+                case 'ArrowLeft':
+                    game.camera.commands.move.left = false;
+                    break;
+                case 'ArrowUp':
+                    game.camera.commands.move.up = false;
+                    break;
+                case 'ArrowRight':
+                    game.camera.commands.move.right = false;
+                    break;
+                case 'ArrowDown':
+                    game.camera.commands.move.down = false;
+                    break;
+                case '+':
+                case '=':
+                    game.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
+                    break;
+                case '-':
+                    game.camera.commands.zoom.out = false;   //for - on keyboard and numpad
+                    break;
+                case 'p':
+                    game.toggleState();
+                    break;
+                case '[':
+                    game.decreaseSpeed();
+                    break;
+                case ']':
+                    game.increaseSpeed();
+                    break;
+                case 'f':
+                    if (screenfull.enabled) {
+                        if (game.isFullscreen === true) {
+                            screenfull.exit();
+                            game.isFullscreen = false;
+                        } else {
+                            screenfull.request(game.container);
+                            game.isFullscreen = true;
+                        }
                     }
+                    break;
                 }
-                break;
+            } else {
+                switch (e.keyCode) {
+                case 37:
+                    game.camera.commands.move.left = false;  //left arrow
+                    break;
+                case 38:
+                    game.camera.commands.move.up = false;    //up arrow
+                    break;
+                case 39:
+                    game.camera.commands.move.right = false; //right arrow
+                    break;
+                case 40:
+                    game.camera.commands.move.down = false;  //down arrow
+                    break;
+                case 187:
+                    game.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
+                    break;
+                case 189:
+                    game.camera.commands.zoom.out = false;   //for - on keyboard and numpad
+                    break;
+                case 80:                                    //for p
+                    game.toggleState();
+                    break;
+                case 219:                                   //for [
+                    game.decreaseSpeed();
+                    break;
+                case 221:                                   //for ]
+                    game.increaseSpeed();
+                    break;
+                case 70:                                    // for 'f'
+                    if (screenfull.enabled) {
+                        if (game.isFullscreen === true) {
+                            screenfull.exit();
+                            game.isFullscreen = false;
+                        } else {
+                            screenfull.request(game.container);
+                            game.isFullscreen = true;
+                        }
+                    }
+                    break;
+                }
             }
         });
 
@@ -209,7 +271,6 @@ export default class Game {
      * 7. Money(gold) and Score
      * 8. Game divs
      */
-
     buildStateClasses() {
 
         // Set Constants
@@ -218,12 +279,12 @@ export default class Game {
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Villager.setMaxHP(this.stateVariable.villagerMaxHp);
         Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
+        Factory.setBuildMultiplier(CONSTANTS.factories.factoryBuildLevelMultiplier);
 
         // Set Sprite related constants
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
-        //TerrainElement.setOverlayConstants(CONSTANTS.terrain.overlay);
 
         // Add Textures
         Soldier.setTextures();
@@ -244,7 +305,8 @@ export default class Game {
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrianArray[j * terrainLength + i]);
+                let terrainElementType = terrianArray[j * terrainLength + i];   //1d to 2d array search column wise.
+                this.terrain[i][j] = new TerrainElement(len * i, len * j, terrainElementType);
             }
         }
 
@@ -258,7 +320,7 @@ export default class Game {
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
-                soldier.x, soldier.y, soldier.targetX, soldier.targetY, soldier.hp, soldier.state, soldier.playerId = 1, animationSpeed
+                soldier.x, soldier.y, soldier.targetX, soldier.targetY, soldier.hp, soldier.state, soldier.playerId, animationSpeed
             );
         }
 
@@ -272,7 +334,7 @@ export default class Game {
         for (let i = 0; i < stateVillagers.length; i++) {
             let villager = stateVillagers[i];
             this.villagers[i] = new Villager(
-                villager.x, villager.y, villager.targetX, villager.targetY, villager.hp, villager.state, villager.playerId = 1, animationSpeed
+                villager.x, villager.y, villager.targetX, villager.targetY, villager.hp, villager.state, villager.playerId, animationSpeed
             );
         }
 
@@ -287,7 +349,7 @@ export default class Game {
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent);
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent);
         }
 
         return this;
@@ -354,12 +416,10 @@ export default class Game {
     /**
      * Adds sprites to above builded renderer elements onto the canvas.
      */
-
     addTerrain() {
         for (let row of this.terrain) {
             for (let element of row) {
                 element.addSprite(this.app.stage);
-                //element.overlay.addPrimitive(this.app.stage);
             }
         }
 
@@ -423,18 +483,12 @@ export default class Game {
     /**
      * Updating game objects
      */
-
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updatePosition(soldier.x, soldier.y);
-            this.soldiers[i].updateHP(soldier.hp);
-
-            if (soldier.stateHasChanged) {
-                this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.x, soldier.y);
-            }
+            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.targetX, soldier.targetY, soldier.hp);
         }
 
         return this;
@@ -443,14 +497,9 @@ export default class Game {
     updateVillagers() {
         let currentVillagers = this.getCurrentFrame().villagers;
 
-        for (let i = 0; i < this.soldiers.length; i++) {
+        for (let i = 0; i < this.villagers.length; i++) {
             let villager = currentVillagers[i];
-            this.villagers[i].updatePosition(villager.x, villager.y);
-            this.villagers[i].updateHP(villager.hp);
-
-            if (villager.stateHasChanged) {
-                this.villagers[i].updateState(villager.state, villager.x, villager.y, villager.x, villager.y);
-            }
+            this.villagers[i].updateState(villager.state, villager.x, villager.y, villager.targetX, villager.targetY, villager.hp);
         }
 
         return this;
@@ -463,8 +512,6 @@ export default class Game {
             return this;
         }
 
-        // If user has skipped to another state, call buildFactories and addFactories on the previous frame and continue.
-
         for (let factoriesID in currentFactories) {
             if (isNaN(parseInt(factoriesID)))    // Update Factories only for actual factory objects
                 continue;
@@ -474,10 +521,9 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerID = 1, factory.hp, factory.state, factory.buildPercent);
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent);
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
-
                 if (factory.framesLeft == CONSTANTS.factories.maxDeathFrames) {
                     this.factories[factoriesID].destroy();
                 } else if (factory.framesLeft == 0) {
@@ -618,7 +664,6 @@ export default class Game {
      * Responds to -/+ buttons in game.
      * Check constants.js for values.
      */
-
     increaseSpeed() {
         if (this.speed.pointer < CONSTANTS.gameSpeed.actualValues.length - 1) {
             this.speed.pointer += 1;
@@ -660,11 +705,6 @@ export default class Game {
     /**
      * Functions to manipulate frames, i.e, states.
      */
-
-    previousFrame() {
-        this.frameNo -= 1;
-    }
-
     nextFrame() {
         if (this.timeCount >= 1 / this.speed.value) {
             this.timeCount = this.timeCount % (1 / this.speed.value);
@@ -683,9 +723,6 @@ export default class Game {
         this.timeCount += time;
     }
 
-    getPreviousFrame() {
-        return this.stateVariable.states[this.frameNo - 1];
-    }
     getCurrentFrame() {
         return this.stateVariable.states[this.frameNo];
     }
