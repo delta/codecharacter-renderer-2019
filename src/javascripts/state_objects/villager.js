@@ -1,25 +1,9 @@
 import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
-function getDirection(x1, y1, x2, y2) {
-    if (y2 - y1 > x2 - x1) {
-        if (y2 > y1) {
-            return "down";
-        } else {
-            return "up";
-        }
-    } else {
-        if (x2 > x1) {
-            return "right";
-        } else {
-            return "left";
-        }
-    }
-}
-
 export default class Villager extends StateObject {
     constructor(x, y, targetX, targetY, hp, state, playerID, animationSpeed) {
-        let direction = getDirection(x, y, targetX, targetY);
+        let direction = Villager.getDirection(x, y, targetX, targetY);
         let spriteDetails = Villager.getSpriteDetails(playerID, state, direction);
         let width = Villager.displayDimensions.width,
             height = Villager.displayDimensions.height,
@@ -39,14 +23,11 @@ export default class Villager extends StateObject {
         this.setSpritePosition(x, y);
     }
 
-    updateHP(hp) {
-        this.hp = hp;
-    }
-
-    updateState(state, x, y, targetX, targetY) {
+    updateState(state, x, y, targetX, targetY, hp) {
         this.state = state;
-        let direction = getDirection(x, y, targetX, targetY);
-        this.direction = direction;
+        this.hp = hp;
+        this.updatePosition(x, y);
+        this.direction = Villager.getDirection(x, y, targetX, targetY);
 
         let spriteDetails = Villager.getSpriteDetails(this.playerID, this.state, this.direction);
         this.sprite.textures = spriteDetails.textures;
@@ -55,6 +36,24 @@ export default class Villager extends StateObject {
 
     static setMaxHP(hp) {
         this.maxHP = hp;
+    }
+
+    static getDirection(currentX, currentY, targetX, targetY) {
+        if(targetX == -1 || targetY == -1)
+            return "right";
+        if (targetY - currentY > targetX - currentX) {
+            if (targetY > currentY) {
+                return "down";
+            } else {
+                return "up";
+            }
+        } else {
+            if (targetX > currentX) {
+                return "right";
+            } else {
+                return "left";
+            }
+        }
     }
 
     static setSpriteConstants(VILLAGER_SPRITE_CONSTANTS) {

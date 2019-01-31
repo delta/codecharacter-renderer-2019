@@ -42,12 +42,12 @@ export default class Proto {
     processStates(decodedStates) {
         let processedStates = [];
         let factoryList = {},
-            deadFactory = [];
+            deadFactories = [];
         for (let frame of decodedStates) {
             let processedFrame = {
                 soldiers: this.processSoldiers(frame.soldiers),
                 villagers: this.processVillagers(frame.villagers),
-                factories: JSON.parse(JSON.stringify(this.processFactory(factoryList, frame.factories, deadFactory))),
+                factories: JSON.parse(JSON.stringify(this.processFactory(factoryList, frame.factories, deadFactories))),
                 gold: frame.gold.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
                 errors: frame.playerErrors
@@ -61,7 +61,8 @@ export default class Proto {
 
     processSoldiers(soldiers) {
         for (let i = 0; i < soldiers.length; i++) {
-            soldiers[i].stateHasChanged = false;
+            if (!soldiers[i].hasOwnProperty('playerId'))
+                soldiers[i].playerId = 1;
             if (!soldiers[i].hasOwnProperty('hp'))
                 soldiers[i].hp = 0;
             if (!soldiers[i].hasOwnProperty('x'))
@@ -70,17 +71,6 @@ export default class Proto {
                 soldiers[i].y = 0;
             if (!soldiers[i].hasOwnProperty('state'))
                 soldiers[i].state = 0;
-
-            soldiers[i].playerId = soldiers[i].playerId;
-
-            // if (!soldiers[i].hasOwnProperty('direction')) {
-            //     soldiers[i].direction = "down";
-            // } else {
-            //     if(soldiers[i].state == 1) {
-            //         soldiers[i].direction = this.getMovementDirection(soldiers[i].targetX, soldiers[i].targetY, soldiers[i].x, soldiers[i].y);
-            //     }
-            // }
-
         }
 
         return soldiers;
@@ -88,7 +78,8 @@ export default class Proto {
 
     processVillagers(villagers) {
         for (let i = 0; i < villagers.length; i++) {
-            villagers[i].stateHasChanged = false;
+            if (!villagers[i].hasOwnProperty('playerId'))
+                villagers[i].playerId = 1;
             if (!villagers[i].hasOwnProperty('hp'))
                 villagers[i].hp = 0;
             if (!villagers[i].hasOwnProperty('x'))
@@ -97,41 +88,14 @@ export default class Proto {
                 villagers[i].y = 0;
             if (!villagers[i].hasOwnProperty('state'))
                 villagers[i].state = 0;
-
-            villagers[i].playerId = villagers[i].playerId;
-
-            // if (!villagers[i].hasOwnProperty('direction')) {
-            //     villagers[i].direction = "down";
-            // } else {
-            //     if(villagers[i].state == 1) {
-            //         villagers[i].direction = this.getMovementDirection(villagers[i].targetX, villagers[i].targetY, villagers[i].x, villagers[i].y);
-            //     }
-            // }
-
         }
 
         return villagers;
     }
 
-    getMovementDirection(currentX, currentY, prevX, prevY) {
-        if (currentY - prevY > currentX - prevX) {
-            if (currentY > prevY) {
-                return "down";
-            } else {
-                return "up";
-            }
-        } else {
-            if (currentX > prevX) {
-                return "right";
-            } else {
-                return "left";
-            }
-        }
-    }
-
-    processFactory(factoryList, factories, deadFactory) {
+    processFactory(factoryList, factories, deadFactories) {
         // No changes from frame
-        if (factories === undefined && deadFactory.length === 0) {
+        if (factories === undefined && deadFactories.length === 0) {
             factoryList.hasChanged = false;
             return factoryList;
         }
@@ -143,16 +107,16 @@ export default class Proto {
         let factoryCheckList = this.getCheckList(factoryList);
 
         // Updating dead factory
-        for (let i = 0; i < deadFactory.length; i++) {
-            let dyingFactory = factoryList[deadFactory[i]];
+        for (let i = 0; i < deadFactories.length; i++) {
+            let dyingFactory = factoryList[deadFactories[i]];
             delete factoryCheckList[dyingFactory.id];
 
             if (dyingFactory.framesLeft >= 0) {
                 dyingFactory.framesLeft--;
                 dyingFactory.levelHasChanged = false;
             } else {
-                delete factoryList[deadFactory.id];
-                deadFactory.splice(i, 1);
+                delete factoryList[deadFactories.id];
+                deadFactories.splice(i, 1);
                 i -= 1;
             }
         }
@@ -170,7 +134,7 @@ export default class Proto {
                     factoryList[factory.id].updateMethod = "destroy";
                     factoryList[factory.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
 
-                    deadFactory.push(factory.id);
+                    deadFactories.push(factory.id);
                 } else {
                     // factory state and/or HP and/or build have changed
 
@@ -185,6 +149,8 @@ export default class Proto {
 
             } else {
                 // New Factory
+                if (!factory.hasOwnProperty('playerId'))
+                    factory.playerId = 1;
                 if (!factory.hasOwnProperty('x'))
                     factory.x = 0;
                 if (!factory.hasOwnProperty('y'))
@@ -198,11 +164,11 @@ export default class Proto {
             }
         }
 
-        for (let towerID in factoryCheckList) {
-            if ( isNaN(parseInt(towerID)) )
+        for (let factoryID in factoryCheckList) {
+            if ( isNaN(parseInt(factoryID)) )
                 continue;
 
-            factoryList[towerID].updateMethod = "none";
+            factoryList[factoryID].updateMethod = "none";
         }
 
         return factoryList;
