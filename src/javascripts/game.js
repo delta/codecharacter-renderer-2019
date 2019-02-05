@@ -320,7 +320,7 @@ export default class Game {
         for (let i = 0; i < stateSoldiers.length; i++) {
             let soldier = stateSoldiers[i];
             this.soldiers[i] = new Soldier(
-                soldier.x, soldier.y, soldier.targetX, soldier.targetY, soldier.hp, soldier.state, soldier.playerId, animationSpeed
+                soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
             );
         }
 
@@ -334,7 +334,7 @@ export default class Game {
         for (let i = 0; i < stateVillagers.length; i++) {
             let villager = stateVillagers[i];
             this.villagers[i] = new Villager(
-                villager.x, villager.y, villager.targetX, villager.targetY, villager.hp, villager.state, villager.playerId, animationSpeed
+                villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
             );
         }
 
@@ -488,7 +488,7 @@ export default class Game {
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.targetX, soldier.targetY, soldier.hp);
+            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp);
         }
 
         return this;
@@ -499,7 +499,7 @@ export default class Game {
 
         for (let i = 0; i < this.villagers.length; i++) {
             let villager = currentVillagers[i];
-            this.villagers[i].updateState(villager.state, villager.x, villager.y, villager.targetX, villager.targetY, villager.hp);
+            this.villagers[i].updateState(villager.state, villager.x, villager.y, villager.direction, villager.hp);
         }
 
         return this;

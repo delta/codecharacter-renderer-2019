@@ -11,7 +11,7 @@ document.body.style.padding = "0";
 initializeRendererAssets(initGameLog);
 
 async function initGameLog() {
-    let response = fetch('proto/game.log');
+    let response = fetch('./game.log');
     let gameLog1 = fetch('proto/player_1.dlog');
     let gameLog2 = fetch('proto/player_2.dlog');
 

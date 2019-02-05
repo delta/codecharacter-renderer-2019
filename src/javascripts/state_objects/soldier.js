@@ -2,8 +2,7 @@ import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
 export default class Soldier extends StateObject {
-    constructor(x, y, targetX, targetY, hp, state, playerID, animationSpeed) {
-        let direction = Soldier.getDirection(x, y, targetX, targetY);
+    constructor(x, y, direction, hp, state, playerID, animationSpeed) {
         let spriteDetails = Soldier.getSpriteDetails(playerID, state, direction);
         let width = Soldier.displayDimensions.width,
             height = Soldier.displayDimensions.height,
@@ -23,11 +22,11 @@ export default class Soldier extends StateObject {
         this.setSpritePosition(x, y);
     }
 
-    updateState(state, x, y, targetX, targetY, hp) {
+    updateState(state, x, y, direction, hp) {
         this.state = state;
         this.hp = hp;
         this.updatePosition(x, y);
-        this.direction = Soldier.getDirection(x, y, targetX, targetY);
+        this.direction = direction;
 
         let spriteDetails = Soldier.getSpriteDetails(this.playerID, this.state, this.direction);
         this.sprite.textures = spriteDetails.textures;
@@ -36,24 +35,6 @@ export default class Soldier extends StateObject {
 
     static setMaxHP(hp) {
         this.maxHP = hp;
-    }
-
-    static getDirection(currentX, currentY, targetX, targetY) {
-        if(targetX == -1 || targetY == -1)
-            return "right";
-        if (targetY - currentY > targetX - currentX) {
-            if (targetY > currentY) {
-                return "down";
-            } else {
-                return "up";
-            }
-        } else {
-            if (targetX > currentX) {
-                return "right";
-            } else {
-                return "left";
-            }
-        }
     }
 
     static setSpriteConstants(SOLDIER_SPRITE_CONSTANTS) {
