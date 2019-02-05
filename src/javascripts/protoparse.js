@@ -71,6 +71,7 @@ export default class Proto {
                 soldiers[i].y = 0;
             if (!soldiers[i].hasOwnProperty('state'))
                 soldiers[i].state = 0;
+            soldiers[i].direction = this.getDirection(soldiers[i].x, soldiers[i].y, soldiers[i].targetX, soldiers[i].targetY);
         }
 
         return soldiers;
@@ -88,9 +89,29 @@ export default class Proto {
                 villagers[i].y = 0;
             if (!villagers[i].hasOwnProperty('state'))
                 villagers[i].state = 0;
+            villagers[i].direction = this.getDirection(villagers[i].x, villagers[i].y, villagers[i].targetX, villagers[i].targetY);
         }
 
         return villagers;
+    }
+
+    getDirection(currentX, currentY, targetX, targetY) {
+        if(targetX == -1 || targetY == -1) {
+            return "right";
+        }
+        if (targetY - currentY > targetX - currentX) {
+            if (targetY > currentY) {
+                return "down";
+            } else {
+                return "up";
+            }
+        } else {
+            if (targetX > currentX) {
+                return "right";
+            } else {
+                return "left";
+            }
+        }
     }
 
     processFactory(factoryList, factories, deadFactories) {
