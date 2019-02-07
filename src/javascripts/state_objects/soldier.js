@@ -6,14 +6,18 @@ export default class Soldier extends Unit {
         super(x, y, direction, hp, state, playerID, animationSpeed, Soldier.unitType);
     }
 
-    // Sprite details for soldier
-    static setSpriteConstants(SOLDIER_SPRITE_CONSTANTS, SOLDIER_CONSTANT) {
-        this.unitType = SOLDIER_CONSTANT;
-        Unit.setSpriteConstants(SOLDIER_SPRITE_CONSTANTS, SOLDIER_CONSTANT);
+    // override to mention what unitType
+    updateState(state, x, y, direction, hp) {
+        super.updateState(state, x, y, direction, hp, Soldier.unitType);
     }
 
-    // Texture related methods
-    // static setTextures() {
-    //     Unit.setTextures(Soldier.unitType);
-    // }
+    // unit type soldier
+    static setUnitConstant(SOLDIER_CONSTANT) {
+        this.unitType = SOLDIER_CONSTANT;
+    }
+
+    // Sprite details for soldier
+    static setSpriteConstants(SOLDIER_SPRITE_CONSTANTS) {
+        Unit.setSpriteConstants(SOLDIER_SPRITE_CONSTANTS, Soldier.unitType);
+    }
 }
