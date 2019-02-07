@@ -51,7 +51,7 @@ const CONSTANTS = {
             }
         }
     },
-    unitType: {
+    unitType: {                 // To distinguish soldier and villager within unit
         soldier: 0,
         villager: 1
     },

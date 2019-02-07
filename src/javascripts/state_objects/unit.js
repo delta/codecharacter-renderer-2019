@@ -48,24 +48,47 @@ export default class Unit extends StateObject {
     }
 
     // Texture related methods
-    static setTextures(unitType) {
+    static setTextures(unitTypeConstant) {
+        let unitTypeSoldier = unitTypeConstant.soldier,
+            unitTypeVillager = unitTypeConstant.villager;
+
         this.baseTextures = {
             1: PIXI.loader.resources.soldierP1Sheet.texture,
             2: PIXI.loader.resources.soldierP2Sheet.texture
         };
 
         this.textures = {
-            1: {
-                idleTextures: this.getIdleTextures(1,unitType),
-                moveTextures: this.getMoveTextures(1,unitType),
-                atkTextures: this.getAtkTextures(1,unitType),
-                deadTexture: this.getDeadTexture(1,unitType)
+            soldierTexture: {
+                1: {
+                    idleTextures: this.getIdleTextures(1,unitTypeSoldier),
+                    moveTextures: this.getMoveTextures(1,unitTypeSoldier),
+                    atkTextures: this.getAtkTextures(1,unitTypeSoldier),
+                    deadTexture: this.getDeadTexture(1,unitTypeSoldier)
+                },
+                2: {
+                    idleTextures: this.getIdleTextures(2,unitTypeSoldier),
+                    moveTextures: this.getMoveTextures(2,unitTypeSoldier),
+                    atkTextures: this.getAtkTextures(2,unitTypeSoldier),
+                    deadTexture: this.getDeadTexture(2,unitTypeSoldier)
+                }
             },
-            2: {
-                idleTextures: this.getIdleTextures(2,unitType),
-                moveTextures: this.getMoveTextures(2,unitType),
-                atkTextures: this.getAtkTextures(2,unitType),
-                deadTexture: this.getDeadTexture(2,unitType)
+            villagerTexture: {
+                1: {
+                    idleTextures: this.getIdleTextures(1,unitTypeVillager),
+                    moveTextures: this.getMoveTextures(1,unitTypeVillager),
+                    atkTextures: this.getAtkTextures(1,unitTypeVillager),
+                    mineTextures: this.getAtkTextures(1,unitTypeVillager),
+                    bldTextures: this.getAtkTextures(1,unitTypeVillager),
+                    deadTexture: this.getDeadTexture(1,unitTypeVillager)
+                },
+                2: {
+                    idleTextures: this.getIdleTextures(2,unitTypeVillager),
+                    moveTextures: this.getMoveTextures(2,unitTypeVillager),
+                    atkTextures: this.getAtkTextures(2,unitTypeVillager),
+                    mineTextures: this.getAtkTextures(2,unitTypeVillager),
+                    bldTextures: this.getAtkTextures(2,unitTypeVillager),
+                    deadTexture: this.getDeadTexture(2,unitTypeVillager)
+                }
             }
         }
     }
@@ -215,40 +238,40 @@ export default class Unit extends StateObject {
     static getSpriteDetails(playerID, unitState, unitDirection, unitType) {
         let details = {textures: null};
 
-        if (unitType == 0) {    // soldiers constant
+        if (unitType == 0) {    // soldiers constant (checks constant)
             switch (unitState) {
             case 0:     // idle
-                details.textures = this.textures[playerID].idleTextures[unitDirection];
+                details.textures = this.textures.soldierTexture[playerID].idleTextures[unitDirection];
                 break;
             case 1:     // move
-                details.textures = this.textures[playerID].moveTextures[unitDirection];
+                details.textures = this.textures.soldierTexture[playerID].moveTextures[unitDirection];
                 break;
             case 2:     // attack
-                details.textures = this.textures[playerID].atkTextures[unitDirection];
+                details.textures = this.textures.soldierTexture[playerID].atkTextures[unitDirection];
                 break;
             case 3:     // dead
-                details.textures = this.textures[playerID].deadTexture;
+                details.textures = this.textures.soldierTexture[playerID].deadTexture;
                 break;
             }
-        } else {    // villagers constant
+        } else {    // villagers constant (check constant)
             switch (unitState) {
             case 0:     // idle
-                details.textures = this.textures[playerID].idleTextures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].idleTextures[unitDirection];
                 break;
             case 1:     // move
-                details.textures = this.textures[playerID].moveTextures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].moveTextures[unitDirection];
                 break;
             case 2:     // attack
-                details.textures = this.textures[playerID].atkTextures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].atkTextures[unitDirection];
                 break;
             case 3:     // mine (temp textures)
-                details.textures = this.textures[playerID].atkTextures[unitDirection];
+                details.textures = this.textures.villagerTexture.villagerTexture.villagerTexture[playerID].Textures[unitDirection];
                 break;
             case 4:     // build (temp textures)
-                details.textures = this.textures[playerID].atkTextures[unitDirection];
+                details.textures = this.textures.villagerTexture.villagerTexture[playerID].atkTextures[unitDirection];
                 break;
             case 5:     // dead
-                details.textures = this.textures[playerID].deadTexture;
+                details.textures = this.textures.villagerTexture[playerID].deadTexture;
                 break;
             }
         }
