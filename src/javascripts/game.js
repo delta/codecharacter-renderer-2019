@@ -284,7 +284,7 @@ export default class Game {
 
         // Set Sprite related constants
         Unit.initializeSpriteConstants();
-        Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
+        Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites, CONSTANTS.unitType.soldier);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
 
@@ -490,7 +490,7 @@ export default class Game {
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp);
+            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp, Soldier.unitType);
         }
 
         return this;
