@@ -52,7 +52,7 @@ export default class Unit extends StateObject {
         let unitTypeSoldier = unitTypeConstant.soldier,
             unitTypeVillager = unitTypeConstant.villager;
 
-        this.baseTextures = {
+        this.baseTextures = {   // as of now both use same texture (later to change)
             1: PIXI.loader.resources.soldierP1Sheet.texture,
             2: PIXI.loader.resources.soldierP2Sheet.texture
         };
@@ -238,7 +238,7 @@ export default class Unit extends StateObject {
     static getSpriteDetails(playerID, unitState, unitDirection, unitType) {
         let details = {textures: null};
 
-        if (unitType == 0) {    // soldiers constant (checks constant)
+        if (unitType == 0) {    // soldiers constant (check constantsjs)
             switch (unitState) {
             case 0:     // idle
                 details.textures = this.textures.soldierTexture[playerID].idleTextures[unitDirection];
@@ -253,7 +253,7 @@ export default class Unit extends StateObject {
                 details.textures = this.textures.soldierTexture[playerID].deadTexture;
                 break;
             }
-        } else {    // villagers constant (check constant)
+        } else {    // villagers constant (check constantsjs)
             switch (unitState) {
             case 0:     // idle
                 details.textures = this.textures.villagerTexture[playerID].idleTextures[unitDirection];
@@ -265,10 +265,10 @@ export default class Unit extends StateObject {
                 details.textures = this.textures.villagerTexture[playerID].atkTextures[unitDirection];
                 break;
             case 3:     // mine (temp textures)
-                details.textures = this.textures.villagerTexture.villagerTexture.villagerTexture[playerID].Textures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].mineTextures[unitDirection];
                 break;
             case 4:     // build (temp textures)
-                details.textures = this.textures.villagerTexture.villagerTexture[playerID].atkTextures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].bldTextures[unitDirection];
                 break;
             case 5:     // dead
                 details.textures = this.textures.villagerTexture[playerID].deadTexture;

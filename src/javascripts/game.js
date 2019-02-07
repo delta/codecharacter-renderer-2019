@@ -284,14 +284,14 @@ export default class Game {
 
         // Set Sprite related constants
         Unit.initializeSpriteConstants();
-        Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites, CONSTANTS.unitType.soldier);
+        Soldier.setUnitConstant(CONSTANTS.unitType.soldier);
+        Villager.setUnitConstant(CONSTANTS.unitType.villager);
+        Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
 
         // Add Textures
-        //Soldier.setTextures();
         Unit.setTextures(CONSTANTS.unitType);
-        Villager.setTextures();
         Factory.setTextures();
         TerrainElement.setTextures();
 
@@ -491,7 +491,7 @@ export default class Game {
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp, Soldier.unitType);
+            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp);
         }
 
         return this;
