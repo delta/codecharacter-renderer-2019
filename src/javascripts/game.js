@@ -357,7 +357,7 @@ export default class Game {
 
     buildMap() {
         this.mapLength = TerrainElement.sideLength * this.terrain.length;
-        this.camera.zoom.min = Math.min(this.container.offsetHeight / this.mapLength, this.container.offsetWidth / this.mapLength);
+        this.camera.setInitialParams(this.container.offsetWidth, this.container.offsetHeight, this.mapLength);
 
         return this;
     }

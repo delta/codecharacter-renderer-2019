@@ -9,6 +9,15 @@ export default class Camera {
         this.acc = CONSTANTS.acc;
     }
 
+    setInitialParams(containerWidth, containerHeight, mapLength){
+        this.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
+        this.offset.x = -(1 - 1 / this.zoom.value) * containerWidth / 2;
+        this.offset.y = -(1 - 1 / this.zoom.value) * containerHeight / 2;
+        this.actualPos.x = (containerWidth - (this.zoom.value * mapLength)) / (2 * this.zoom.value);
+        this.actualPos.y = 0;
+        this.passivePos.x = this.actualPos.x - this.offset.x;
+    }
+
     slowDown() {
         this.vel.x *= this.acc;
         this.vel.y *= this.acc;
