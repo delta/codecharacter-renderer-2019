@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js';
 import CONSTANTS from './constants/constants.js';
 import Camera from './camera';
-import StateObject from './state_objects/stateobject'
+import StateObject from './state_objects/stateobject';
+import Unit from './state_objects/unit';
 import TerrainElement from './state_objects/terrain';
 import Soldier from './state_objects/soldier';
 import Villager from './state_objects/villager';
@@ -282,6 +283,7 @@ export default class Game {
         Factory.setBuildMultiplier(CONSTANTS.factories.factoryBuildLevelMultiplier);
 
         // Set Sprite related constants
+        Unit.initializeSpriteConstants();
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);

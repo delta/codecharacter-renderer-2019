@@ -51,6 +51,10 @@ const CONSTANTS = {
             }
         }
     },
+    unitType: {
+        soldier: 0,
+        villager: 1
+    },
     factories: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
         factoryBuildLevelMultiplier: 0.04

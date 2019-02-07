@@ -45,8 +45,8 @@ export default class Proto {
             deadFactories = [];
         for (let frame of decodedStates) {
             let processedFrame = {
-                soldiers: this.processSoldiers(frame.soldiers),
-                villagers: this.processVillagers(frame.villagers),
+                soldiers: (frame.soldiers) ? this.processSoldiers(frame.soldiers) : "",
+                villagers: (frame.villagers) ? this.processVillagers(frame.villagers) : "",
                 factories: JSON.parse(JSON.stringify(this.processFactory(factoryList, frame.factories, deadFactories))),
                 gold: frame.gold.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
