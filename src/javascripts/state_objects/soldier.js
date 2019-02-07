@@ -13,7 +13,7 @@ export default class Soldier extends Unit {
     }
 
     // Texture related methods
-    static setTextures() {
-        Unit.setTextures(Soldier.unitType);
-    }
+    // static setTextures() {
+    //     Unit.setTextures(Soldier.unitType);
+    // }
 }
