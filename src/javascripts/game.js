@@ -333,7 +333,7 @@ export default class Game {
     buildVillagers() {
         let stateVillagers = this.getCurrentFrame().villagers;  // Current Frame Number is 0
 
-        let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+        let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
         for (let i = 0; i < stateVillagers.length; i++) {
             let villager = stateVillagers[i];
             this.villagers[i] = new Villager(
