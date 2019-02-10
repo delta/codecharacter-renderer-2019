@@ -287,7 +287,7 @@ export default class Game {
         Soldier.setUnitConstant(CONSTANTS.unitType.soldier);
         Villager.setUnitConstant(CONSTANTS.unitType.villager);
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
-        Villager.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
+        Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
 
         // Add Textures
