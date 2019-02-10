@@ -7,8 +7,8 @@ const SPRITE_CONSTANTS = {
     soldierSprites: {
         // On screen data
         displayDimensions: {
-            width: 18,
-            height: 18
+            width: 10,
+            height: 10
         },
         animationSpeed: {
             values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
@@ -71,40 +71,58 @@ const SPRITE_CONSTANTS = {
         // Spritesheet data
         spriteSheetData: {
             frameDetails: {
-                width: 315,
-                height: 330,
-                jump: 315                       // jump and width are usually the same
+                width: 334,
+                height: 341,
+                jump: 334                       // jump and width are usually the same
             },
             idleSequence: {
                 initPositions: {
-                    left: { x: 315, y: 330 },
+                    left: { x: 334, y: 341 },
                     up: { x: 0, y: 0 },
                     down: { x: 0, y: 0 },
-                    right: { x: 315, y: 0 },
+                    right: { x: 334, y: 0 },
                 }
             },
             moveSequence: {
                 initPositions: {
-                    left: { x: 315, y: 330 },
-                    right: { x: 315, y: 0 },
-                    down: { x: 315, y: 330 },
-                    up: { x: 315, y: 0 },
+                    left: { x: 334, y: 341 },
+                    right: { x: 334, y: 0 },
+                    down: { x: 334, y: 341 },
+                    up: { x: 334, y: 0 },
                 },
                 frameSequence: [0, 1]     // sequence of frame indices to be added to textures array
             },
             atkSequence: {
                 initPositions: {
-                    left: { x: 315, y: 992 },
-                    right: { x: 315, y: 661 },
-                    down: { x: 315, y: 992 },
-                    up: { x: 315, y: 661 },
+                    left: { x: 334, y: 1023 },
+                    right: { x: 334, y: 682 },
+                    down: { x: 334, y: 1023 },
+                    up: { x: 334, y: 682 },
                 },
                 frameSequence: [0, 1, 2]
+            },
+            mineSequence: {
+                initPositions: {
+                    left: { x: 334, y: 2387 },
+                    right: { x: 334, y: 2046 },
+                    down: { x: 334, y: 2387 },
+                    up: { x: 334, y: 2046 },
+                },
+                frameSequence: [0, 1, 2, 3]
+            },
+            bldSequence: {
+                initPositions: {
+                    left: { x: 334, y: 1705 },
+                    right: { x: 334, y: 1364 },
+                    down: { x: 334, y: 1705 },
+                    up: { x: 334, y: 1364 },
+                },
+                frameSequence: [0, 1, 2, 3]
             },
             deadSequence: {
                 initPositions: {
                     x: 0,
-                    y: 2646
+                    y: 2728
                 },
                 frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
             },
