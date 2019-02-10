@@ -41,12 +41,14 @@ export default class Proto {
 
     processStates(decodedStates) {
         let processedStates = [];
+        let soldierList = {},
+            villagerList = {};
         let factoryList = {},
             deadFactories = [];
         for (let frame of decodedStates) {
             let processedFrame = {
-                soldiers: (frame.soldiers) ? this.processSoldiers(frame.soldiers) : "",
-                villagers: (frame.villagers) ? this.processVillagers(frame.villagers) : "",
+                soldiers: (frame.soldiers) ? this.processSoldiers(soldierList, frame.soldiers) : "",
+                villagers: (frame.villagers) ? this.processVillagers(villagerList, frame.villagers) : "",
                 factories: JSON.parse(JSON.stringify(this.processFactory(factoryList, frame.factories, deadFactories))),
                 gold: frame.gold.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
@@ -59,7 +61,9 @@ export default class Proto {
         return processedStates;
     }
 
-    processSoldiers(soldiers) {
+    processSoldiers(soldierList, soldiers) {
+        const soldierIdleState = 0; // refer proto file for soldiers states
+        const soldierMoveState = 1;
         for (let i = 0; i < soldiers.length; i++) {
             if (!soldiers[i].hasOwnProperty('playerId'))
                 soldiers[i].playerId = 1;
@@ -71,13 +75,41 @@ export default class Proto {
                 soldiers[i].y = 0;
             if (!soldiers[i].hasOwnProperty('state'))
                 soldiers[i].state = 0;
-            soldiers[i].direction = this.getDirection(soldiers[i].x, soldiers[i].y, soldiers[i].targetX, soldiers[i].targetY);
-        }
+            // initial assign
+            if (!soldierList.hasOwnProperty(i)) {
+                soldiers[i].direction = "down";
+                soldierList[i] = Object.assign({}, soldiers[i]);
+            } else {
+                // Set soldier direction
+                if (soldiers[i].state == soldierMoveState) {
+                    soldiers[i].direction = this.getMovementDirection(soldiers[i].x, soldiers[i].y, soldierList[i].x, soldierList[i].y);
+                } else if (soldiers[i].state == soldierIdleState) {
+                    soldiers[i].direction = soldierList[i].direction;
+                } else {    // state = attack, mine, build
+                    if (soldiers[i].targetX == -1 || soldiers[i].targetY == -1) {
+                        soldiers[i].direction = soldierList[i].direction;
+                    } else {
+                        soldiers[i].direction = this.getMovementDirection(soldiers[i].targetX, soldiers[i].targetY, soldiers[i].x, soldiers[i].y);
+                    }
+                }
 
+                // Change soldierList if soldiers has changed
+                if (soldierList[i].state != soldiers[i].state || soldierList[i].direction != soldiers[i].direction) {
+                    soldierList[i].state = soldiers[i].state;
+                    soldierList[i].direction = soldiers[i].direction;
+                }
+
+                // Update temp list for next frame
+                soldierList[i].x = soldiers[i].x;
+                soldierList[i].y = soldiers[i].y;
+            }
+        }
         return soldiers;
     }
 
-    processVillagers(villagers) {
+    processVillagers(villagerList, villagers) {
+        const villagerIdleState = 0;    //check proto file for villager states
+        const villagerMoveState = 1;
         for (let i = 0; i < villagers.length; i++) {
             if (!villagers[i].hasOwnProperty('playerId'))
                 villagers[i].playerId = 1;
@@ -89,24 +121,47 @@ export default class Proto {
                 villagers[i].y = 0;
             if (!villagers[i].hasOwnProperty('state'))
                 villagers[i].state = 0;
-            villagers[i].direction = this.getDirection(villagers[i].x, villagers[i].y, villagers[i].targetX, villagers[i].targetY);
-        }
+            // initial assign
+            if (!villagerList.hasOwnProperty(i)) {
+                villagers[i].direction = "down";
+                villagerList[i] = Object.assign({}, villagers[i]);
+            } else {
+                // Set villager direction
+                if (villagers[i].state == villagerMoveState) {
+                    villagers[i].direction = this.getMovementDirection(villagers[i].x, villagers[i].y, villagerList[i].x, villagerList[i].y);
+                } else if (villagers[i].state == villagerIdleState) {
+                    villagers[i].direction = villagerList[i].direction;
+                } else {    // state = attack, mine, build
+                    if (villagers[i].targetX == -1 || villagers[i].targetY == -1) {
+                        villagers[i].direction = villagerList[i].direction;
+                    } else {
+                        villagers[i].direction = this.getMovementDirection(villagers[i].targetX, villagers[i].targetY, villagers[i].x, villagers[i].y);
+                    }
+                }
 
+                // Change villagerList if villagers has changed
+                if (villagerList[i].state != villagers[i].state || villagerList[i].direction != villagers[i].direction) {
+                    villagerList[i].state = villagers[i].state;
+                    villagerList[i].direction = villagers[i].direction;
+                }
+
+                // Update temp list for next frame
+                villagerList[i].x = villagers[i].x;
+                villagerList[i].y = villagers[i].y;
+            }
+        }
         return villagers;
     }
 
-    getDirection(currentX, currentY, targetX, targetY) {
-        if(targetX == -1 || targetY == -1) {
-            return "right";
-        }
-        if (targetY - currentY > targetX - currentX) {
-            if (targetY > currentY) {
+    getMovementDirection(currentX, currentY, prevX, prevY) {
+        if (currentY - prevY > currentX - prevX) {
+            if (currentY > prevY) {
                 return "down";
             } else {
                 return "up";
             }
         } else {
-            if (targetX > currentX) {
+            if (currentX > prevX) {
                 return "right";
             } else {
                 return "left";
