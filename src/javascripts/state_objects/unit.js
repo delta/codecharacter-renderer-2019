@@ -52,9 +52,15 @@ export default class Unit extends StateObject {
         let unitTypeSoldier = unitTypeConstant.soldier,
             unitTypeVillager = unitTypeConstant.villager;
 
-        this.baseTextures = {   // as of now both use same texture (later to change)
-            1: PIXI.loader.resources.soldierP1Sheet.texture,
-            2: PIXI.loader.resources.soldierP2Sheet.texture
+        this.baseTextures = {
+            0: {    // soldier constant (check constantsjs)
+                1: PIXI.loader.resources.soldierP1Sheet.texture,
+                2: PIXI.loader.resources.soldierP2Sheet.texture
+            },
+            1: {    // villager constant
+                1: PIXI.loader.resources.villagerP1Sheet.texture,
+                2: PIXI.loader.resources.villagerP2Sheet.texture
+            }
         };
 
         this.textures = {
@@ -77,16 +83,16 @@ export default class Unit extends StateObject {
                     idleTextures: this.getIdleTextures(1,unitTypeVillager),
                     moveTextures: this.getMoveTextures(1,unitTypeVillager),
                     atkTextures: this.getAtkTextures(1,unitTypeVillager),
-                    mineTextures: this.getAtkTextures(1,unitTypeVillager),
-                    bldTextures: this.getAtkTextures(1,unitTypeVillager),
+                    mineTextures: this.getMineTextures(1,unitTypeVillager),
+                    bldTextures: this.getBldTextures(1,unitTypeVillager),
                     deadTexture: this.getDeadTexture(1,unitTypeVillager)
                 },
                 2: {
                     idleTextures: this.getIdleTextures(2,unitTypeVillager),
                     moveTextures: this.getMoveTextures(2,unitTypeVillager),
                     atkTextures: this.getAtkTextures(2,unitTypeVillager),
-                    mineTextures: this.getAtkTextures(2,unitTypeVillager),
-                    bldTextures: this.getAtkTextures(2,unitTypeVillager),
+                    mineTextures: this.getMineTextures(2,unitTypeVillager),
+                    bldTextures: this.getBldTextures(2,unitTypeVillager),
                     deadTexture: this.getDeadTexture(2,unitTypeVillager)
                 }
             }
@@ -94,7 +100,7 @@ export default class Unit extends StateObject {
     }
 
     static getIdleTextures(playerID, unitType) {
-        var base = this.baseTextures[playerID];
+        var base = this.baseTextures[unitType][playerID];
 
         let pos = Unit.spriteSheetData[unitType].idleSequence.initPositions,
             frame = Unit.spriteSheetData[unitType].frameDetails;
@@ -118,7 +124,7 @@ export default class Unit extends StateObject {
     }
 
     static getMoveTextures(playerID, unitType) {
-        var base = this.baseTextures[playerID];
+        var base = this.baseTextures[unitType][playerID];
         let texture = null;
 
         let frameSet = Unit.spriteSheetData[unitType].moveSequence.frameSequence,
@@ -167,7 +173,7 @@ export default class Unit extends StateObject {
     }
 
     static getAtkTextures(playerID, unitType) {
-        var base = this.baseTextures[playerID];
+        var base = this.baseTextures[unitType][playerID];
         let texture = null;
 
         let frameSet = Unit.spriteSheetData[unitType].atkSequence.frameSequence,
@@ -215,8 +221,108 @@ export default class Unit extends StateObject {
         };
     }
 
+    // mine action meant for villager unit
+    static getMineTextures(playerID, unitType) {
+        var base = this.baseTextures[unitType][playerID];
+        let texture = null;
+
+        let frameSet = Unit.spriteSheetData[unitType].atkSequence.frameSequence,
+            pos = Unit.spriteSheetData[unitType].atkSequence.initPositions,
+            frame = Unit.spriteSheetData[unitType].frameDetails;
+
+        let upTextures = [],
+            downTextures = [],
+            leftTextures = [],
+            rightTextures = [];
+
+        // Left Mine
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.left.x + frame.jump*frameNo, pos.left.y, frame.width, frame.height );
+            leftTextures.push(texture);
+        }
+
+        // Right Mine
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.right.x + frame.jump*frameNo, pos.right.y, frame.width, frame.height );
+            rightTextures.push(texture);
+        }
+
+        // Down Mine
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.down.x + frame.jump*frameNo, pos.down.y, frame.width, frame.height );
+            downTextures.push(texture);
+        }
+
+        // Up Mine
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.up.x + frame.jump*frameNo, pos.up.y, frame.width, frame.height );
+            upTextures.push(texture);
+        }
+
+        return {
+            up: upTextures,
+            down: downTextures,
+            left: leftTextures,
+            right: rightTextures
+        };
+    }
+
+    // build action meant for villager
+    static getBldTextures(playerID, unitType) {
+        var base = this.baseTextures[unitType][playerID];
+        let texture = null;
+
+        let frameSet = Unit.spriteSheetData[unitType].atkSequence.frameSequence,
+            pos = Unit.spriteSheetData[unitType].atkSequence.initPositions,
+            frame = Unit.spriteSheetData[unitType].frameDetails;
+
+        let upTextures = [],
+            downTextures = [],
+            leftTextures = [],
+            rightTextures = [];
+
+        // Left Build
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.left.x + frame.jump*frameNo, pos.left.y, frame.width, frame.height );
+            leftTextures.push(texture);
+        }
+
+        // Right Build
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.right.x + frame.jump*frameNo, pos.right.y, frame.width, frame.height );
+            rightTextures.push(texture);
+        }
+
+        // Down Build
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.down.x + frame.jump*frameNo, pos.down.y, frame.width, frame.height );
+            downTextures.push(texture);
+        }
+
+        // Up Build
+        for (let frameNo of frameSet) {
+            texture = new PIXI.Texture(base);
+            texture.frame = new PIXI.Rectangle( pos.up.x + frame.jump*frameNo, pos.up.y, frame.width, frame.height );
+            upTextures.push(texture);
+        }
+
+        return {
+            up: upTextures,
+            down: downTextures,
+            left: leftTextures,
+            right: rightTextures
+        };
+    }
+
     static getDeadTexture(playerID, unitType) {
-        var base = this.baseTextures[playerID];
+        var base = this.baseTextures[unitType][playerID];
 
         let frameSet = Unit.spriteSheetData[unitType].deadSequence.frameSequence,
             pos = Unit.spriteSheetData[unitType].deadSequence.initPositions,
