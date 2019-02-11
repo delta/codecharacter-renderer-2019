@@ -65,6 +65,7 @@ export default class Proto {
         const soldierIdleState = 0; // refer proto file for soldiers states
         const soldierMoveState = 1;
         for (let i = 0; i < soldiers.length; i++) {
+            soldiers[i].stateHasChanged = false;
             if (!soldiers[i].hasOwnProperty('playerId'))
                 soldiers[i].playerId = 1;
             if (!soldiers[i].hasOwnProperty('hp'))
@@ -97,6 +98,7 @@ export default class Proto {
                 if (soldierList[i].state != soldiers[i].state || soldierList[i].direction != soldiers[i].direction) {
                     soldierList[i].state = soldiers[i].state;
                     soldierList[i].direction = soldiers[i].direction;
+                    soldiers[i].stateHasChanged = true;
                 }
 
                 // Update temp list for next frame
@@ -111,6 +113,7 @@ export default class Proto {
         const villagerIdleState = 0;    //check proto file for villager states
         const villagerMoveState = 1;
         for (let i = 0; i < villagers.length; i++) {
+            villagers[i].stateHasChanged = false;
             if (!villagers[i].hasOwnProperty('playerId'))
                 villagers[i].playerId = 1;
             if (!villagers[i].hasOwnProperty('hp'))
@@ -143,6 +146,7 @@ export default class Proto {
                 if (villagerList[i].state != villagers[i].state || villagerList[i].direction != villagers[i].direction) {
                     villagerList[i].state = villagers[i].state;
                     villagerList[i].direction = villagers[i].direction;
+                    villagers[i].stateHasChanged = true;
                 }
 
                 // Update temp list for next frame

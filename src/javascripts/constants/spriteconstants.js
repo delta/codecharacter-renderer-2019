@@ -110,7 +110,7 @@ const SPRITE_CONSTANTS = {
                 },
                 frameSequence: [0, 1, 2, 3]
             },
-            bldSequence: {
+            buildSequence: {
                 initPositions: {
                     left: { x: 334, y: 1705 },
                     right: { x: 334, y: 1364 },

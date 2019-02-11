@@ -491,7 +491,12 @@ export default class Game {
 
         for (let i = 0; i < this.soldiers.length; i++) {
             let soldier = currentSoldiers[i];
-            this.soldiers[i].updateState(soldier.state, soldier.x, soldier.y, soldier.direction, soldier.hp);
+            this.soldiers[i].updatePosition(soldier.x, soldier.y);
+            this.soldiers[i].updateHP(soldier.hp);
+
+            if (soldier.stateHasChanged) {
+                this.soldiers[i].updateState(soldier.state, soldier.direction);
+            }
         }
 
         return this;
@@ -502,7 +507,12 @@ export default class Game {
 
         for (let i = 0; i < this.villagers.length; i++) {
             let villager = currentVillagers[i];
-            this.villagers[i].updateState(villager.state, villager.x, villager.y, villager.direction, villager.hp);
+            this.villagers[i].updatePosition(villager.x, villager.y);
+            this.villagers[i].updateHP(villager.hp);
+
+            if (villager.stateHasChanged) {
+                this.villagers[i].updateState(villager.state, villager.direction);
+            }
         }
 
         return this;

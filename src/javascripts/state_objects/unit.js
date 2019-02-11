@@ -22,10 +22,12 @@ export default class Unit extends StateObject {
         this.setSpritePosition(x, y);
     }
 
-    updateState(state, x, y, direction, hp, unitType) {
-        this.state = state;
+    updateHP(hp) {
         this.hp = hp;
-        this.updatePosition(x, y);
+    }
+
+    updateState(state, direction, unitType) {
+        this.state = state;
         this.direction = direction;
 
         let spriteDetails = Unit.getSpriteDetails(this.playerID, this.state, this.direction, unitType);
@@ -52,15 +54,14 @@ export default class Unit extends StateObject {
         let unitTypeSoldier = unitTypeConstant.soldier,
             unitTypeVillager = unitTypeConstant.villager;
 
-        this.baseTextures = {
-            0: {    // soldier constant (check constantsjs)
-                1: PIXI.loader.resources.soldierP1Sheet.texture,
-                2: PIXI.loader.resources.soldierP2Sheet.texture
-            },
-            1: {    // villager constant
-                1: PIXI.loader.resources.villagerP1Sheet.texture,
-                2: PIXI.loader.resources.villagerP2Sheet.texture
-            }
+        this.baseTextures = {};
+        this.baseTextures[unitTypeSoldier] = {
+            1: PIXI.loader.resources.soldierP1Sheet.texture,
+            2: PIXI.loader.resources.soldierP2Sheet.texture
+        };
+        this.baseTextures[unitTypeVillager] = {
+            1: PIXI.loader.resources.villagerP1Sheet.texture,
+            2: PIXI.loader.resources.villagerP2Sheet.texture
         };
 
         this.textures = {
@@ -84,7 +85,7 @@ export default class Unit extends StateObject {
                     moveTextures: this.getMoveTextures(1,unitTypeVillager),
                     atkTextures: this.getAtkTextures(1,unitTypeVillager),
                     mineTextures: this.getMineTextures(1,unitTypeVillager),
-                    bldTextures: this.getBldTextures(1,unitTypeVillager),
+                    buildTextures: this.getBuildTextures(1,unitTypeVillager),
                     deadTexture: this.getDeadTexture(1,unitTypeVillager)
                 },
                 2: {
@@ -92,7 +93,7 @@ export default class Unit extends StateObject {
                     moveTextures: this.getMoveTextures(2,unitTypeVillager),
                     atkTextures: this.getAtkTextures(2,unitTypeVillager),
                     mineTextures: this.getMineTextures(2,unitTypeVillager),
-                    bldTextures: this.getBldTextures(2,unitTypeVillager),
+                    buildTextures: this.getBuildTextures(2,unitTypeVillager),
                     deadTexture: this.getDeadTexture(2,unitTypeVillager)
                 }
             }
@@ -272,7 +273,7 @@ export default class Unit extends StateObject {
     }
 
     // build action meant for villager
-    static getBldTextures(playerID, unitType) {
+    static getBuildTextures(playerID, unitType) {
         var base = this.baseTextures[unitType][playerID];
         let texture = null;
 
@@ -374,7 +375,7 @@ export default class Unit extends StateObject {
                 details.textures = this.textures.villagerTexture[playerID].mineTextures[unitDirection];
                 break;
             case 4:     // build (temp textures)
-                details.textures = this.textures.villagerTexture[playerID].bldTextures[unitDirection];
+                details.textures = this.textures.villagerTexture[playerID].buildTextures[unitDirection];
                 break;
             case 5:     // dead
                 details.textures = this.textures.villagerTexture[playerID].deadTexture;

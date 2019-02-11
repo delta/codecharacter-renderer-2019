@@ -7,8 +7,8 @@ export default class Villager extends Unit {
     }
 
     // override to mention what unitType
-    updateState(state, x, y, direction, hp) {
-        super.updateState(state, x, y, direction, hp, Villager.unitType);
+    updateState(state, direction) {
+        super.updateState(state, direction, Villager.unitType);
     }
 
     // unit type villager

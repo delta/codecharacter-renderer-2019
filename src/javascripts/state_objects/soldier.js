@@ -7,8 +7,8 @@ export default class Soldier extends Unit {
     }
 
     // override to mention what unitType
-    updateState(state, x, y, direction, hp) {
-        super.updateState(state, x, y, direction, hp, Soldier.unitType);
+    updateState(state, direction) {
+        super.updateState(state, direction, Soldier.unitType);
     }
 
     // unit type soldier
