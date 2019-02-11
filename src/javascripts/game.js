@@ -13,8 +13,8 @@ import * as screenfull from 'screenfull';
 
 export default class Game {
     constructor() {
-        this.soldiers = [];
-        this.villagers = [];
+        this.soldiers = {};
+        this.villagers = {};
         this.factories = {};
         this.terrain = [];
         this.mapLength = 0;
@@ -316,13 +316,44 @@ export default class Game {
         return this;
     }
 
+    // buildSoldiers() {
+    //     let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
+
+    //     let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+    //     for (let i = 0; i < stateSoldiers.length; i++) {
+    //         let soldier = stateSoldiers[i];
+    //         this.soldiers[i] = new Soldier(
+    //             soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
+    //         );
+    //     }
+
+    //     return this;
+    // }
+
+    // buildVillagers() {
+    //     let stateVillagers = this.getCurrentFrame().villagers;  // Current Frame Number is 0
+
+    //     let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
+    //     for (let i = 0; i < stateVillagers.length; i++) {
+    //         let villager = stateVillagers[i];
+    //         this.villagers[i] = new Villager(
+    //             villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
+    //         );
+    //     }
+
+    //     return this;
+    // }
+
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
-
         let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
-        for (let i = 0; i < stateSoldiers.length; i++) {
-            let soldier = stateSoldiers[i];
-            this.soldiers[i] = new Soldier(
+
+        for (let soldierID in stateSoldiers) {
+            if (isNaN(parseInt(soldierID)))    // Create New Soldiers only for actual soldier objects
+                continue;
+
+            let soldier = stateSoldiers[soldierID];
+            this.soldiers[soldierID] = new Soldier(
                 soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
             );
         }
@@ -332,11 +363,14 @@ export default class Game {
 
     buildVillagers() {
         let stateVillagers = this.getCurrentFrame().villagers;  // Current Frame Number is 0
-
         let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
-        for (let i = 0; i < stateVillagers.length; i++) {
-            let villager = stateVillagers[i];
-            this.villagers[i] = new Villager(
+
+        for (let villagerID in stateVillagers) {
+            if (isNaN(parseInt(villagerID)))    // Create New Villagers only for actual villager objects
+                continue;
+
+            let villager = stateVillagers[villagerID];
+            this.villagers[villagerID] = new Villager(
                 villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
             );
         }
@@ -430,7 +464,8 @@ export default class Game {
     }
 
     addSoldiers() {
-        for (let soldier of this.soldiers) {
+        for (let soldierID in this.soldiers) {
+            let soldier = this.soldiers[soldierID];
             soldier.addSprite(this.app.stage);
         }
 
@@ -438,7 +473,8 @@ export default class Game {
     }
 
     addVillagers() {
-        for (let villager of this.villagers) {
+        for (let villagerID in this.villagers) {
+            let villager = this.villagers[villagerID];
             villager.addSprite(this.app.stage);
         }
 
@@ -486,16 +522,71 @@ export default class Game {
     /**
      * Updating game objects
      */
+    // updateSoldiers() {
+    //     let currentSoldiers = this.getCurrentFrame().soldiers;
+
+    //     for (let i = 0; i < this.soldiers.length; i++) {
+    //         let soldier = currentSoldiers[i];
+    //         this.soldiers[i].updatePosition(soldier.x, soldier.y);
+    //         this.soldiers[i].updateHP(soldier.hp);
+
+    //         if (soldier.stateHasChanged) {
+    //             this.soldiers[i].updateState(soldier.state, soldier.direction);
+    //         }
+    //     }
+
+    //     return this;
+    // }
+
+    // updateVillagers() {
+    //     let currentVillagers = this.getCurrentFrame().villagers;
+
+    //     for (let i = 0; i < this.villagers.length; i++) {
+    //         let villager = currentVillagers[i];
+    //         this.villagers[i].updatePosition(villager.x, villager.y);
+    //         this.villagers[i].updateHP(villager.hp);
+
+    //         if (villager.stateHasChanged) {
+    //             this.villagers[i].updateState(villager.state, villager.direction);
+    //         }
+    //     }
+
+    //     return this;
+    // }
+
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
 
-        for (let i = 0; i < this.soldiers.length; i++) {
-            let soldier = currentSoldiers[i];
-            this.soldiers[i].updatePosition(soldier.x, soldier.y);
-            this.soldiers[i].updateHP(soldier.hp);
+        if (!currentSoldiers.hasChanged) {
+            return this;
+        }
 
-            if (soldier.stateHasChanged) {
-                this.soldiers[i].updateState(soldier.state, soldier.direction);
+        for (let soldierID in currentSoldiers) {
+            if (isNaN(parseInt(soldierID)))
+                continue;
+
+            let soldier = currentSoldiers[soldierID];
+            if (soldier.updateMethod == "none")
+                continue;
+
+            if (soldier.updateMethod == "create") {
+                let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+                this.soldiers[soldierID] = new Soldier(
+                    soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
+                );
+                this.soldiers[soldierID].addSprite(this.app.stage);
+            } else if (soldier.updateMethod == "destroy") {
+                this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
+            } else if (soldier.updateMethod == "update") {
+                this.soldiers[soldierID].updatePosition(soldier.x, soldier.y);
+                this.soldiers[soldierID].updateHP(soldier.hp);
+                if(soldier.stateHasChanged) {
+                    this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
+                }
+            }
+            if (soldier.framesLeft == 0) {
+                this.soldiers[soldierID].removeSprite(this.app.stage);
+                delete this.soldiers[soldierID];
             }
         }
 
@@ -505,13 +596,36 @@ export default class Game {
     updateVillagers() {
         let currentVillagers = this.getCurrentFrame().villagers;
 
-        for (let i = 0; i < this.villagers.length; i++) {
-            let villager = currentVillagers[i];
-            this.villagers[i].updatePosition(villager.x, villager.y);
-            this.villagers[i].updateHP(villager.hp);
+        if (!currentVillagers.hasChanged) {
+            return this;
+        }
 
-            if (villager.stateHasChanged) {
-                this.villagers[i].updateState(villager.state, villager.direction);
+        for (let villagerID in currentVillagers) {
+            if (isNaN(parseInt(villagerID)))
+                continue;
+
+            let villager = currentVillagers[villagerID];
+            if (villager.updateMethod == "none")
+                continue;
+
+            if (villager.updateMethod == "create") {
+                let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
+                this.villagers[villagerID] = new Villager(
+                    villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
+                );
+                this.villagers[villagerID].addSprite(this.app.stage);
+            } else if (villager.updateMethod == "destroy") {
+                this.villagers[villagerID].updateState(villager.state, villager.direction);
+            } else if (villager.updateMethod == "update") {
+                this.villagers[villagerID].updatePosition(villager.x, villager.y);
+                this.villagers[villagerID].updateHP(villager.hp);
+                if(villager.stateHasChanged) {
+                    this.villagers[villagerID].updateState(villager.state, villager.direction);
+                }
+            }
+            if (villager.framesLeft == 0) {
+                this.villagers[villagerID].removeSprite(this.app.stage);
+                delete this.villagers[villagerID];
             }
         }
 
