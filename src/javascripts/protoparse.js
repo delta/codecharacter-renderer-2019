@@ -42,7 +42,9 @@ export default class Proto {
     processStates(decodedStates) {
         let processedStates = [];
         let soldierList = {},
-            villagerList = {};
+            deadSoldiers = [];
+        let villagerList = {},
+            deadVillagers = [];
         let factoryList = {},
             deadFactories = [];
         for (let frame of decodedStates) {
@@ -173,6 +175,188 @@ export default class Proto {
         }
     }
 
+    processSoldier(soldierList, soldiers, deadSoldiers) {
+        // No changes from frame
+        if (soldiers === undefined && deadSoldiers.length === 0) {
+            soldierList.hasChanged = false;
+            return soldierList;
+        }
+
+        if (soldiers == undefined)
+            soldiers = [];
+
+        soldierList.hasChanged = true;
+        let soldierCheckList = this.getCheckList(soldierList);
+
+        // Updating dead soldier
+        for (let i = 0; i < deadSoldiers.length; i++) {
+            let dyingSoldier = soldierList[deadSoldiers[i]];
+            delete soldierCheckList[dyingSoldier.id];
+
+            if (dyingSoldier.framesLeft >= 0) {
+                dyingSoldier.framesLeft--;
+            } else {
+                delete soldierList[deadSoldiers.id];
+                deadSoldiers.splice(i, 1);
+                i -= 1;
+            }
+        }
+
+        // Updating soldierList
+        for (let soldier of soldiers) {
+            if (!soldier.hasOwnProperty('id'))
+                soldier.id = 0;
+
+            if (soldierList.hasOwnProperty(soldier.id)) {   // checking if soldier isnt new (already exists in list)
+                if (soldier.state === 3) {  // soldier state 3 = dead
+                    soldierList[soldier.id].updateMethod = "destroy";
+                    soldierList[soldier.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
+
+                    deadSoldiers.push(soldier.id);
+                } else {
+                    // Set soldier direction
+                    if (soldier.state == 1) {   // state 1 = move
+                        soldierList[soldier.id].direction = this.getMovementDirection(soldier.x, soldier.y, soldierList[soldier.id].x, soldierList[soldier.id].y);
+                    } else if (soldier.targetX != -1 && soldier.targetY != -1) {    // attack
+                        soldierList[soldier.id].direction = this.getMovementDirection(soldier.targetX, soldier.targetY, soldier.x, soldier.y);
+                    }
+
+                    // Change soldierList if soldiers state or direction has changed
+                    if (soldierList[soldier.id].state != soldier.state || soldierList[soldier.id].direction != soldier.direction) {
+                        soldierList[soldier.id].state = soldier.state;
+                        soldierList[soldier.id].direction = soldier.direction;
+                        soldierList[soldier.id].stateHasChanged = true;
+                    }
+
+                    // Update SOLdier list for next frame
+                    soldierList[soldier.id].x = soldier.x;
+                    soldierList[soldier.id].y = soldier.y;
+                    soldierList[soldier.id].hp = soldier.hp;
+                    soldierList[soldier.id].updateMethod = "update";
+                }
+
+                delete soldierCheckList[soldier.id];
+
+            } else {
+                // New Soldier
+                if (!soldier.hasOwnProperty('playerId'))
+                    soldier.playerId = 1;
+                if (!soldier.hasOwnProperty('x'))
+                    soldier.x = 0;
+                if (!soldier.hasOwnProperty('y'))
+                    soldier.y = 0;
+                if (!soldier.hasOwnProperty('state'))
+                    soldier.state = 0;
+                if (!soldier.hasOwnProperty('hp'))
+                    soldier.hp = 0;
+
+                soldier.direction = "down"  //default
+                soldier.updateMethod = "create";
+                soldierList[soldier.id] = Object.assign({}, soldier);
+            }
+        }
+
+        for (let soldierID in soldierCheckList) {
+            if ( isNaN(parseInt(soldierID)) )
+                continue;
+
+            soldierList[soldierID].updateMethod = "none";
+        }
+
+        return soldierList;
+    }
+
+    processVillager(villagerList, villagers, deadVillagers) {
+        // No changes from frame
+        if (villagers === undefined && deadVillagers.length === 0) {
+            villagerList.hasChanged = false;
+            return villagerList;
+        }
+
+        if (villagers == undefined)
+            villagers = [];
+
+        villagerList.hasChanged = true;
+        let villagerCheckList = this.getCheckList(villagerList);
+
+        // Updating dead villager
+        for (let i = 0; i < deadVillagers.length; i++) {
+            let dyingVillager = villagerList[deadVillagers[i]];
+            delete villagerCheckList[dyingVillager.id];
+
+            if (dyingVillager.framesLeft >= 0) {
+                dyingVillager.framesLeft--;
+            } else {
+                delete villagerList[deadVillagers.id];
+                deadVillagers.splice(i, 1);
+                i -= 1;
+            }
+        }
+
+        // Updating villagerList
+        for (let villager of villagers) {
+            if (!villager.hasOwnProperty('id'))
+                villager.id = 0;
+
+            if (villagerList.hasOwnProperty(villager.id)) {   // checking if villager isnt new (already exists in list)
+                if (villager.state === 5) {  // villager state 5 = dead
+                    villagerList[villager.id].updateMethod = "destroy";
+                    villagerList[villager.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
+
+                    deadVillagers.push(villager.id);
+                } else {
+                    // Set villager direction
+                    if (villager.state == 1) {  // state 1 = move
+                        villagerList[villager.id].direction = this.getMovementDirection(villager.x, villager.y, villagerList[villager.id].x, villagerList[villager.id].y);
+                    } else if (villager.targetX != -1 && villager.targetY != -1) {  // build,mine,attack
+                        villagerList[villager.id].direction = this.getMovementDirection(villager.targetX, villager.targetY, villager.x, villager.y);
+                    }
+
+                    // Change villagerList if villagers state or direction has changed
+                    if (villagerList[villager.id].state != villager.state || villagerList[villager.id].direction != villager.direction) {
+                        villagerList[villager.id].state = villager.state;
+                        villagerList[villager.id].direction = villager.direction;
+                        villagerList[villager.id].stateHasChanged = true;
+                    }
+
+                    // Update villager list for next frame
+                    villagerList[villager.id].x = villager.x;
+                    villagerList[villager.id].y = villager.y;
+                    villagerList[villager.id].hp = villager.hp;
+                    villagerList[villager.id].updateMethod = "update";
+                }
+
+                delete villagerCheckList[villager.id];
+
+            } else {
+                // New villager
+                if (!villager.hasOwnProperty('playerId'))
+                    villager.playerId = 1;
+                if (!villager.hasOwnProperty('x'))
+                    villager.x = 0;
+                if (!villager.hasOwnProperty('y'))
+                    villager.y = 0;
+                if (!villager.hasOwnProperty('state'))
+                    villager.state = 0;
+                if (!villager.hasOwnProperty('hp'))
+                    villager.hp = 0;
+
+                villager.direction = "down"  //default
+                villager.updateMethod = "create";
+                villagerList[villager.id] = Object.assign({}, villager);
+            }
+        }
+
+        for (let villagerID in villagerCheckList) {
+            if ( isNaN(parseInt(villagerID)) )
+                continue;
+
+            villagerList[villagerID].updateMethod = "none";
+        }
+
+        return villagerList;
+    }
+
     processFactory(factoryList, factories, deadFactories) {
         // No changes from frame
         if (factories === undefined && deadFactories.length === 0) {
@@ -207,10 +391,7 @@ export default class Proto {
                 factory.id = 0;
 
             if (factoryList.hasOwnProperty(factory.id)) {
-                if (factory.isDead) {
-                    // factory Destroyed
-                    factoryList[factory.id].isDead = true;
-                    factoryList[factory.id].levelHasChanged = true;
+                if (factory.state === 4) { // factory state 4 = destroyed
                     factoryList[factory.id].updateMethod = "destroy";
                     factoryList[factory.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
 
@@ -238,7 +419,6 @@ export default class Proto {
                 if (!factory.hasOwnProperty('buildPercent'))
                     factory.buildPercent = 0;
 
-                factory.levelHasChanged = true;
                 factory.updateMethod = "create";
                 factoryList[factory.id] = Object.assign({}, factory);
             }
