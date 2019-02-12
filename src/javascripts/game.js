@@ -316,34 +316,6 @@ export default class Game {
         return this;
     }
 
-    // buildSoldiers() {
-    //     let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
-
-    //     let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
-    //     for (let i = 0; i < stateSoldiers.length; i++) {
-    //         let soldier = stateSoldiers[i];
-    //         this.soldiers[i] = new Soldier(
-    //             soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
-    //         );
-    //     }
-
-    //     return this;
-    // }
-
-    // buildVillagers() {
-    //     let stateVillagers = this.getCurrentFrame().villagers;  // Current Frame Number is 0
-
-    //     let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
-    //     for (let i = 0; i < stateVillagers.length; i++) {
-    //         let villager = stateVillagers[i];
-    //         this.villagers[i] = new Villager(
-    //             villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
-    //         );
-    //     }
-
-    //     return this;
-    // }
-
     buildSoldiers() {
         let stateSoldiers = this.getCurrentFrame().soldiers;  // Current Frame Number is 0
         let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
@@ -522,38 +494,6 @@ export default class Game {
     /**
      * Updating game objects
      */
-    // updateSoldiers() {
-    //     let currentSoldiers = this.getCurrentFrame().soldiers;
-
-    //     for (let i = 0; i < this.soldiers.length; i++) {
-    //         let soldier = currentSoldiers[i];
-    //         this.soldiers[i].updatePosition(soldier.x, soldier.y);
-    //         this.soldiers[i].updateHP(soldier.hp);
-
-    //         if (soldier.stateHasChanged) {
-    //             this.soldiers[i].updateState(soldier.state, soldier.direction);
-    //         }
-    //     }
-
-    //     return this;
-    // }
-
-    // updateVillagers() {
-    //     let currentVillagers = this.getCurrentFrame().villagers;
-
-    //     for (let i = 0; i < this.villagers.length; i++) {
-    //         let villager = currentVillagers[i];
-    //         this.villagers[i].updatePosition(villager.x, villager.y);
-    //         this.villagers[i].updateHP(villager.hp);
-
-    //         if (villager.stateHasChanged) {
-    //             this.villagers[i].updateState(villager.state, villager.direction);
-    //         }
-    //     }
-
-    //     return this;
-    // }
-
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
 
@@ -736,16 +676,22 @@ export default class Game {
                 pauseIcon.src = playAsset;
 
                 // Pause Animations
-                for (let soldier of this.soldiers) {
-                    soldier.pauseAnimation();
+                for (let soldierID in this.soldiers) {
+                    this.soldiers[soldierID].pauseAnimation();
+                }
+                for (let villagerID in this.villagers) {
+                    this.villagers[villagerID].pauseAnimation();
                 }
             } else {
                 this.state = "play";
                 pauseIcon.src = pauseAsset;
 
                 // Resume Animations
-                for (let soldier of this.soldiers) {
-                    soldier.playAnimation();
+                for (let soldierID in this.soldiers) {
+                    this.soldiers[soldierID].playAnimation();
+                }
+                for (let villagerID in this.villagers) {
+                    this.villagers[villagerID].playAnimation();
                 }
             }
 
@@ -782,8 +728,11 @@ export default class Game {
         }
 
         // Stop Animations
-        for (let soldier of this.soldiers) {
-            soldier.pauseAnimation();
+        for (let soldierID in this.soldiers) {
+            this.soldiers[soldierID].pauseAnimation();
+        }
+        for (let villagerID in this.villagers) {
+            this.villagers[villagerID].pauseAnimation();
         }
     }
 
@@ -797,9 +746,13 @@ export default class Game {
             this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
             this.updateSpeedDisplay();
 
-            let speed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
-            for (let soldier of this.soldiers) {
-                soldier.setAnimationSpeed(speed);
+            let soldierSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+            for (let soldierID in this.villagers) {
+                this.soldiers[soldierID].setAnimationSpeed(soldierSpeed);
+            }
+            let villagerSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
+            for (let villagerID in this.villagers) {
+                this.villagers[villagerID].setAnimationSpeed(villagerSpeed);
             }
         }
     }
@@ -810,9 +763,13 @@ export default class Game {
             this.speed.value = CONSTANTS.gameSpeed.actualValues[this.speed.pointer];
             this.updateSpeedDisplay();
 
-            let speed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
-            for (let soldier of this.soldiers) {
-                soldier.setAnimationSpeed(speed);
+            let soldierSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
+            for (let soldierID in this.soldiers) {
+                this.soldiers[soldierID].setAnimationSpeed(soldierSpeed);
+            }
+            let villagerSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
+            for (let villagerID in this.villagers) {
+                this.villagers[villagerID].setAnimationSpeed(villagerSpeed);
             }
         }
     }
