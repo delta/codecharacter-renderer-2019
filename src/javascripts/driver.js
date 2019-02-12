@@ -2,8 +2,8 @@ import * as PIXI from 'pixi.js';
 import Game from './game';
 import Proto from './protoparse.js';
 import landAsset from "../assets/land.jpg";
-import waterAsset from "../assets/water.png"
-import goldAsset from "../assets/gold.png"
+import waterAsset from "../assets/water.jpg"
+import goldAsset from "../assets/gold.jpg"
 import soldierP1Asset from "../assets/Soldier_P1.png";
 import soldierP2Asset from "../assets/Soldier_P2.png";
 import villagerP1Asset from "../assets/Villager_P1.png";

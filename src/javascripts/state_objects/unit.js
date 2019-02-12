@@ -227,8 +227,8 @@ export default class Unit extends StateObject {
         var base = this.baseTextures[unitType][playerID];
         let texture = null;
 
-        let frameSet = Unit.spriteSheetData[unitType].atkSequence.frameSequence,
-            pos = Unit.spriteSheetData[unitType].atkSequence.initPositions,
+        let frameSet = Unit.spriteSheetData[unitType].mineSequence.frameSequence,
+            pos = Unit.spriteSheetData[unitType].mineSequence.initPositions,
             frame = Unit.spriteSheetData[unitType].frameDetails;
 
         let upTextures = [],
@@ -277,8 +277,8 @@ export default class Unit extends StateObject {
         var base = this.baseTextures[unitType][playerID];
         let texture = null;
 
-        let frameSet = Unit.spriteSheetData[unitType].atkSequence.frameSequence,
-            pos = Unit.spriteSheetData[unitType].atkSequence.initPositions,
+        let frameSet = Unit.spriteSheetData[unitType].buildSequence.frameSequence,
+            pos = Unit.spriteSheetData[unitType].buildSequence.initPositions,
             frame = Unit.spriteSheetData[unitType].frameDetails;
 
         let upTextures = [],

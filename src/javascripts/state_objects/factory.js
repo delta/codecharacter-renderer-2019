@@ -3,7 +3,7 @@ import StateObject from './stateobject';
 
 export default class Factory extends StateObject {
     constructor(x, y, id, playerID, hp, state, buildPercent) {
-        let buildLevel = Math.floor(buildPercent*Factory.buildLevelMultiplier);
+        let buildLevel = Math.min(4,Math.floor(buildPercent*Factory.buildLevelMultiplier));
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
         let width = Factory.displayDimensions.width,
             height = Factory.displayDimensions.height,
@@ -32,7 +32,7 @@ export default class Factory extends StateObject {
     }
 
     setBuildLevel(buildPercent) {
-        this.buildLevel = Math.floor(buildPercent*Factory.buildLevelMultiplier);
+        this.buildLevel = Math.min(4,Math.floor(buildPercent*Factory.buildLevelMultiplier));
     }
 
     updateBuildTexture(level) {
