@@ -105,12 +105,7 @@ export default class Game {
             speedUpIcon = document.querySelector("#speed-up-icon");
 
         canvas.tabIndex = 1; // Allows event listeners to work
-
-        game.container.addEventListener("mousedown", (e) => {
-            canvas.focus();
-            e.preventDefault();
-        });
-
+        canvas.focus();
         canvas.addEventListener("keydown", (e) => {
             if (e.key !== undefined) {
                 switch (e.key) {

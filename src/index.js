@@ -45,6 +45,13 @@ export default class CodeCharacterRenderer extends React.Component {
                         <div className="value" id="instr-count-value"></div> / <div className="value" id="instr-count-limit"></div>
                     </div>
                 </div>
+
+                <div className="top-container" id="top-left-container">
+                    <div className="label top-label" id="unit-type-container">
+                        <div className="value player-details">TYPE : </div>
+                        <div className="value" id="unit-type"></div>
+                    </div>
+                </div>
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
                     <img className="icon" id="reset-icon" onClick={this.state.resetGame} src={resetAsset} />

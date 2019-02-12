@@ -7,7 +7,7 @@ div#renderer-container {
   z-index: 0;
 }
 
-div#renderer-container:focus-within:after {
+div#renderer-container{
   border: 1px solid orange;
   content: '';
   display: block;
@@ -47,6 +47,18 @@ canvas:focus {
   transition: opacity 0.2s;
 }
 /*div*/#top-right-container:hover {
+  opacity: 0.3;
+}
+
+/*div*/#top-left-container {
+  margin: 10px;
+  left: 0%;
+  border-radius: 5px;
+  text-align: right;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+/*div*/#top-left-container:hover {
   opacity: 0.3;
 }
 
