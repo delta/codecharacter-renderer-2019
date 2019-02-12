@@ -18,40 +18,40 @@ const SPRITE_CONSTANTS = {
         // Spritesheet data
         spriteSheetData: {
             frameDetails: {
-                width: 311.25,
-                height: 322,
-                jump: 311.25                       // jump and width are usually the same
+                width: 248.5,
+                height: 248.4,
+                jump: 248.5                       // jump and width are usually the same
             },
             idleSequence: {
                 initPositions: {
-                    left: { x: 311.25, y: 322 },
+                    left: { x: 248.5, y: 248.4 },
                     up: { x: 0, y: 0 },
                     down: { x: 0, y: 0 },
-                    right: { x: 311.25, y: 0 },
+                    right: { x: 248.5, y: 0 },
                 }
             },
             moveSequence: {
                 initPositions: {
-                    left: { x: 311.25, y: 322 },
-                    right: { x: 311.25, y: 0 },
-                    down: { x: 311.25, y: 322 },
-                    up: { x: 311.25, y: 0 },
+                    left: { x: 248.5, y: 248.4 },
+                    right: { x: 248.5, y: 0 },
+                    down: { x: 248.5, y: 248.4 },
+                    up: { x: 248.5, y: 0 },
                 },
                 frameSequence: [0, 1]     // sequence of frame indices to be added to textures array
             },
             atkSequence: {
                 initPositions: {
-                    left: { x: 311.25, y: 966 },
-                    right: { x: 311.25, y: 644 },
-                    down: { x: 311.25, y: 966 },
-                    up: { x: 311.25, y: 644 },
+                    left: { x: 248.5, y: 745.2 },
+                    right: { x: 248.5, y: 496.8 },
+                    down: { x: 248.5, y: 745.2 },
+                    up: { x: 248.5, y: 496.8 },
                 },
                 frameSequence: [0, 1, 2]
             },
             deadSequence: {
                 initPositions: {
                     x: 0,
-                    y: 1288
+                    y: 993.6
                 },
                 frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
             },
@@ -71,58 +71,58 @@ const SPRITE_CONSTANTS = {
         // Spritesheet data
         spriteSheetData: {
             frameDetails: {
-                width: 334,
-                height: 341,
-                jump: 334                       // jump and width are usually the same
+                width: 248.2,
+                height: 248.2,
+                jump: 248.2                       // jump and width are usually the same
             },
             idleSequence: {
                 initPositions: {
-                    left: { x: 334, y: 341 },
+                    left: { x: 248.2, y: 248.2 },
                     up: { x: 0, y: 0 },
                     down: { x: 0, y: 0 },
-                    right: { x: 334, y: 0 },
+                    right: { x: 248.2, y: 0 },
                 }
             },
             moveSequence: {
                 initPositions: {
-                    left: { x: 334, y: 341 },
-                    right: { x: 334, y: 0 },
-                    down: { x: 334, y: 341 },
-                    up: { x: 334, y: 0 },
+                    left: { x: 248.2, y: 248.2 },
+                    right: { x: 248.2, y: 0 },
+                    down: { x: 248.2, y: 248.2 },
+                    up: { x: 248.2, y: 0 },
                 },
                 frameSequence: [0, 1]     // sequence of frame indices to be added to textures array
             },
             atkSequence: {
                 initPositions: {
-                    left: { x: 334, y: 1023 },
-                    right: { x: 334, y: 682 },
-                    down: { x: 334, y: 1023 },
-                    up: { x: 334, y: 682 },
+                    left: { x: 248.2, y: 744.6 },
+                    right: { x: 248.2, y: 496.4 },
+                    down: { x: 248.2, y: 744.6 },
+                    up: { x: 248.2, y: 496.4 },
                 },
                 frameSequence: [0, 1, 2]
             },
             mineSequence: {
                 initPositions: {
-                    left: { x: 334, y: 2387 },
-                    right: { x: 334, y: 2046 },
-                    down: { x: 334, y: 2387 },
-                    up: { x: 334, y: 2046 },
+                    left: { x: 248.2, y: 1737.4 },
+                    right: { x: 248.2, y: 1489.2 },
+                    down: { x: 248.2, y: 1737.4 },
+                    up: { x: 248.2, y: 1489.2 },
                 },
                 frameSequence: [0, 1, 2, 3]
             },
             buildSequence: {
                 initPositions: {
-                    left: { x: 334, y: 1705 },
-                    right: { x: 334, y: 1364 },
-                    down: { x: 334, y: 1705 },
-                    up: { x: 334, y: 1364 },
+                    left: { x: 248.2, y: 1241 },
+                    right: { x: 248.2, y: 992.8 },
+                    down: { x: 248.2, y: 1241 },
+                    up: { x: 248.2, y: 992.8 },
                 },
                 frameSequence: [0, 1, 2, 3]
             },
             deadSequence: {
                 initPositions: {
                     x: 0,
-                    y: 2728
+                    y: 1985.6
                 },
                 frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
             },
