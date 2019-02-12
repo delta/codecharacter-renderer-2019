@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { type } from 'os';
 
 export default class StateObject {
     constructor(x, y, width, height, textureData, isAnimated = false, animationSpeed = 0) {
@@ -43,6 +44,13 @@ export default class StateObject {
 
     // Methods to add and remove sprites
     addSprite(stage) {
+        console.log(this.sprite.play);
+        this.sprite.interactive = true;
+        this.sprite.buttonMode = true;
+        this.sprite.on('click', ()=>{
+            let obj = document.getElementById("unit-type");
+            obj.innerHTML = this.constructor.name;
+        });
         stage.addChild(this.sprite);
     }
 
