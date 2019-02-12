@@ -321,9 +321,6 @@ export default class Game {
         let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
 
         for (let soldierID in stateSoldiers) {
-            if (isNaN(parseInt(soldierID)))    // Create New Soldiers only for actual soldier objects
-                continue;
-
             let soldier = stateSoldiers[soldierID];
             this.soldiers[soldierID] = new Soldier(
                 soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
@@ -338,9 +335,6 @@ export default class Game {
         let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
 
         for (let villagerID in stateVillagers) {
-            if (isNaN(parseInt(villagerID)))    // Create New Villagers only for actual villager objects
-                continue;
-
             let villager = stateVillagers[villagerID];
             this.villagers[villagerID] = new Villager(
                 villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
@@ -497,17 +491,8 @@ export default class Game {
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
 
-        if (!currentSoldiers.hasChanged) {
-            return this;
-        }
-
         for (let soldierID in currentSoldiers) {
-            if (isNaN(parseInt(soldierID)))
-                continue;
-
             let soldier = currentSoldiers[soldierID];
-            if (soldier.updateMethod == "none")
-                continue;
 
             if (soldier.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
@@ -536,17 +521,8 @@ export default class Game {
     updateVillagers() {
         let currentVillagers = this.getCurrentFrame().villagers;
 
-        if (!currentVillagers.hasChanged) {
-            return this;
-        }
-
         for (let villagerID in currentVillagers) {
-            if (isNaN(parseInt(villagerID)))
-                continue;
-
             let villager = currentVillagers[villagerID];
-            if (villager.updateMethod == "none")
-                continue;
 
             if (villager.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
@@ -747,7 +723,7 @@ export default class Game {
             this.updateSpeedDisplay();
 
             let soldierSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
-            for (let soldierID in this.villagers) {
+            for (let soldierID in this.soldiers) {
                 this.soldiers[soldierID].setAnimationSpeed(soldierSpeed);
             }
             let villagerSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
