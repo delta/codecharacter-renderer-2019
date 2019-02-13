@@ -104,7 +104,11 @@ function render(delta) {
             .updateScore()
             .updateFactories()
             .logErrors()
-            .logPlayerLogs();
+            .logPlayerLogs()
+            .setGameStatus(false);
+    }
+    if (game.state == "pause") {
+        game.setGameStatus(true);
     }
 
 }
