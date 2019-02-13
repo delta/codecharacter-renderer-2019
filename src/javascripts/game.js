@@ -281,6 +281,7 @@ export default class Game {
         Villager.setMaxHP(this.stateVariable.villagerMaxHp);
         Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
         Factory.setBuildMultiplier(CONSTANTS.factories.factoryBuildLevelMultiplier);
+        Factory.setMinHp(CONSTANTS.factories.factoryMinHp);
 
         // Set Sprite related constants
         Unit.initializeSpriteConstants();
@@ -288,7 +289,7 @@ export default class Game {
         Villager.setUnitConstant(CONSTANTS.unitType.villager);
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
-        Factory.setSpriteConstants(CONSTANTS.spriteConstants.towerSprites);
+        Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
 
         // Add Textures
         Unit.setTextures(CONSTANTS.unitType);

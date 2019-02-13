@@ -3,7 +3,7 @@ import StateObject from './stateobject';
 
 export default class Factory extends StateObject {
     constructor(x, y, id, playerID, hp, state, buildPercent) {
-        let buildLevel = Math.min(4,Math.floor(buildPercent*Factory.buildLevelMultiplier));
+        let buildLevel = Math.floor(Math.min(100,buildPercent)*Factory.buildLevelMultiplier);
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
         let width = Factory.displayDimensions.width,
             height = Factory.displayDimensions.height,
@@ -28,11 +28,14 @@ export default class Factory extends StateObject {
     }
 
     destroy() {
-        this.updateBuildTexture(0);
+        this.updateBuildTexture(-1);    // -1 = deadTexture
     }
 
     setBuildLevel(buildPercent) {
-        this.buildLevel = Math.min(4,Math.floor(buildPercent*Factory.buildLevelMultiplier));
+        this.buildLevel = Math.floor(Math.min(100,buildPercent)*Factory.buildLevelMultiplier);
+        if (this.hp < Factory.minHp && buildPercent >= 100) {
+            this.buildLevel = 3;    // broken state
+        }
     }
 
     updateBuildTexture(level) {
@@ -48,9 +51,13 @@ export default class Factory extends StateObject {
         this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
     }
 
-    static setSpriteConstants(TOWER_SPRITE_CONSTANTS) {
-        this.displayDimensions = TOWER_SPRITE_CONSTANTS.displayDimensions;
-        this.spriteSheetData = TOWER_SPRITE_CONSTANTS.spriteSheetData;
+    static setMinHp(HP_CONSTANT) {
+        this.minHp = HP_CONSTANT;
+    }
+
+    static setSpriteConstants(FACTORY_SPRITE_CONSTANTS) {
+        this.displayDimensions = FACTORY_SPRITE_CONSTANTS.displayDimensions;
+        this.spriteSheetData = FACTORY_SPRITE_CONSTANTS.spriteSheetData;
     }
 
     static setTextures() {
@@ -62,17 +69,15 @@ export default class Factory extends StateObject {
         this.textures = {
             1: {
                 deadTexture: this.getDeadTexture(1),
-                lv1Texture: this.getLv1Texture(1),  //25%
+                lv1Texture: this.getLv1Texture(1),  //0%
                 lv2Texture: this.getLv2Texture(1),  //50%
-                lv3Texture: this.getLv3Texture(1),  //75%
-                lv4Texture: this.getLv3Texture(1)   //100%
+                lv3Texture: this.getLv3Texture(1),  //100%
             },
             2: {
                 deadTexture: this.getDeadTexture(2),
-                lv1Texture: this.getLv1Texture(2),
-                lv2Texture: this.getLv2Texture(2),
-                lv3Texture: this.getLv3Texture(2),
-                lv4Texture: this.getLv3Texture(2)
+                lv1Texture: this.getLv1Texture(2),  //0%
+                lv2Texture: this.getLv2Texture(2),  //50%
+                lv3Texture: this.getLv3Texture(2),  //100%
             }
         };
     }
@@ -125,20 +130,20 @@ export default class Factory extends StateObject {
         let details = { texture: null };
 
         switch (buildLevel) {
-        case 0:
+        case -1:
             details.texture = this.textures[playerID].deadTexture;
             break;
+        case 0:
+            details.texture = this.textures[playerID].lv1Texture;   // foundation
+            break;
         case 1:
-            details.texture = this.textures[playerID].lv1Texture;
+            details.texture = this.textures[playerID].lv2Texture;   // half built
             break;
         case 2:
-            details.texture = this.textures[playerID].lv2Texture;
+            details.texture = this.textures[playerID].lv3Texture;   // completely built
             break;
         case 3:
-            details.texture = this.textures[playerID].lv3Texture;
-            break;
-        case 4:
-            details.texture = this.textures[playerID].lv4Texture;
+            details.texture = this.textures[playerID].lv3Texture;   // broken state
             break;
         }
 
