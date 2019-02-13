@@ -54,7 +54,7 @@ canvas:focus {
   margin: 10px;
   left: 0%;
   border-radius: 5px;
-  text-align: right;
+  text-align: left;
   opacity: 1;
   transition: opacity 0.2s;
 }

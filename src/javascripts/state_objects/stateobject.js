@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import * as filters from "pixi-filters";
 import { type } from 'os';
 
 export default class StateObject {
@@ -45,12 +46,20 @@ export default class StateObject {
     // Methods to add and remove sprites
     addSprite(stage) {
         console.log(this.sprite.play);
-        this.sprite.interactive = true;
-        this.sprite.buttonMode = true;
-        this.sprite.on('click', ()=>{
-            let obj = document.getElementById("unit-type");
-            obj.innerHTML = this.constructor.name;
-        });
+        if (this.constructor.name != "TerrainElement") {
+            this.sprite.interactive = true;
+            this.sprite.buttonMode = true;
+        }
+        let outlineFilterRed = new filters.GlowFilter(15, 2, 1, 0x1700FF, 0.5);
+        this.sprite.on('pointerover', ()=>{
+            console.log("in");
+            document.getElementById("unit-type").innerHTML = this.constructor.name;
+            this.sprite.filters = [outlineFilterRed];
+        }).on("pointerout", ()=>{
+            this.sprite.filters = null;
+            console.log("out");
+            document.getElementById("unit-type").innerHTML = "";
+        })
         stage.addChild(this.sprite);
     }
 
