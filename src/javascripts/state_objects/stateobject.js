@@ -3,6 +3,7 @@ import * as filters from "pixi-filters";
 
 export default class StateObject {
     constructor(x, y, width, height, textureData, isAnimated = false, animationSpeed = 0) {
+        StateObject.gameStatus = false;
         if (isAnimated) {
             this.sprite = new PIXI.extras.AnimatedSprite(textureData);
             this.setAnimationSpeed(animationSpeed);
@@ -10,23 +11,25 @@ export default class StateObject {
         } else {
             this.sprite = new PIXI.Sprite(textureData);
         }
-        StateObject.gameStatus = false;
         this.setSpritePosition(x, y);
         this.setSpriteDimensions(width, height);
     }
 
     pointerEventBinder() {
+        let detailsDiv = document.getElementById("details-div");
         if (this.constructor.name != "TerrainElement") {
             let outlineFilterRed = new filters.GlowFilter(15, 2, 1, 0x1700FF, 0.5);
             if (StateObject.gameStatus) {
                 this.sprite.interactive = true;
                 this.sprite.buttonMode = true;
                 this.sprite.on('pointerover', () => {
-                    document.getElementById("unit-type").innerHTML = this.constructor.name;
+                    detailsDiv.innerHTML = JSON.stringify(this.createSpriteObject(),undefined,2);
                     this.sprite.filters = [outlineFilterRed];
                 }).on("pointerout", () => {
                     this.sprite.filters = null;
-                    document.getElementById("unit-type").innerHTML = "";
+                    let spriteInfo = JSON.stringify(this.createSpriteObject(),undefined,2);
+                    if (detailsDiv.innerHTML == spriteInfo)
+                        detailsDiv.innerHTML = "";
                 });
             } else {
                 this.sprite.interactive = false;
@@ -34,6 +37,19 @@ export default class StateObject {
                 this.sprite.off('pointerover',()=>{}).off('pointerout',()=>{});
             }
         }
+    }
+
+    createSpriteObject() {
+        let spriteInfo = {
+            playerId: this.playerID,
+            type: this.constructor.name,
+            x: this.sprite.x,
+            y: this.sprite.y,
+            hp: this.hp,
+            state: this.state,
+            buildPercent: this.buildPercent
+        };
+        return spriteInfo;
     }
 
     static setGameStatus(isPaused) {

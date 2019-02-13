@@ -15,13 +15,13 @@ export default class Factory extends StateObject {
         this.playerID = playerID;
         this.factoryID = id;
         this.hp = hp;
-        this.factoryState = state;
+        this.state = state;
         this.buildPercent = buildPercent;
     }
 
-    update(hp, factoryState, buildPercent) {
+    update(hp, state, buildPercent) {
         this.hp = hp;
-        this.factoryState = factoryState;
+        this.state = state;
         this.buildPercent = buildPercent;
         this.setBuildLevel(buildPercent);
         this.updateBuildTexture(this.buildLevel);
