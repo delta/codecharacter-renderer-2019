@@ -768,6 +768,19 @@ export default class Game {
         speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
 
+    setGameStatus(isPaused) {
+        StateObject.setGameStatus(isPaused);
+        for (let soldierID in this.soldiers) {
+            this.soldiers[soldierID].pointerEventBinder();
+        }
+        for (let villagerID in this.villagers) {
+            this.villagers[villagerID].pointerEventBinder();
+        }
+        for (let factoryID in this.factories) {
+            this.factories[factoryID].pointerEventBinder();
+        }
+    }
+
     /**
      * Functions to manipulate frames, i.e, states.
      */
