@@ -779,6 +779,12 @@ export default class Game {
         for (let factoryID in this.factories) {
             this.factories[factoryID].pointerEventBinder();
         }
+        let topLeftContainer = document.getElementById("top-left-container");
+        if (isPaused) {
+            topLeftContainer.style.opacity = 0.8;
+        } else {
+            topLeftContainer.style.opacity = 0;
+        }
     }
 
     /**

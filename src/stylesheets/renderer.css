@@ -55,11 +55,13 @@ canvas:focus {
   left: 0%;
   border-radius: 5px;
   text-align: left;
-  opacity: 1;
+  opacity: 0;
   transition: opacity 0.2s;
 }
-/*div*/#top-left-container:hover {
-  opacity: 0.3;
+
+/*div*/#details-div {
+  font-size: 10px;
+  color: #000;
 }
 
 /*div*/.label {
