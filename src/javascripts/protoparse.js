@@ -101,7 +101,7 @@ export default class Proto {
             if (!soldier.hasOwnProperty('id'))
                 soldier.id = 0;
             if (!soldier.hasOwnProperty('playerId'))
-                soldier.playerId = 1;
+                soldier.playerId = 0;
             if (!soldier.hasOwnProperty('x'))
                 soldier.x = 0;
             if (!soldier.hasOwnProperty('y'))
@@ -110,6 +110,8 @@ export default class Proto {
                 soldier.state = 0;
             if (!soldier.hasOwnProperty('hp'))
                 soldier.hp = 0;
+
+            soldier.playerId += 1;  // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
 
             const SOLDIER_MOVE_STATE = 1; // check proto for const vals
             const SOLDIER_DEAD_STATE = 3;
@@ -193,6 +195,8 @@ export default class Proto {
             if (!villager.hasOwnProperty('hp'))
                 villager.hp = 0;
 
+            villager.playerId += 1;  // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
+
             const VILLAGER_MOVE_STATE = 1;    // check proto for vals
             const VILLAGER_DEAD_STATE = 5;
 
@@ -271,13 +275,15 @@ export default class Proto {
             }
         }
 
+        const FACTORY_DEAD_STATE = 4;
+
         // Updating factoryList
         for (let factory of factories) {
             if (!factory.hasOwnProperty('id'))
                 factory.id = 0;
 
             if (factoryList.hasOwnProperty(factory.id)) {
-                if (factory.state === 4) { // factory state 4 = destroyed
+                if (factory.state === FACTORY_DEAD_STATE) { // factory state 4 = destroyed
                     factoryList[factory.id].updateMethod = "destroy";
                     factoryList[factory.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
 

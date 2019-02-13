@@ -128,7 +128,7 @@ const SPRITE_CONSTANTS = {
             },
         }
     },
-    towerSprites: {
+    factorySprites: {
         // On screen data
         displayDimensions: {
             width: 10,
