@@ -3,7 +3,7 @@ import StateObject from './stateobject';
 
 export default class Factory extends StateObject {
     constructor(x, y, id, playerID, hp, state, buildPercent) {
-        let buildLevel = Math.floor(Math.min(100,buildPercent)*Factory.buildLevelMultiplier);
+        let buildLevel = Math.floor(Math.min(100, buildPercent) * Factory.buildLevelMultiplier);
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
         let width = Factory.displayDimensions.width,
             height = Factory.displayDimensions.height,
@@ -32,7 +32,7 @@ export default class Factory extends StateObject {
     }
 
     setBuildLevel(buildPercent) {
-        this.buildLevel = Math.floor(Math.min(100,buildPercent)*Factory.buildLevelMultiplier);
+        this.buildLevel = Math.floor(Math.min(100, buildPercent) * Factory.buildLevelMultiplier);
         if (this.hp < Factory.minHp && buildPercent >= 100) {
             this.buildLevel = 3;    // broken state
         }
@@ -51,7 +51,7 @@ export default class Factory extends StateObject {
         this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
     }
 
-    static setMinHp(HP_CONSTANT) {
+    static setMinHP(HP_CONSTANT) {
         this.minHp = HP_CONSTANT;
     }
 

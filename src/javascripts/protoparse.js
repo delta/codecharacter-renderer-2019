@@ -185,7 +185,7 @@ export default class Proto {
             if (!villager.hasOwnProperty('id'))
                 villager.id = 0;
             if (!villager.hasOwnProperty('playerId'))
-                villager.playerId = 1;
+                villager.playerId = 0;
             if (!villager.hasOwnProperty('x'))
                 villager.x = 0;
             if (!villager.hasOwnProperty('y'))
