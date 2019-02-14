@@ -281,7 +281,7 @@ export default class Game {
         Villager.setMaxHP(this.stateVariable.villagerMaxHp);
         Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
         Factory.setBuildMultiplier(CONSTANTS.factories.factoryBuildLevelMultiplier);
-        Factory.setMinHp(CONSTANTS.factories.factoryMinHp);
+        Factory.setMinHP(CONSTANTS.factories.factoryMinHp);
 
         // Set Sprite related constants
         Unit.initializeSpriteConstants();
