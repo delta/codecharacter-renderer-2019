@@ -572,7 +572,8 @@ export default class Game {
                 }
 
             } else if (factory.updateMethod == "update") {
-                this.factories[factoriesID].update(factory.hp, factory.state, factory.buildPercent);
+                this.factories[factoriesID].updateHP(factory.hp);
+                this.factories[factoriesID].update(factory.state, factory.buildPercent);
             }
         }
 
