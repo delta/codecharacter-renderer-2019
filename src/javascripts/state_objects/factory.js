@@ -9,7 +9,7 @@ export default class Factory extends StateObject {
             height = Factory.displayDimensions.height,
             texture = spriteDetails.texture;
 
-        super(x, y, width, height, texture);
+        super(x, y, width, height, texture, Factory.maxHPs);
         this.setSpriteAnchors();
 
         this.playerID = playerID;
@@ -19,8 +19,12 @@ export default class Factory extends StateObject {
         this.buildPercent = buildPercent;
     }
 
-    update(hp, state, buildPercent) {
+    updateHP(hp) {
         this.hp = hp;
+        this.setBarHP();
+    }
+
+    update(state, buildPercent) {
         this.state = state;
         this.buildPercent = buildPercent;
         this.setBuildLevel(buildPercent);

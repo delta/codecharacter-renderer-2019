@@ -1,14 +1,18 @@
-import * as PIXI from 'pixi.js';
 import Unit from './unit';
 
 export default class Villager extends Unit {
     constructor(x, y, direction, hp, state, playerID, animationSpeed) {
-        super(x, y, direction, hp, state, playerID, animationSpeed, Villager.unitType);
+        super(x, y, direction, hp, state, playerID, animationSpeed, Villager.unitType, Villager.maxHP);
     }
 
     // override to mention what unitType
     updateState(state, direction) {
         super.updateState(state, direction, Villager.unitType);
+    }
+
+    //set MaxHP
+    static setMaxHP(maxHP) {
+        this.maxHP = maxHP;
     }
 
     // unit type villager

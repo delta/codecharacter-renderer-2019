@@ -2,14 +2,14 @@ import * as PIXI from 'pixi.js';
 import StateObject from './stateobject';
 
 export default class Unit extends StateObject {
-    constructor(x, y, direction, hp, state, playerID, animationSpeed, unitType) {
+    constructor(x, y, direction, hp, state, playerID, animationSpeed, unitType, maxHP) {
         let spriteDetails = Unit.getSpriteDetails(playerID, state, direction, unitType);
         let width = Unit.displayDimensions[unitType].width,
             height = Unit.displayDimensions[unitType].height,
             textures = spriteDetails.textures,
             isAnimated = true;
 
-        super(x, y, width, height, textures, isAnimated, animationSpeed);
+        super(x, y, width, height, textures, maxHP, isAnimated, animationSpeed);
         this.setSpriteAnchors();
 
         this.hp = hp;
@@ -20,10 +20,12 @@ export default class Unit extends StateObject {
 
     updatePosition(x, y) {
         this.setSpritePosition(x, y);
+        this.updateBarPosition();
     }
 
     updateHP(hp) {
         this.hp = hp;
+        this.setBarHP();
     }
 
     updateState(state, direction, unitType) {
@@ -33,10 +35,6 @@ export default class Unit extends StateObject {
         let spriteDetails = Unit.getSpriteDetails(this.playerID, this.state, this.direction, unitType);
         this.sprite.textures = spriteDetails.textures;
         this.sprite.play();
-    }
-
-    static setMaxHP(hp) {
-        this.maxHP = hp;
     }
 
     static initializeSpriteConstants () {
