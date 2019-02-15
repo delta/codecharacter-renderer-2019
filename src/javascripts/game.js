@@ -501,7 +501,7 @@ export default class Game {
                     soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
                 );
                 this.soldiers[soldierID].addSprite(this.app.stage);
-            } else if (soldier.updateMethod == "destroy") {
+            } else if (soldier.updateMethod == "destroy" && soldier.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
             } else if (soldier.updateMethod == "update") {
                 this.soldiers[soldierID].updatePosition(soldier.x, soldier.y);
@@ -510,7 +510,7 @@ export default class Game {
                     this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
                 }
             }
-            if (soldier.framesLeft == 0) {
+            if (soldier.framesLeft < 0) {
                 this.soldiers[soldierID].removeSprite(this.app.stage);
                 delete this.soldiers[soldierID];
             }
@@ -531,7 +531,7 @@ export default class Game {
                     villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
                 );
                 this.villagers[villagerID].addSprite(this.app.stage);
-            } else if (villager.updateMethod == "destroy") {
+            } else if (villager.updateMethod == "destroy" && villager.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.villagers[villagerID].updateState(villager.state, villager.direction);
             } else if (villager.updateMethod == "update") {
                 this.villagers[villagerID].updatePosition(villager.x, villager.y);
@@ -540,7 +540,7 @@ export default class Game {
                     this.villagers[villagerID].updateState(villager.state, villager.direction);
                 }
             }
-            if (villager.framesLeft == 0) {
+            if (villager.framesLeft < 0) {
                 this.villagers[villagerID].removeSprite(this.app.stage);
                 delete this.villagers[villagerID];
             }
