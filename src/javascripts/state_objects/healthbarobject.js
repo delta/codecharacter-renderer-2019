@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 
 export default class HealthBarObject {
-    constructor(hp, maxHP, width) {
-        this.hp = hp;
+    constructor(maxHP, width) {
+        this.hp = 0;
         this.maxHP = maxHP;
         this.width = width;
 

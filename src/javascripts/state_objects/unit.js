@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import StateObject from './stateobject';
+import Actor from './actor';
 
-export default class Unit extends StateObject {
+export default class Unit extends Actor {
     constructor(x, y, direction, hp, state, playerID, animationSpeed, unitType, maxHP) {
         let spriteDetails = Unit.getSpriteDetails(playerID, state, direction, unitType);
         let width = Unit.displayDimensions[unitType].width,
@@ -20,12 +20,12 @@ export default class Unit extends StateObject {
 
     updatePosition(x, y) {
         this.setSpritePosition(x, y);
-        this.updateBarPosition();
+        super.updateBarPosition();  // change HPBar position
     }
 
     updateHP(hp) {
         this.hp = hp;
-        this.setBarHP();
+        super.updateBarHP();    // change HPBar hp
     }
 
     updateState(state, direction, unitType) {

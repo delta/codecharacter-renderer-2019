@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import StateObject from './stateobject';
+import Actor from './actor';
 
-export default class Factory extends StateObject {
+export default class Factory extends Actor {
     constructor(x, y, id, playerID, hp, state, buildPercent) {
         let buildLevel = Math.floor(Math.min(100, buildPercent) * Factory.buildLevelMultiplier);
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
@@ -21,7 +21,7 @@ export default class Factory extends StateObject {
 
     updateHP(hp) {
         this.hp = hp;
-        this.setBarHP();
+        super.updateBarHP();    // change HPBar hp
     }
 
     update(state, buildPercent) {
@@ -47,8 +47,8 @@ export default class Factory extends StateObject {
         this.sprite.texture = spriteDetails.texture;
     }
 
-    static setMaxHPs(hpArray) {
-        this.maxHPs = hpArray;
+    static setMaxHPs(maxHP) {
+        this.maxHPs = maxHP;
     }
 
     static setBuildMultiplier(MULTIPLIER_CONSTANT) {
