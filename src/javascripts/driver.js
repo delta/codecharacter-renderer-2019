@@ -79,6 +79,8 @@ function render(delta) {
     game.autoResize()
         .updateCamera();
 
+    game.spriteHoverBinder();
+
     // Increment Frame Counter
     if (game.state == "play") {
         game.updateTimeCount(delta);
@@ -104,11 +106,7 @@ function render(delta) {
             .updateScore()
             .updateFactories()
             .logErrors()
-            .logPlayerLogs()
-            .setGameStatus(false);
-    }
-    if (game.state == "pause") {
-        game.setGameStatus(true);
+            .logPlayerLogs();
     }
 
 }

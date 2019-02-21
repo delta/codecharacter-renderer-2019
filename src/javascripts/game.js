@@ -42,6 +42,7 @@ export default class Game {
         this.app = new PIXI.Application({ width: this.container.offsetWidth, height: this.container.offsetHeight });
         this.container.appendChild(this.app.view);
         this.state = "play";
+        this.prevState = "play";
         this.isFullscreen = false;
 
         Game.addListeners(this);
@@ -770,22 +771,33 @@ export default class Game {
         speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
 
-    setGameStatus(isPaused) {
-        StateObject.setGameStatus(isPaused);
-        for (let soldierID in this.soldiers) {
-            this.soldiers[soldierID].pointerEventBinder();
-        }
-        for (let villagerID in this.villagers) {
-            this.villagers[villagerID].pointerEventBinder();
-        }
-        for (let factoryID in this.factories) {
-            this.factories[factoryID].pointerEventBinder();
-        }
-        let topLeftContainer = document.getElementById("top-left-container");
-        if (isPaused) {
+    spriteHoverBinder() {
+        if (this.state == "pause" && this.prevState == "play") {
+            for (let soldierID in this.soldiers) {
+                this.soldiers[soldierID].pointerEventBinder();
+            }
+            for (let villagerID in this.villagers) {
+                this.villagers[villagerID].pointerEventBinder();
+            }
+            for (let factoryID in this.factories) {
+                this.factories[factoryID].pointerEventBinder();
+            }
+            let topLeftContainer = document.getElementById("top-left-container");
             topLeftContainer.style.opacity = 0.8;
-        } else {
+            this.prevState = "pause";
+        } else if (this.state == "play" && this.prevState == "pause") {
+            for (let soldierID in this.soldiers) {
+                this.soldiers[soldierID].pointerEventUnBinder();
+            }
+            for (let villagerID in this.villagers) {
+                this.villagers[villagerID].pointerEventUnBinder();
+            }
+            for (let factoryID in this.factories) {
+                this.factories[factoryID].pointerEventUnBinder();
+            }
+            let topLeftContainer = document.getElementById("top-left-container");
             topLeftContainer.style.opacity = 0;
+            this.prevState = "play";
         }
     }
 
