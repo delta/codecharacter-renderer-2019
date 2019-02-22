@@ -11,7 +11,7 @@ export default class Actor extends StateObject {
         this.state = state;
 
         this.healthBarObject = new HealthBarObject(maxHP, width);
-        this.healthBarObject.buildHPBars(); // creates hpbar=>outer+innerbar
+        this.healthBarObject.buildHPBars(); // creates hpbar => outer+innerbar
         this.updateBarPosition();   // setting initial bar posiiton
     }
 
