@@ -1,8 +1,8 @@
 import Unit from './unit';
 
 export default class Soldier extends Unit {
-    constructor(x, y, direction, hp, state, playerID, animationSpeed) {
-        super(x, y, direction, hp, state, playerID, animationSpeed, Soldier.unitType, Soldier.maxHP);
+    constructor(x, y, id, direction, hp, state, playerID, animationSpeed) {
+        super(x, y, id, direction, hp, state, playerID, animationSpeed, Soldier.unitType, Soldier.maxHP);
     }
 
     // override to mention what unitType

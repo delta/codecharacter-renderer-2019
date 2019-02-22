@@ -3,14 +3,21 @@ import StateObject from "./stateobject";
 import * as filters from "pixi-filters";
 
 export default class Actor extends StateObject {
-    constructor(x, y, width, height, textures, maxHP, isAnimated = false, animationSpeed = 0) {
-        let healthBarObject = new HealthBarObject(maxHP, width);
-        super(x, y, width, height, textures, isAnimated, animationSpeed, healthBarObject);
+    constructor(x, y, id, playerID, hp, state, width, height, textures, maxHP, isAnimated = false, animationSpeed = 0) {
+        super(x, y, width, height, textures, isAnimated, animationSpeed);
+        this.id = id;
+        this.playerID = playerID;
+        this.hp = hp;
+        this.state = state;
+
+        this.healthBarObject = new HealthBarObject(maxHP, width);
+        this.healthBarObject.buildHPBars(); // creates hpbar=>outer+innerbar
         this.updateBarPosition();   // setting initial bar posiiton
     }
 
-    static setGameStatus(isPaused) {
-        this.gameStatus = isPaused;
+    updateHP(hp) {
+        this.hp = hp;
+        this.updateBarHP();    // change HPBar hp
     }
 
     updateBarHP() {
@@ -18,12 +25,12 @@ export default class Actor extends StateObject {
     }
 
     updateBarPosition() {
-        let offsetY = 1.5;
-        this.healthBarObject.updatePosition(this.sprite.x - 5, this.sprite.y - 5 - offsetY);
+        this.healthBarObject.updatePosition(this.sprite.x, this.sprite.y);
     }
 
     createSpriteInfo() {
         let spriteInfo = {
+            Id: this.id,
             playerId: this.playerID,
             type: this.constructor.name,
             x: this.sprite.x,
@@ -35,26 +42,29 @@ export default class Actor extends StateObject {
         return spriteInfo;
     }
 
-    pointerEventBinder() {
+    bindEventListeners() {
         let detailsDiv = document.getElementById("details-div");
         let outlineFilterRed = new filters.GlowFilter(15, 2, 1, 0x1700FF, 0.5);
         this.sprite.interactive = true;
         this.sprite.buttonMode = true;
         this.sprite.on('pointerover', () => {
-            detailsDiv.innerHTML = JSON.stringify(this.createSpriteInfo(),null,2);
+            detailsDiv.innerHTML = JSON.stringify(this.createSpriteInfo(), null, 2);
             this.sprite.filters = [outlineFilterRed];
-        }).on("pointerout", () => {
+            this.healthBarObject.healthBar.filters = [outlineFilterRed];
+        }).on('pointerout', () => {
             this.sprite.filters = null;
-            let spriteInfo = JSON.stringify(this.createSpriteInfo(),null,2);
+            this.healthBarObject.healthBar.filters = null;
+            let spriteInfo = JSON.stringify(this.createSpriteInfo(), null, 2);
             if (detailsDiv.innerHTML == spriteInfo)
                 detailsDiv.innerHTML = "";
         });
     }
 
-    pointerEventUnBinder() {
+    unbindEventListeners() {
         this.sprite.interactive = false;
         this.sprite.buttonMode = false;
         this.sprite.filters = null;
-        this.sprite.off('pointerover',() => {}).off('pointerout',() => {});
+        this.healthBarObject.healthBar.filters = null;
+        this.sprite.off('pointerover', () => {}).off('pointerout', () => {});
     }
 }

@@ -284,6 +284,7 @@ export default class Game {
         Unit.initializeSpriteConstants();
         Soldier.setUnitConstant(CONSTANTS.unitType.soldier);
         Villager.setUnitConstant(CONSTANTS.unitType.villager);
+        Factory.setUnitConstant(CONSTANTS.unitType.factory);
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
@@ -321,7 +322,7 @@ export default class Game {
         for (let soldierID in stateSoldiers) {
             let soldier = stateSoldiers[soldierID];
             this.soldiers[soldierID] = new Soldier(
-                soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
+                soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
             );
         }
 
@@ -335,7 +336,7 @@ export default class Game {
         for (let villagerID in stateVillagers) {
             let villager = stateVillagers[villagerID];
             this.villagers[villagerID] = new Villager(
-                villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
+                villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
             );
         }
 
@@ -495,7 +496,7 @@ export default class Game {
             if (soldier.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
                 this.soldiers[soldierID] = new Soldier(
-                    soldier.x, soldier.y, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
+                    soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
                 );
                 this.soldiers[soldierID].addSprite(this.app.stage);
             } else if (soldier.updateMethod == "destroy" && soldier.framesLeft == CONSTANTS.units.maxDeathFrames) {
@@ -525,7 +526,7 @@ export default class Game {
             if (villager.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
                 this.villagers[villagerID] = new Villager(
-                    villager.x, villager.y, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
+                    villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
                 );
                 this.villagers[villagerID].addSprite(this.app.stage);
             } else if (villager.updateMethod == "destroy" && villager.framesLeft == CONSTANTS.units.maxDeathFrames) {
@@ -651,32 +652,45 @@ export default class Game {
     }
 
 
-    // UI Object methods
+    // UI Object methods and Hover bind/unbind
     toggleState() {
         if (this.state != "stop") {
             let pauseIcon = document.querySelector("#pause-icon");
+            let topLeftContainer = document.getElementById("top-left-container");
             if (this.state == "play") {
                 this.state = "pause";
                 pauseIcon.src = playAsset;
 
-                // Pause Animations
+                // Pause Animations and Hover binders
                 for (let soldierID in this.soldiers) {
                     this.soldiers[soldierID].pauseAnimation();
+                    this.soldiers[soldierID].bindEventListeners();
                 }
                 for (let villagerID in this.villagers) {
                     this.villagers[villagerID].pauseAnimation();
+                    this.villagers[villagerID].bindEventListeners();
                 }
+                for (let factoryID in this.factories) {
+                    this.factories[factoryID].bindEventListeners();
+                }
+                topLeftContainer.style.opacity = 0.8;
             } else {
                 this.state = "play";
                 pauseIcon.src = pauseAsset;
 
-                // Resume Animations
+                // Resume Animations and Hover unbinders
                 for (let soldierID in this.soldiers) {
                     this.soldiers[soldierID].playAnimation();
+                    this.soldiers[soldierID].unbindEventListeners();
                 }
                 for (let villagerID in this.villagers) {
                     this.villagers[villagerID].playAnimation();
+                    this.villagers[villagerID].unbindEventListeners();
                 }
+                for (let factoryID in this.factories) {
+                    this.factories[factoryID].unbindEventListeners();
+                }
+                topLeftContainer.style.opacity = 0;
             }
 
 
@@ -770,35 +784,35 @@ export default class Game {
         speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
 
-    spriteHoverBinder() {
-        if (this.state == "pause" && this.prevState == "play") {
-            for (let soldierID in this.soldiers) {
-                this.soldiers[soldierID].pointerEventBinder();
-            }
-            for (let villagerID in this.villagers) {
-                this.villagers[villagerID].pointerEventBinder();
-            }
-            for (let factoryID in this.factories) {
-                this.factories[factoryID].pointerEventBinder();
-            }
-            let topLeftContainer = document.getElementById("top-left-container");
-            topLeftContainer.style.opacity = 0.8;
-            this.prevState = "pause";
-        } else if (this.state == "play" && this.prevState == "pause") {
-            for (let soldierID in this.soldiers) {
-                this.soldiers[soldierID].pointerEventUnBinder();
-            }
-            for (let villagerID in this.villagers) {
-                this.villagers[villagerID].pointerEventUnBinder();
-            }
-            for (let factoryID in this.factories) {
-                this.factories[factoryID].pointerEventUnBinder();
-            }
-            let topLeftContainer = document.getElementById("top-left-container");
-            topLeftContainer.style.opacity = 0;
-            this.prevState = "play";
-        }
-    }
+    // spriteHoverBinder() {
+    //     if (this.state == "pause" && this.prevState == "play") {
+    //         for (let soldierID in this.soldiers) {
+    //             this.soldiers[soldierID].bindEventListeners();
+    //         }
+    //         for (let villagerID in this.villagers) {
+    //             this.villagers[villagerID].bindEventListeners();
+    //         }
+    //         for (let factoryID in this.factories) {
+    //             this.factories[factoryID].bindEventListeners();
+    //         }
+    //         let topLeftContainer = document.getElementById("top-left-container");
+    //         topLeftContainer.style.opacity = 0.8;
+    //         this.prevState = "pause";
+    //     } else if (this.state == "play" && this.prevState == "pause") {
+    //         for (let soldierID in this.soldiers) {
+    //             this.soldiers[soldierID].unbindEventListeners();
+    //         }
+    //         for (let villagerID in this.villagers) {
+    //             this.villagers[villagerID].unbindEventListeners();
+    //         }
+    //         for (let factoryID in this.factories) {
+    //             this.factories[factoryID].unbindEventListeners();
+    //         }
+    //         let topLeftContainer = document.getElementById("top-left-container");
+    //         topLeftContainer.style.opacity = 0;
+    //         this.prevState = "play";
+    //     }
+    // }
 
     /**
      * Functions to manipulate frames, i.e, states.

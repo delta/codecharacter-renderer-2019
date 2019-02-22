@@ -8,8 +8,8 @@ import soldierP1Asset from "../assets/Soldier_P1.png";
 import soldierP2Asset from "../assets/Soldier_P2.png";
 import villagerP1Asset from "../assets/Villager_P1.png";
 import villagerP2Asset from "../assets/Villager_P2.png";
-import towerP1Asset from "../assets/towerP1.png";
-import towerP2Asset from "../assets/towerP2.png";
+import factoryP1Asset from "../assets/Factory_P1.png";
+import factoryP2Asset from "../assets/Factory_P2.png";
 
 var game;
 
@@ -22,8 +22,8 @@ export function initRenderer(callback) {
         .add("soldierP2Sheet", soldierP2Asset)
         .add("villagerP1Sheet", villagerP1Asset)
         .add("villagerP2Sheet", villagerP2Asset)
-        .add("towerP1", towerP1Asset)
-        .add("towerP2", towerP2Asset)
+        .add("factoryP1", factoryP1Asset)
+        .add("factoryP2", factoryP2Asset)
         .load(callback);
 }
 
@@ -78,8 +78,6 @@ export async function initGame(logFile, options) {
 function render(delta) {
     game.autoResize()
         .updateCamera();
-
-    game.spriteHoverBinder();
 
     // Increment Frame Counter
     if (game.state == "play") {

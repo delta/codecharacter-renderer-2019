@@ -131,27 +131,33 @@ const SPRITE_CONSTANTS = {
     factorySprites: {
         // On screen data
         displayDimensions: {
-            width: 10,
-            height:8
+            width: 15,
+            height: 15
         },
 
         // Spritesheet data
         spriteSheetData: {
             frameDetails: {
-                width: 100,
-                height: 100
+                width: 248.3,
+                height: 249
             },
             deadTexture: {
-                pos: { x: 0, y: 0 }
+                pos: { x: 1241.6, y: 0 }
             },
             lv1Texture: {
-                pos: { x: 100, y: 0 }
+                pos: { x: 0, y: 0 }
             },
             lv2Texture: {
-                pos: { x: 200, y: 0 }
+                pos: { x: 248.3, y: 0 }
             },
             lv3Texture: {
-                pos: { x: 300, y: 0 }
+                pos: { x: 496.3, y: 0 }
+            },
+            lv4Texture: {
+                pos: { x: 744.9, y: 0 }
+            },
+            brokenTexture: {
+                pos: { x: 993.2, y: 0 }
             },
         }
     },

@@ -53,14 +53,15 @@ const CONSTANTS = {
     },
     unitType: {                 // To distinguish soldier and villager within unit
         soldier: 0,
-        villager: 1
+        villager: 1,
+        factory: 2
     },
     units: {
         maxDeathFrames: 10
     },
     factories: {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
-        factoryBuildLevelMultiplier: 0.02,
+        factoryBuildLevelMultiplier: 0.03,
         factoryMinHp: 50
     }
 };

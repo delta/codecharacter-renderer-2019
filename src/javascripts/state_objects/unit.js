@@ -2,30 +2,21 @@ import * as PIXI from 'pixi.js';
 import Actor from './actor';
 
 export default class Unit extends Actor {
-    constructor(x, y, direction, hp, state, playerID, animationSpeed, unitType, maxHP) {
+    constructor(x, y, id, direction, hp, state, playerID, animationSpeed, unitType, maxHP) {
         let spriteDetails = Unit.getSpriteDetails(playerID, state, direction, unitType);
         let width = Unit.displayDimensions[unitType].width,
             height = Unit.displayDimensions[unitType].height,
             textures = spriteDetails.textures,
             isAnimated = true;
 
-        super(x, y, width, height, textures, maxHP, isAnimated, animationSpeed);
+        super(x, y, id, playerID, hp, state, width, height, textures, maxHP, isAnimated, animationSpeed);
         this.setSpriteAnchors();
-
-        this.hp = hp;
-        this.state = state;
         this.direction = direction;
-        this.playerID = playerID;
     }
 
     updatePosition(x, y) {
         this.setSpritePosition(x, y);
         super.updateBarPosition();  // change HPBar position
-    }
-
-    updateHP(hp) {
-        this.hp = hp;
-        super.updateBarHP();    // change HPBar hp
     }
 
     updateState(state, direction, unitType) {
