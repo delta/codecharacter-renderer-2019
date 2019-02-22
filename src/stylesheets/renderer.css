@@ -114,6 +114,36 @@ div#speed-icons-container {
   right: 25px;
 }
 
+div#help-icon {
+  background-color: #dcdcdc;
+  border-radius: 50%;
+  bottom: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  padding: 5px;
+  font-size: 10px;
+  font-weight: bolder;
+}
+
+div#controls-div{
+  position: absolute;
+  display: none;
+  z-index: 2;
+  font-size: 15px;
+  bottom: 25px;
+  right: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 0.9;
+  background-color: #dcdcdc;
+}
+
+div#controls-div center{
+  font-size: 18px;
+  padding-top: 8px;
+}
+
 
 /*img*/.icon {
   width: 50px;

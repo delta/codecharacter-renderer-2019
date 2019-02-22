@@ -65,6 +65,17 @@ export default class CodeCharacterRenderer extends React.Component {
                     <div className="label" id="game-over-msg">Game Complete</div>
                     <div className="label" id="game-outcome"></div>
                 </div>
+                <div id="controls-div">
+                    <center><b>Controls</b></center>
+                    <p><b>&uarr;&darr;&larr;&rarr; : </b>camera</p>
+                    <p><b>+ : </b>zoomIn</p>
+                    <p><b>- : </b>zoomOut</p>
+                    <p><b>p : </b>pause/play</p>
+                    <p><b>] : </b>speedUp</p>
+                    <p><b>[ : </b>speedDown</p>
+                    <p><b>f : </b>fullscreen</p>
+                </div>
+                <div className="bottom-container" id="help-icon">?</div>
             </div>
         );
     }

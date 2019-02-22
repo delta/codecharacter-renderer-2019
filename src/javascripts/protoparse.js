@@ -163,6 +163,7 @@ export default class Proto {
             // Dead soldier
             soldierList[soldierID].updateMethod = "destroy";
             soldierList[soldierID].direction = "down";
+            soldierList[soldierID].hp = 0;
             soldierList[soldierID].state = SOLDIER_DEAD_STATE;
             soldierList[soldierID].framesLeft = CONSTANTS.units.maxDeathFrames;
             deadSoldiers.push(soldierID);
@@ -252,6 +253,7 @@ export default class Proto {
             // Dead villager
             villagerList[villagerID].updateMethod = "destroy";
             villagerList[villagerID].direction = "down";
+            villagerList[villagerID].hp = 0;
             villagerList[villagerID].state = VILLAGER_DEAD_STATE;
             villagerList[villagerID].framesLeft = CONSTANTS.units.maxDeathFrames;
             deadVillagers.push(villagerID);
@@ -302,6 +304,7 @@ export default class Proto {
             if (factoryList.hasOwnProperty(factory.id)) {
                 if (factory.state === FACTORY_DEAD_STATE) { // factory state 4 = destroyed
                     factoryList[factory.id].updateMethod = "destroy";
+                    factoryList[factory.id].hp = 0;
                     factoryList[factory.id].framesLeft = CONSTANTS.factories.maxDeathFrames;
 
                     deadFactories.push(factory.id);

@@ -103,7 +103,8 @@ export default class Game {
         let canvas = document.querySelector("canvas"),
             pauseIcon = document.querySelector("#pause-icon"),
             slowDownIcon = document.querySelector("#slow-down-icon"),
-            speedUpIcon = document.querySelector("#speed-up-icon");
+            speedUpIcon = document.querySelector("#speed-up-icon"),
+            helpIcon = document.querySelector("#help-icon");
 
         canvas.tabIndex = 1; // Allows event listeners to work
         canvas.focus();
@@ -253,6 +254,15 @@ export default class Game {
 
         speedUpIcon.addEventListener('click', () => {
             game.increaseSpeed();
+        });
+
+        helpIcon.addEventListener('mouseover', () => {
+            let controlsDisplay = document.querySelector("#controls-div");
+            controlsDisplay.style.display = "block";
+        });
+        helpIcon.addEventListener('mouseout', () => {
+            let controlsDisplay = document.querySelector("#controls-div");
+            controlsDisplay.style.display = "none";
         });
     }
 
@@ -500,6 +510,7 @@ export default class Game {
                 );
                 this.soldiers[soldierID].addSprite(this.app.stage);
             } else if (soldier.updateMethod == "destroy" && soldier.framesLeft == CONSTANTS.units.maxDeathFrames) {
+                this.soldiers[soldierID].updateHP(soldier.hp);
                 this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
             } else if (soldier.updateMethod == "update") {
                 this.soldiers[soldierID].updatePosition(soldier.x, soldier.y);
@@ -530,6 +541,7 @@ export default class Game {
                 );
                 this.villagers[villagerID].addSprite(this.app.stage);
             } else if (villager.updateMethod == "destroy" && villager.framesLeft == CONSTANTS.units.maxDeathFrames) {
+                this.villagers[villagerID].updateHP(villager.hp);
                 this.villagers[villagerID].updateState(villager.state, villager.direction);
             } else if (villager.updateMethod == "update") {
                 this.villagers[villagerID].updatePosition(villager.x, villager.y);
@@ -567,6 +579,7 @@ export default class Game {
                 this.factories[factoriesID].addSprite(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
                 if (factory.framesLeft == CONSTANTS.factories.maxDeathFrames) {
+                    this.factories[factoriesID].updateHP(factory.hp);
                     this.factories[factoriesID].destroy();
                 } else if (factory.framesLeft == 0) {
                     this.factories[factoriesID].removeSprite(this.app.stage);
@@ -784,36 +797,6 @@ export default class Game {
 
         speedValDiv.innerHTML = CONSTANTS.gameSpeed.displayValues[this.speed.pointer];
     }
-
-    // spriteHoverBinder() {
-    //     if (this.state == "pause" && this.prevState == "play") {
-    //         for (let soldierID in this.soldiers) {
-    //             this.soldiers[soldierID].bindEventListeners();
-    //         }
-    //         for (let villagerID in this.villagers) {
-    //             this.villagers[villagerID].bindEventListeners();
-    //         }
-    //         for (let factoryID in this.factories) {
-    //             this.factories[factoryID].bindEventListeners();
-    //         }
-    //         let topLeftContainer = document.getElementById("top-left-container");
-    //         topLeftContainer.style.opacity = 0.8;
-    //         this.prevState = "pause";
-    //     } else if (this.state == "play" && this.prevState == "pause") {
-    //         for (let soldierID in this.soldiers) {
-    //             this.soldiers[soldierID].unbindEventListeners();
-    //         }
-    //         for (let villagerID in this.villagers) {
-    //             this.villagers[villagerID].unbindEventListeners();
-    //         }
-    //         for (let factoryID in this.factories) {
-    //             this.factories[factoryID].unbindEventListeners();
-    //         }
-    //         let topLeftContainer = document.getElementById("top-left-container");
-    //         topLeftContainer.style.opacity = 0;
-    //         this.prevState = "play";
-    //     }
-    // }
 
     /**
      * Functions to manipulate frames, i.e, states.
