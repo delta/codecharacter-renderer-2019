@@ -30,7 +30,7 @@ export default class Actor extends StateObject {
 
     createSpriteInfo() {
         let spriteInfo = {
-            Id: this.id,
+            ID: this.id,
             playerId: this.playerID,
             type: this.constructor.name,
             x: this.sprite.x,
