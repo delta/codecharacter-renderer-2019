@@ -687,7 +687,7 @@ export default class Game {
                 for (let factoryID in this.factories) {
                     this.factories[factoryID].bindEventListeners();
                 }
-                topLeftContainer.style.opacity = 0.8;
+                topLeftContainer.style.display = "block";
             } else {
                 this.state = "play";
                 pauseIcon.src = pauseAsset;
@@ -704,7 +704,7 @@ export default class Game {
                 for (let factoryID in this.factories) {
                     this.factories[factoryID].unbindEventListeners();
                 }
-                topLeftContainer.style.opacity = 0;
+                topLeftContainer.style.display = "none";
             }
 
 

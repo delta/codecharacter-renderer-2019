@@ -61,7 +61,7 @@ export default class Factory extends Actor {
 
     static setTextures() {
         this.baseTextures = {
-            1: PIXI.loader.resources.factoryP2.texture,
+            1: PIXI.loader.resources.factoryP1.texture,
             2: PIXI.loader.resources.factoryP2.texture
         };
 
