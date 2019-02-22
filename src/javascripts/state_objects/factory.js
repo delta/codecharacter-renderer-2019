@@ -9,19 +9,9 @@ export default class Factory extends Actor {
             height = Factory.displayDimensions.height,
             texture = spriteDetails.texture;
 
-        super(x, y, width, height, texture, Factory.maxHPs);
+        super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHPs);
         this.setSpriteAnchors();
-
-        this.playerID = playerID;
-        this.factoryID = id;
-        this.hp = hp;
-        this.state = state;
         this.buildPercent = buildPercent;
-    }
-
-    updateHP(hp) {
-        this.hp = hp;
-        super.updateBarHP();    // change HPBar hp
     }
 
     update(state, buildPercent) {
@@ -38,7 +28,7 @@ export default class Factory extends Actor {
     setBuildLevel(buildPercent) {
         this.buildLevel = Math.floor(Math.min(100, buildPercent) * Factory.buildLevelMultiplier);
         if (this.hp < Factory.minHp && buildPercent >= 100) {
-            this.buildLevel = 3;    // broken state
+            this.buildLevel = 4;    // broken state
         }
     }
 
@@ -55,6 +45,11 @@ export default class Factory extends Actor {
         this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
     }
 
+    // unit type factory
+    static setUnitConstant(FACTORY_CONSTANT) {
+        this.unitType = FACTORY_CONSTANT;
+    }
+
     static setMinHP(HP_CONSTANT) {
         this.minHp = HP_CONSTANT;
     }
@@ -66,22 +61,26 @@ export default class Factory extends Actor {
 
     static setTextures() {
         this.baseTextures = {
-            1: PIXI.loader.resources.towerP1.texture,
-            2: PIXI.loader.resources.towerP2.texture
+            1: PIXI.loader.resources.factoryP2.texture,
+            2: PIXI.loader.resources.factoryP2.texture
         };
 
         this.textures = {
             1: {
                 deadTexture: this.getDeadTexture(1),
                 lv1Texture: this.getLv1Texture(1),  //0%
-                lv2Texture: this.getLv2Texture(1),  //50%
-                lv3Texture: this.getLv3Texture(1),  //100%
+                lv2Texture: this.getLv2Texture(1),  //33%
+                lv3Texture: this.getLv3Texture(1),  //66%
+                lv4Texture: this.getLv4Texture(1),  //100%
+                brokenTexture: this.getBrokenTexture(1),  //broken
             },
             2: {
                 deadTexture: this.getDeadTexture(2),
                 lv1Texture: this.getLv1Texture(2),  //0%
-                lv2Texture: this.getLv2Texture(2),  //50%
-                lv3Texture: this.getLv3Texture(2),  //100%
+                lv2Texture: this.getLv2Texture(2),  //33%
+                lv3Texture: this.getLv3Texture(2),  //66%
+                lv4Texture: this.getLv4Texture(2),  //100%
+                brokenTexture: this.getBrokenTexture(2),  //broken
             }
         };
     }
@@ -130,6 +129,28 @@ export default class Factory extends Actor {
         return texture;
     }
 
+    static getLv4Texture(playerID) {
+        let base = this.baseTextures[playerID];
+        let pos = Factory.spriteSheetData.lv4Texture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
+
+        let texture = new PIXI.Texture(base);
+        texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
+
+        return texture;
+    }
+
+    static getBrokenTexture(playerID) {
+        let base = this.baseTextures[playerID];
+        let pos = Factory.spriteSheetData.brokenTexture.pos,
+            frame = Factory.spriteSheetData.frameDetails;
+
+        let texture = new PIXI.Texture(base);
+        texture.frame = new PIXI.Rectangle(pos.x, pos.y, frame.width, frame.height);
+
+        return texture;
+    }
+
     static getSpriteDetails(playerID, buildLevel) {
         let details = { texture: null };
 
@@ -138,16 +159,19 @@ export default class Factory extends Actor {
             details.texture = this.textures[playerID].deadTexture;
             break;
         case 0:
-            details.texture = this.textures[playerID].lv1Texture;   // foundation
+            details.texture = this.textures[playerID].lv1Texture;   // 0%
             break;
         case 1:
-            details.texture = this.textures[playerID].lv2Texture;   // half built
+            details.texture = this.textures[playerID].lv2Texture;   // 33%
             break;
         case 2:
-            details.texture = this.textures[playerID].lv3Texture;   // completely built
+            details.texture = this.textures[playerID].lv3Texture;   // 66%
             break;
         case 3:
-            details.texture = this.textures[playerID].lv3Texture;   // broken state
+            details.texture = this.textures[playerID].lv4Texture;   // 100%
+            break;
+        case 4:
+            details.texture = this.textures[playerID].brokenTexture;   // broken state
             break;
         }
 

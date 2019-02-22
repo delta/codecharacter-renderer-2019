@@ -294,6 +294,10 @@ export default class Proto {
         for (let factory of factories) {
             if (!factory.hasOwnProperty('id'))
                 factory.id = 0;
+            if (!factory.hasOwnProperty('playerId'))
+                factory.playerId = 0;
+
+            factory.playerId += 1;    // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
 
             if (factoryList.hasOwnProperty(factory.id)) {
                 if (factory.state === FACTORY_DEAD_STATE) { // factory state 4 = destroyed
@@ -315,8 +319,6 @@ export default class Proto {
 
             } else {
                 // New Factory
-                if (!factory.hasOwnProperty('playerId'))
-                    factory.playerId = 1;
                 if (!factory.hasOwnProperty('x'))
                     factory.x = 0;
                 if (!factory.hasOwnProperty('y'))

@@ -1,8 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 export default class StateObject {
-    constructor(x, y, width, height, textureData, isAnimated = false, animationSpeed = 0, healthBarObject = null) {
-        this.healthBarObject = healthBarObject;
+    constructor(x, y, width, height, textureData, isAnimated = false, animationSpeed = 0) {
         if (isAnimated) {
             this.sprite = new PIXI.extras.AnimatedSprite(textureData);
             this.setAnimationSpeed(animationSpeed);
@@ -53,7 +52,9 @@ export default class StateObject {
 
     removeSprite(stage) {
         stage.removeChild(this.sprite);
-        stage.removeChild(this.healthBarObject.healthBar);
+        if (this.healthBarObject != null) {
+            stage.removeChild(this.healthBarObject.healthBar);
+        }
     }
 
     static setSpriteAnchors(anchorData) {
