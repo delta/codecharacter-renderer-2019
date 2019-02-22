@@ -16,7 +16,7 @@ export default class Unit extends Actor {
 
     updatePosition(x, y) {
         this.setSpritePosition(x, y);
-        super.updateBarPosition();  // change HPBar position
+        this.updateBarPosition();  // change HPBar position
     }
 
     updateState(state, direction, unitType) {

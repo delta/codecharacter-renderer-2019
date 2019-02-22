@@ -1,20 +1,20 @@
 {
   "name": "codecharacter-renderer",
-  "version": "0.0.1",
-  "description": "Renderer component for Code Character 2018",
+  "version": "2.0.1",
+  "description": "Renderer component for Code Character 2019",
   "main": "dist/libpack.js",
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0",
     "build": "webpack --config webpack.production.js"
   },
-  "repository": "https://github.com/delta/codecharacter-renderer",
+  "repository": "https://github.com/delta/codecharacter-renderer-2019",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/delta/codecharacter-renderer/issues"
+    "url": "https://github.com/delta/codecharacter-renderer-2019/issues"
   },
-  "homepage": "https://github.com/delta/codecharacter-renderer#readme",
+  "homepage": "https://github.com/delta/codecharacter-renderer-2019#readme",
   "peerDependencies": {
     "pixi.js": "^4.6.2",
     "react": "^16.2.0",

@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js';
 
 export default class HealthBarObject {
-    constructor(maxHP, width) {
+    constructor(maxHP, width, height) {
         this.hp = maxHP;    // Initially actors start with full health
         this.maxHP = maxHP;
         this.width = width;
+        this.height = height;
     }
 
     buildHPBars() {
@@ -25,7 +26,7 @@ export default class HealthBarObject {
     }
 
     updatePosition(x, y) {
-        let offsetY = 3;
+        let offsetY = this.height/4;
         this.healthBar.position.set(x - (this.width/2), y - (this.width/2) - offsetY);
     }
 

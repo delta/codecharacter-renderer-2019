@@ -48,12 +48,24 @@ export default class StateObject {
         if (this.healthBarObject != null) {
             stage.addChild(this.healthBarObject.healthBar);
         }
+        if (this.buildBarObject != null) {
+            stage.addChild(this.buildBarObject.buildBar);
+        }
     }
 
     removeSprite(stage) {
         stage.removeChild(this.sprite);
         if (this.healthBarObject != null) {
             stage.removeChild(this.healthBarObject.healthBar);
+        }
+        if (this.buildBarObject != null) {
+            stage.removeChild(this.buildBarObject.buildBar);
+        }
+    }
+
+    removeBuildBar(stage) {
+        if (this.buildBarObject != null) {
+            stage.removeChild(this.buildBarObject.buildBar);
         }
     }
 
