@@ -306,6 +306,8 @@ export default class Proto {
                 factory.id = 0;
             if (!factory.hasOwnProperty('playerId'))
                 factory.playerId = 0;
+            if (!factory.hasOwnProperty('state'))
+                factory.state = 0;
 
             factory.playerId += 1;    // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
 

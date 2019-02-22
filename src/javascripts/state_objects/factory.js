@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import BuildBarObject from './buildbarobject';
 import Actor from './actor';
 
 export default class Factory extends Actor {
@@ -12,12 +13,20 @@ export default class Factory extends Actor {
         super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHPs);
         this.setSpriteAnchors();
         this.buildPercent = buildPercent;
+        this.buildBarObject = new BuildBarObject(buildPercent, width, height);
+        this.buildBarObject.createBuildBars();
+        this.updateBuildBarPosition();
+    }
+
+    updateBuildBarPosition() {
+        this.buildBarObject.updatePosition(this.sprite.x, this.sprite.y);
     }
 
     update(state, buildPercent) {
         this.state = state;
         this.buildPercent = buildPercent;
         this.setBuildLevel(buildPercent);
+        this.buildBarObject.updateBuildPercent(buildPercent);
         this.updateBuildTexture(this.buildLevel);
     }
 
