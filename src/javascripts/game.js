@@ -19,6 +19,7 @@ export default class Game {
         this.terrain = [];
         this.mapLength = 0;
         this.playerMoney = [];
+        this.scores = [];
 
         this.frameNo = 0;
         this.timeCount = 0;
@@ -592,6 +593,16 @@ export default class Game {
         return this;
     }
 
+    updateScore() {
+        let scores = this.getCurrentFrame().scores;
+        this.scores[0] = scores[0];
+        this.scores[1] = scores[1];
+        document.querySelector("#p1-score").innerHTML = this.scores[0];
+        document.querySelector("#p2-score").innerHTML = this.scores[1];
+
+        return this;
+    }
+
     logErrors() {
         this.logFunction(`TURN ${this.frameNo} :\n`);
         let currErrors = this.getCurrentFrame().errors;
@@ -679,25 +690,25 @@ export default class Game {
     end() {
         this.state = "stop";
         document.querySelector("#game-over-container").style.display = "block";
-        let p1Score = Number.parseInt(document.querySelector("#p1-score").innerHTML),
-            p2Score = Number.parseInt(document.querySelector("#p2-score").innerHTML);
         let gameOutcomeDiv = document.querySelector("#game-outcome");
-
-        if (p1Score > p2Score) {
-            if (this.playerID == 1) {
-                gameOutcomeDiv.innerHTML = "You won!";
-                gameOutcomeDiv.style.color = "#b2deb5";
+        let winner = this.stateVariable.winner;
+        let wasDeathmatch = this.stateVariable.wasDeathmatch;
+        let wasDeathmatchMessage = (wasDeathmatch) ? " by a deathmatch":" by score";
+        if (winner === 0) {
+            if (this.playerID === 1) {
+                gameOutcomeDiv.innerHTML = "You Won" + wasDeathmatchMessage;
+                gameOutcomeDiv.style.color = "#33ff33";
             } else {
-                gameOutcomeDiv.innerHTML = "You lost";
-                gameOutcomeDiv.style.color = "#ffb4b4";
+                gameOutcomeDiv.innerHTML = "You Lost" + wasDeathmatchMessage;
+                gameOutcomeDiv.style.color = "#ff3535";
             }
-        } else if (p1Score < p2Score) {
-            if (this.playerID == 1) {
-                gameOutcomeDiv.innerHTML = "You lost";
-                gameOutcomeDiv.style.color = "#ffb4b4";
+        } else if (winner === 1) {
+            if (this.playerID === 1) {
+                gameOutcomeDiv.innerHTML = "You Lost" + wasDeathmatchMessage;
+                gameOutcomeDiv.style.color = "#ff3535";
             } else {
-                gameOutcomeDiv.innerHTML = "You won!";
-                gameOutcomeDiv.style.color = "#b2deb5";
+                gameOutcomeDiv.innerHTML = "You Won" + wasDeathmatchMessage;
+                gameOutcomeDiv.style.color = "#33ff33";
             }
         } else {
             gameOutcomeDiv.innerHTML = "The game is a draw";

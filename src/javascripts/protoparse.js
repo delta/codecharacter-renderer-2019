@@ -55,7 +55,7 @@ export default class Proto {
                 villagers: JSON.parse(JSON.stringify(this.processVillagers(villagerList, frame.villagers, deadVillagers))),
                 factories: JSON.parse(JSON.stringify(this.processFactories(factoryList, frame.factories, deadFactories))),
                 gold: frame.gold.slice(),
-                score: frame.scores.slice(),
+                scores: frame.scores.slice(),
                 instructionCounts: frame.instructionCounts.slice(),
                 errors: frame.playerErrors
             };

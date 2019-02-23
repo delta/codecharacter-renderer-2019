@@ -33,7 +33,7 @@ export default class CodeCharacterRenderer extends React.Component {
             <div id="renderer-container">
                 <div className="top-container" id="top-right-container">
                     <div className="label top-label" id="score-container">
-                        <div className="value player-details">Score:</div>
+                        <div className="value player-details">Score: </div>
                         <div className="value p1-color" id="p1-score"></div> | <div className="value p2-color" id="p2-score"></div>
                     </div>
                     <div className="label top-label" id="money-container">
