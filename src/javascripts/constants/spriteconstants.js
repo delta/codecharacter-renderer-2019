@@ -53,7 +53,7 @@ const SPRITE_CONSTANTS = {
                     x: 0,
                     y: 993.6
                 },
-                frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
+                frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
             },
         }
     },
@@ -124,7 +124,7 @@ const SPRITE_CONSTANTS = {
                     x: 0,
                     y: 1985.6
                 },
-                frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
+                frameSequence: [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]    // last death frame is repeated until respawn
             },
         }
     },

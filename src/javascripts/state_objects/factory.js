@@ -46,17 +46,24 @@ export default class Factory extends Actor {
         this.sprite.texture = spriteDetails.texture;
     }
 
+    addBuildBar(stage) {
+        if (this.buildBarObject != null) {
+            stage.addChild(this.buildBarObject.buildBar);
+        }
+    }
+
+    removeBuildBar(stage) {
+        if (this.buildBarObject != null) {
+            stage.removeChild(this.buildBarObject.buildBar);
+        }
+    }
+
     static setMaxHPs(maxHP) {
         this.maxHPs = maxHP;
     }
 
     static setBuildMultiplier(MULTIPLIER_CONSTANT) {
         this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
-    }
-
-    // unit type factory
-    static setUnitConstant(FACTORY_CONSTANT) {
-        this.unitType = FACTORY_CONSTANT;
     }
 
     static setMinHP(HP_CONSTANT) {

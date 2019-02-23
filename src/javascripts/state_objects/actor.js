@@ -67,4 +67,16 @@ export default class Actor extends StateObject {
         this.healthBarObject.healthBar.filters = null;
         this.sprite.off('pointerover', () => {}).off('pointerout', () => {});
     }
+
+    addHPBar(stage) {
+        if (this.healthBarObject != null) {
+            stage.addChild(this.healthBarObject.healthBar);
+        }
+    }
+
+    removeHPBar(stage) {
+        if (this.healthBarObject != null) {
+            stage.removeChild(this.healthBarObject.healthBar);
+        }
+    }
 }
