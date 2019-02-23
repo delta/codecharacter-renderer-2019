@@ -45,28 +45,10 @@ export default class StateObject {
     // Methods to add and remove sprites
     addSprite(stage) {
         stage.addChild(this.sprite);
-        if (this.healthBarObject != null) {
-            stage.addChild(this.healthBarObject.healthBar);
-        }
-        if (this.buildBarObject != null) {
-            stage.addChild(this.buildBarObject.buildBar);
-        }
     }
 
     removeSprite(stage) {
         stage.removeChild(this.sprite);
-        if (this.healthBarObject != null) {
-            stage.removeChild(this.healthBarObject.healthBar);
-        }
-        if (this.buildBarObject != null) {
-            stage.removeChild(this.buildBarObject.buildBar);
-        }
-    }
-
-    removeBuildBar(stage) {
-        if (this.buildBarObject != null) {
-            stage.removeChild(this.buildBarObject.buildBar);
-        }
     }
 
     static setSpriteAnchors(anchorData) {
