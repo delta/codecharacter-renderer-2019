@@ -260,13 +260,13 @@ export default class Game {
 
         helpIcon.addEventListener('mouseover', () => {
             let controlsDisplay = document.querySelector("#controls-div");
-            controlsDisplay.style.display = "block";
+            controlsDisplay.style.zIndex = 2;
             controlsDisplay.style.opacity = 0.8;
         });
         helpIcon.addEventListener('mouseout', () => {
             let controlsDisplay = document.querySelector("#controls-div");
             controlsDisplay.style.opacity = 0;
-            controlsDisplay.style.display = "none";
+            controlsDisplay.style.zIndex = -1;
         });
     }
 
@@ -302,8 +302,8 @@ export default class Game {
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
         Actor.setFilterConstant(CONSTANTS.glowFilters);
-        HealthBarObject.setHPColors(CONSTANTS.barConstants.hp);
-        BuildBarObject.setBuildColors(CONSTANTS.barConstants.build);
+        HealthBarObject.setHPConstants(CONSTANTS.barConstants.hp);
+        BuildBarObject.setBuildConstants(CONSTANTS.barConstants.build);
 
         // Add Textures
         Unit.setTextures(CONSTANTS.unitType);
@@ -605,7 +605,7 @@ export default class Game {
 
             } else if (factory.updateMethod == "update") {
                 this.factories[factoriesID].updateHP(factory.hp);
-                this.factories[factoriesID].update(factory.state, factory.buildPercent);
+                this.factories[factoriesID].updateState(factory.state, factory.buildPercent);
                 if (factory.buildPercent >= 100) {
                     this.factories[factoriesID].removeBuildBar(this.app.stage);   // under 100% build remove buildbar
                 }
@@ -703,7 +703,7 @@ export default class Game {
         for (let factoryID in this.factories) {
             this.factories[factoryID].bindEventListeners();
         }
-        topLeftContainer.style.display = "block";
+        topLeftContainer.style.zIndex = 2;
         topLeftContainer.style.opacity = 0.8;
     }
 
@@ -727,7 +727,7 @@ export default class Game {
             this.factories[factoryID].unbindEventListeners();
         }
         topLeftContainer.style.opacity = 0;
-        topLeftContainer.style.display = "none";
+        topLeftContainer.style.display = -1;
     }
 
 

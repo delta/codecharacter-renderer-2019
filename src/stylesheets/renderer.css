@@ -56,7 +56,6 @@ canvas:focus {
   border-radius: 5px;
   text-align: left;
   opacity: 0;
-  display: none;
   transition: opacity 0.2s;
 }
 
@@ -129,8 +128,7 @@ div#help-icon {
 
 div#controls-div{
   position: absolute;
-  display: none;
-  z-index: 2;
+  z-index: -2000;
   font-size: 15px;
   bottom: 25px;
   right: 25px;

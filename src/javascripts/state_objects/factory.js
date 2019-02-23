@@ -14,7 +14,6 @@ export default class Factory extends Actor {
         this.setSpriteAnchors();
         this.buildPercent = buildPercent;
         this.buildBarObject = new BuildBarObject(buildPercent, width, height);
-        this.buildBarObject.createBuildBars();
         this.updateBuildBarPosition();
     }
 
@@ -22,7 +21,7 @@ export default class Factory extends Actor {
         this.buildBarObject.updatePosition(this.sprite.x, this.sprite.y);
     }
 
-    update(state, buildPercent) {
+    updateState(state, buildPercent) {
         this.state = state;
         this.buildPercent = buildPercent;
         this.setBuildLevel(buildPercent);
@@ -47,15 +46,11 @@ export default class Factory extends Actor {
     }
 
     addBuildBar(stage) {
-        if (this.buildBarObject != null) {
-            stage.addChild(this.buildBarObject.buildBar);
-        }
+        stage.addChild(this.buildBarObject.buildBar);
     }
 
     removeBuildBar(stage) {
-        if (this.buildBarObject != null) {
-            stage.removeChild(this.buildBarObject.buildBar);
-        }
+        stage.removeChild(this.buildBarObject.buildBar);
     }
 
     static setMaxHPs(maxHP) {

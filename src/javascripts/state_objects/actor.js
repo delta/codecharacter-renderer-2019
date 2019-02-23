@@ -11,7 +11,6 @@ export default class Actor extends StateObject {
         this.state = state;
 
         this.healthBarObject = new HealthBarObject(maxHP, width, height);
-        this.healthBarObject.buildHPBars(); // creates hpbar => outer+innerbar
         this.updateBarPosition();   // setting initial bar posiiton
     }
 
@@ -70,15 +69,11 @@ export default class Actor extends StateObject {
     }
 
     addHPBar(stage) {
-        if (this.healthBarObject != null) {
-            stage.addChild(this.healthBarObject.healthBar);
-        }
+        stage.addChild(this.healthBarObject.healthBar);
     }
 
     removeHPBar(stage) {
-        if (this.healthBarObject != null) {
-            stage.removeChild(this.healthBarObject.healthBar);
-        }
+        stage.removeChild(this.healthBarObject.healthBar);
     }
 
     static setFilterConstant(FILTER_CONST) {
