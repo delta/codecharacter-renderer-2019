@@ -12,12 +12,12 @@ export default class BuildBarObject {
         this.innerBar = new PIXI.Graphics();    // moving bar
         this.outerBar = new PIXI.Graphics();    // fixed bar
 
-        this.outerBar.beginFill(0x333333);
-        this.outerBar.drawRect(0, 0, this.width, 1);
+        this.outerBar.beginFill(BuildBarObject.buildBarConstants.outerBarColor);
+        this.outerBar.drawRect(0, 0, this.width, this.height/10);
         this.outerBar.endFill();
 
-        this.innerBar.beginFill(0x55FF00);
-        this.innerBar.drawRect(0, 0, 1, 1);
+        this.innerBar.beginFill(BuildBarObject.buildBarConstants.innerBarColor);
+        this.innerBar.drawRect(0, 0, 0.1, this.height/10);  //non-zero value 0.1
         this.innerBar.endFill();
 
         this.buildBar.addChild(this.outerBar);
@@ -25,7 +25,7 @@ export default class BuildBarObject {
     }
 
     updatePosition(x, y) {
-        let offsetY = this.height/3;
+        let offsetY = this.height/2;
         this.buildBar.position.set(x - (this.width/2), y - (this.width/2) - offsetY);
     }
 
@@ -34,4 +34,7 @@ export default class BuildBarObject {
         this.innerBar.width = (this.buildPercent/100)*this.width;
     }
 
+    static setBuildColors(BUILD_BAR_CONST) {
+        this.buildBarConstants = BUILD_BAR_CONST;
+    }
 }

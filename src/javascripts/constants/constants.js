@@ -63,6 +63,26 @@ const CONSTANTS = {
         maxDeathFrames: 10,     // Frames for which dead tower stays on the map after destruction
         factoryBuildLevelMultiplier: 0.03,
         factoryMinHp: 50
+    },
+    glowFilters: {
+        distance: 12,
+        outerStrength: 3,
+        innerStrength: 0.5,
+        color: {
+            1: 0x00DDFF,
+            2: 0xFFCC00
+        },
+        quality: 1
+    },
+    barConstants: {
+        hp: {
+            innerBarColor: 0xFF3300,
+            outerBarColor: 0x333333
+        },
+        build: {
+            innerBarColor: 0x55FF00,
+            outerBarColor: 0x333333
+        }
     }
 };
 CONSTANTS.spriteConstants = SPRITE_CONSTANTS;

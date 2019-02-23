@@ -10,6 +10,9 @@ import Factory from './state_objects/factory';
 import pauseAsset from "../assets/pause.svg";
 import playAsset from "../assets/play.svg";
 import * as screenfull from 'screenfull';
+import Actor from './state_objects/actor.js';
+import HealthBarObject from './state_objects/healthbarobject.js';
+import BuildBarObject from './state_objects/buildbarobject.js';
 
 export default class Game {
     constructor() {
@@ -298,6 +301,9 @@ export default class Game {
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
+        Actor.setFilterConstant(CONSTANTS.glowFilters);
+        HealthBarObject.setHPColors(CONSTANTS.barConstants.hp);
+        BuildBarObject.setBuildColors(CONSTANTS.barConstants.build);
 
         // Add Textures
         Unit.setTextures(CONSTANTS.unitType);

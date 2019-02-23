@@ -13,12 +13,12 @@ export default class HealthBarObject {
         this.innerBar = new PIXI.Graphics();    // moving bar
         this.outerBar = new PIXI.Graphics();    // fixed bar
 
-        this.outerBar.beginFill(0x333333);
-        this.outerBar.drawRect(0, 0, this.width, 1);
+        this.outerBar.beginFill(HealthBarObject.hpBarConstants.outerBarColor);
+        this.outerBar.drawRect(0, 0, this.width, this.height/10);
         this.outerBar.endFill();
 
-        this.innerBar.beginFill(0xFF3300);
-        this.innerBar.drawRect(0, 0, this.width, 1);
+        this.innerBar.beginFill(HealthBarObject.hpBarConstants.innerBarColor);
+        this.innerBar.drawRect(0, 0, this.width, this.height/10);
         this.innerBar.endFill();
 
         this.healthBar.addChild(this.outerBar);
@@ -26,13 +26,17 @@ export default class HealthBarObject {
     }
 
     updatePosition(x, y) {
-        let offsetY = this.height/4;
+        let offsetY = this.height/3;
         this.healthBar.position.set(x - (this.width/2), y - (this.width/2) - offsetY);
     }
 
     changeHp(hp) {
         this.hp = hp;
         this.innerBar.width = (this.hp/this.maxHP)*this.width;
+    }
+
+    static setHPColors(HP_BAR_CONST) {
+        this.hpBarConstants = HP_BAR_CONST;
     }
 
 }
