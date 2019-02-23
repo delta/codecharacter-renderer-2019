@@ -54,7 +54,7 @@ canvas:focus {
   margin: 10px 0px;
   color: white;
   font-size: 1.5em;
-  text-shadow: 0 1px 1px #888888, 0 0 10px #444444;
+  text-shadow: 0 1px 1px #888888, 0 0 5px #444444;
 }
 
 div.value {
@@ -71,11 +71,11 @@ div.top-label {
 }
 
 div.p1-color {
-  color: #b30000;
+  color: #000099;
 }
 
 div.p2-color {
-  color: #000099;
+  color: #b30000;
 }
 
 div.highlight {

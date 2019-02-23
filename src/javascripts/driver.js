@@ -101,6 +101,7 @@ function render(delta) {
             .updateSoldiers()
             .updateVillagers()
             .updateMoney()
+            .updateScore()
             .updateFactories()
             .logErrors()
             .logPlayerLogs();
