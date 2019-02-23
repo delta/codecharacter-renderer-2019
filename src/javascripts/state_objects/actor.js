@@ -44,13 +44,14 @@ export default class Actor extends StateObject {
 
     bindEventListeners() {
         let detailsDiv = document.getElementById("details-div");
-        let outlineFilterRed = new filters.GlowFilter(15, 2, 1, 0x1700FF, 0.5);
+        let filterConst = Actor.glowFilters;
+        let outlineFilter = new filters.GlowFilter(filterConst.distance, filterConst.outerStrength, filterConst.innerStrength, filterConst.color[this.playerID], filterConst.quality);
         this.sprite.interactive = true;
         this.sprite.buttonMode = true;
         this.sprite.on('pointerover', () => {
             detailsDiv.innerHTML = JSON.stringify(this.createSpriteInfo(), null, 2);
-            this.sprite.filters = [outlineFilterRed];
-            this.healthBarObject.healthBar.filters = [outlineFilterRed];
+            this.sprite.filters = [outlineFilter];
+            this.healthBarObject.healthBar.filters = [outlineFilter];
         }).on('pointerout', () => {
             this.sprite.filters = null;
             this.healthBarObject.healthBar.filters = null;
@@ -78,5 +79,9 @@ export default class Actor extends StateObject {
         if (this.healthBarObject != null) {
             stage.removeChild(this.healthBarObject.healthBar);
         }
+    }
+
+    static setFilterConstant(FILTER_CONST) {
+        this.glowFilters = FILTER_CONST;
     }
 }

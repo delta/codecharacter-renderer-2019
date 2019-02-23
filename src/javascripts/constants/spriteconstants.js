@@ -7,8 +7,8 @@ const SPRITE_CONSTANTS = {
     soldierSprites: {
         // On screen data
         displayDimensions: {
-            width: 10,
-            height: 10
+            width: 8,
+            height: 8
         },
         animationSpeed: {
             values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
@@ -60,8 +60,8 @@ const SPRITE_CONSTANTS = {
     villagerSprites: {
         // On screen data
         displayDimensions: {
-            width: 10,
-            height: 10
+            width: 8,
+            height: 8
         },
         animationSpeed: {
             values: [0.07, 0.17, 0.25, 0.37, 0.45, 0.6, 0.8],
@@ -131,8 +131,8 @@ const SPRITE_CONSTANTS = {
     factorySprites: {
         // On screen data
         displayDimensions: {
-            width: 10.5,
-            height: 15
+            width: 8.5,
+            height: 10
         },
 
         // Spritesheet data
