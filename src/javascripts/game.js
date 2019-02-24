@@ -130,6 +130,7 @@ export default class Game {
         // Scroll based zooming
         canvas.addEventListener("wheel", (e) => {
             this.camera.manualZoom(e.deltaY < 0);
+
         });
 
         canvas.addEventListener("keydown", (e) => {
