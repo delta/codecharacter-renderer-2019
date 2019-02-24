@@ -4,6 +4,7 @@ import * as PIXI                            from 'pixi.js';
 import { initRenderer, initGame }           from "./javascripts/driver.js";
 import pauseAsset                           from "./assets/pause.svg";
 import resetAsset                           from "./assets/restart.svg";
+import fullscreenAsset                      from "./assets/fullscreen.png";
 import slowDownAsset                        from "./assets/slow-down.svg";
 import speedUpAsset                         from "./assets/speed-up.svg";
 import "./stylesheets/renderer.css";
@@ -56,6 +57,7 @@ export default class CodeCharacterRenderer extends React.Component {
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
                     <img className="icon" id="reset-icon" onClick={this.state.resetGame} src={resetAsset} />
+                    <img className="icon" id="fullscreen-icon" src={fullscreenAsset} />
                 </div>
                 <div className="bottom-container" id="speed-icons-container">
                     <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value"></div></div>
