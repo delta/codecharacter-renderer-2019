@@ -47,10 +47,11 @@ export default class CodeCharacterRenderer extends React.Component {
                 </div>
 
                 <div className="top-container" id="top-left-container">
-                    <div className="label top-label" id="unit-type-container">
-                        <div className="value player-details">Details : </div>
-                        <pre id="details-div"></pre>
-                    </div>
+                    <div className="details-div" id="actor-type"></div>
+                    <div className="details-div" id="actor-id"></div>
+                    <div className="details-div" id="actor-position"></div>
+                    <div className="details-div" id="actor-hp"></div>
+                    <div className="details-div" id="actor-state"></div>
                 </div>
                 <div className="bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
