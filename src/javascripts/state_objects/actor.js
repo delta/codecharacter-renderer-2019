@@ -26,7 +26,11 @@ export default class Actor extends StateObject {
 
     updateBarPosition() {
         let offsetY = 1.5;
-        this.healthBarObject.updatePosition(this.sprite.x - (this.sprite.width/2), this.sprite.y - (this.sprite.height/2) - offsetY);
+        let healthBarPosition = {
+            x: this.sprite.x - (this.sprite.width/2),
+            y: this.sprite.y - (this.sprite.height/2) - offsetY
+        };
+        this.healthBarObject.updatePosition(healthBarPosition.x, healthBarPosition.y);
     }
 
     attachDetails() {
@@ -44,8 +48,8 @@ export default class Actor extends StateObject {
 
         setTimeout(() => {
             topLeftContainer.style.zIndex = 2;
-        },100);
-        topLeftContainer.style.opacity = 0.8;
+            topLeftContainer.style.opacity = 0.8;
+        }, 200);
     }
 
     removeDetails() {
@@ -56,7 +60,7 @@ export default class Actor extends StateObject {
             topLeftContainer.style.opacity = 0;
             setTimeout(() => {
                 topLeftContainer.style.zIndex = -1;
-            },100);
+            }, 200);
         }
     }
 
@@ -86,12 +90,12 @@ export default class Actor extends StateObject {
 
     addToStage(stage) {
         this.addSprite(stage);
-        stage.addChild(this.healthBarObject.healthBar);
+        this.healthBarObject.addHPBar(stage);
     }
 
     removeFromStage(stage) {
         this.removeSprite(stage);
-        stage.removeChild(this.healthBarObject.healthBar);
+        this.healthBarObject.removeHPBar(stage);
     }
 
     static setFilterConstant(FILTER_CONST) {

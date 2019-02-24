@@ -70,13 +70,13 @@ export default class CodeCharacterRenderer extends React.Component {
                 </div>
                 <div id="controls-div">
                     <center><b>Controls</b></center>
-                    <p><b>&uarr;&darr;&larr;&rarr; : </b>camera</p>
-                    <p><b>+ : </b>zoomIn</p>
-                    <p><b>- : </b>zoomOut</p>
-                    <p><b>p : </b>pause/play</p>
-                    <p><b>] : </b>speedUp</p>
-                    <p><b>[ : </b>speedDown</p>
-                    <p><b>f : </b>fullscreen</p>
+                    <p><b>&uarr;&darr;&larr;&rarr; : </b>Camera</p>
+                    <p><b>+ : </b>Zoom In</p>
+                    <p><b>- : </b>Zoom Out</p>
+                    <p><b>p : </b>Pause / Play</p>
+                    <p><b>] : </b>Speed Up</p>
+                    <p><b>[ : </b>Speed Down</p>
+                    <p><b>f : </b>Fullscreen</p>
                 </div>
                 <div className="bottom-container" id="help-icon">?</div>
             </div>

@@ -35,6 +35,14 @@ export default class HealthBarObject {
         this.innerBar.width = (this.hp/this.maxHP)*this.width;
     }
 
+    addHPBar(stage) {
+        stage.addChild(this.healthBar);
+    }
+
+    removeHPBar(stage) {
+        stage.removeChild(this.healthBar);
+    }
+
     static setHPConstants(HP_BAR_CONST) {
         this.hpBarConstants = HP_BAR_CONST;
     }
