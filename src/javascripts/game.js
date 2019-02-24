@@ -463,8 +463,7 @@ export default class Game {
     addSoldiers() {
         for (let soldierID in this.soldiers) {
             let soldier = this.soldiers[soldierID];
-            soldier.addSprite(this.app.stage);
-            soldier.addHPBar(this.app.stage);
+            soldier.addToStage(this.app.stage);
         }
 
         return this;
@@ -473,8 +472,7 @@ export default class Game {
     addVillagers() {
         for (let villagerID in this.villagers) {
             let villager = this.villagers[villagerID];
-            villager.addSprite(this.app.stage);
-            villager.addHPBar(this.app.stage);
+            villager.addToStage(this.app.stage);
         }
 
         return this;
@@ -483,8 +481,7 @@ export default class Game {
     addFactories() {
         for (let factoriesID in this.factories) {
             let factory = this.factories[factoriesID];
-            factory.addSprite(this.app.stage);
-            factory.addHPBar(this.app.stage);
+            factory.addToStage(this.app.stage);
             factory.addBuildBar(this.app.stage);
         }
 
@@ -534,8 +531,7 @@ export default class Game {
                 this.soldiers[soldierID] = new Soldier(
                     soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
                 );
-                this.soldiers[soldierID].addSprite(this.app.stage);
-                this.soldiers[soldierID].addHPBar(this.app.stage);
+                this.soldiers[soldierID].addToStage(this.app.stage);
             } else if (soldier.updateMethod == "destroy" && soldier.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.soldiers[soldierID].updateHP(soldier.hp);
                 this.soldiers[soldierID].updateState(soldier.state, soldier.direction);
@@ -547,8 +543,7 @@ export default class Game {
                 }
             }
             if (soldier.framesLeft < 0) {
-                this.soldiers[soldierID].removeSprite(this.app.stage);
-                this.soldiers[soldierID].removeHPBar(this.app.stage);
+                this.soldiers[soldierID].removeFromStage(this.app.stage);
                 delete this.soldiers[soldierID];
             }
         }
@@ -567,8 +562,7 @@ export default class Game {
                 this.villagers[villagerID] = new Villager(
                     villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
                 );
-                this.villagers[villagerID].addSprite(this.app.stage);
-                this.villagers[villagerID].addHPBar(this.app.stage);
+                this.villagers[villagerID].addToStage(this.app.stage);
             } else if (villager.updateMethod == "destroy" && villager.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.villagers[villagerID].updateHP(villager.hp);
                 this.villagers[villagerID].updateState(villager.state, villager.direction);
@@ -580,8 +574,7 @@ export default class Game {
                 }
             }
             if (villager.framesLeft < 0) {
-                this.villagers[villagerID].removeSprite(this.app.stage);
-                this.villagers[villagerID].removeHPBar(this.app.stage);
+                this.villagers[villagerID].removeFromStage(this.app.stage);
                 delete this.villagers[villagerID];
             }
         }
@@ -606,25 +599,19 @@ export default class Game {
 
             if (factory.updateMethod == "create") {
                 this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent);
-                this.factories[factoriesID].addSprite(this.app.stage);
-                this.factories[factoriesID].addHPBar(this.app.stage);
-                this.factories[factoriesID].addBuildBar(this.app.stage);
+                this.factories[factoriesID].addToStage(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
                 if (factory.framesLeft == CONSTANTS.factories.maxDeathFrames) {
                     this.factories[factoriesID].updateHP(factory.hp);
                     this.factories[factoriesID].destroy();
                 } else if (factory.framesLeft == 0) {
-                    this.factories[factoriesID].removeSprite(this.app.stage);
-                    this.factories[factoriesID].removeHPBar(this.app.stage);
+                    this.factories[factoriesID].removeFromStage(this.app.stage);
                     delete this.factories[factoriesID];
                 }
 
             } else if (factory.updateMethod == "update") {
                 this.factories[factoriesID].updateHP(factory.hp);
                 this.factories[factoriesID].updateState(factory.state, factory.buildPercent);
-                if (factory.buildPercent >= 100) {
-                    this.factories[factoriesID].removeBuildBar(this.app.stage);   // under 100% build remove buildbar
-                }
             }
         }
 

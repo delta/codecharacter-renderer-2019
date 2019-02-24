@@ -27,8 +27,7 @@ export default class HealthBarObject {
     }
 
     updatePosition(x, y) {
-        let offsetY = HealthBarObject.hpBarConstants.offsetY;
-        this.healthBar.position.set(x - (this.width/2), y - (this.height/2) - offsetY);
+        this.healthBar.position.set(x, y);
     }
 
     changeHp(hp) {

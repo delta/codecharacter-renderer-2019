@@ -18,7 +18,8 @@ export default class Factory extends Actor {
     }
 
     updateBuildBarPosition() {
-        this.buildBarObject.updatePosition(this.sprite.x, this.sprite.y);
+        let offsetY = 3;
+        this.buildBarObject.updatePosition(this.sprite.x - (this.sprite.width/2), this.sprite.y - (this.sprite.height/2) - offsetY);
     }
 
     updateState(state, buildPercent) {
@@ -45,12 +46,16 @@ export default class Factory extends Actor {
         this.sprite.texture = spriteDetails.texture;
     }
 
-    addBuildBar(stage) {
+    addToStage(stage) {
+        super.addToStage(stage);
         stage.addChild(this.buildBarObject.buildBar);
     }
 
-    removeBuildBar(stage) {
-        stage.removeChild(this.buildBarObject.buildBar);
+    removeFromStage(stage) {
+        super.removeFromStage(stage);
+        if (this.buildPercent >= 100) {
+            stage.removeChild(this.buildBarObject.buildBar);
+        }
     }
 
     static setMaxHPs(maxHP) {
