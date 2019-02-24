@@ -9,6 +9,8 @@ import Villager from './state_objects/villager';
 import Factory from './state_objects/factory';
 import pauseAsset from "../assets/pause.svg";
 import playAsset from "../assets/play.svg";
+import enterFullscreenAsset from "../assets/enterfullscreen.png";
+import exitFullscreenAsset from "../assets/exitfullscreen.png";
 import * as screenfull from 'screenfull';
 import Actor from './state_objects/actor.js';
 import HealthBarObject from './state_objects/healthbarobject.js';
@@ -192,15 +194,7 @@ export default class Game {
                     game.increaseSpeed();
                     break;
                 case 'f':
-                    if (screenfull.enabled) {
-                        if (game.isFullscreen === true) {
-                            screenfull.exit();
-                            game.isFullscreen = false;
-                        } else {
-                            screenfull.request(game.container);
-                            game.isFullscreen = true;
-                        }
-                    }
+                    game.toggleFullscreen();
                     break;
                 }
             } else {
@@ -233,15 +227,7 @@ export default class Game {
                     game.increaseSpeed();
                     break;
                 case 70:                                    // for 'f'
-                    if (screenfull.enabled) {
-                        if (game.isFullscreen === true) {
-                            screenfull.exit();
-                            game.isFullscreen = false;
-                        } else {
-                            screenfull.request(game.container);
-                            game.isFullscreen = true;
-                        }
-                    }
+                    game.toggleFullscreen();
                     break;
                 }
             }
@@ -252,15 +238,7 @@ export default class Game {
         });
 
         fullscreenIcon.addEventListener('click', () => {
-            if (screenfull.enabled) {
-                if (game.isFullscreen === true) {
-                    screenfull.exit();
-                    game.isFullscreen = false;
-                } else {
-                    screenfull.request(game.container);
-                    game.isFullscreen = true;
-                }
-            }
+            game.toggleFullscreen();
         });
 
         slowDownIcon.addEventListener('click', () => {
@@ -730,6 +708,20 @@ export default class Game {
         }
     }
 
+    toggleFullscreen() {
+        let fullscreenIcon = document.getElementById("fullscreen-icon");
+        if (screenfull.enabled) {
+            if (this.isFullscreen) {
+                screenfull.exit();
+                this.isFullscreen = false;
+                fullscreenIcon.src = enterFullscreenAsset;
+            } else {
+                screenfull.request(this.container);
+                this.isFullscreen = true;
+                fullscreenIcon.src = exitFullscreenAsset;
+            }
+        }
+    }
 
     // UI Object methods and Hover bind/unbind
     toggleState() {
