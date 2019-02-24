@@ -1,8 +1,9 @@
 import Unit from './unit';
 
 export default class Villager extends Unit {
-    constructor(x, y, id, direction, hp, state, playerID, animationSpeed) {
+    constructor(x, y, id, direction, hp, state, playerID, animationSpeed, activeSprite) {
         super(x, y, id, direction, hp, state, playerID, animationSpeed, Villager.unitType, Villager.maxHP);
+        this.bindEventListeners(activeSprite);
     }
 
     // override to mention what unitType
