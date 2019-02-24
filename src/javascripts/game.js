@@ -310,7 +310,7 @@ export default class Game {
         for (let i = 0; i < terrainLength; i++) {
             this.terrain[i] = [];
             for (let j = 0; j < terrainLength; j++) {
-                let terrainElementType = terrianArray[i * terrainLength + j];   //1d to 2d array search column wise.
+                let terrainElementType = terrianArray[j * terrainLength + i];   // 1d to 2d array search column wise.
                 this.terrain[i][j] = new TerrainElement(len * i, len * j, terrainElementType);
             }
         }
@@ -626,8 +626,7 @@ export default class Game {
 
     logPlayerLogs() {
         // Read the current player's current turn's logs (if any), and write them
-        let currentTurnLogs
-            = this.playerLogs[this.playerID][this.frameNo];
+        let currentTurnLogs = this.playerLogs[this.playerID][this.frameNo];
         if (currentTurnLogs) {
             this.logFunction(currentTurnLogs + '\n');
         }
