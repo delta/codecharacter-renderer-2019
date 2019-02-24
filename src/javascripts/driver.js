@@ -100,9 +100,10 @@ function render(delta) {
         game.checkInstructionCount()
             .updateSoldiers()
             .updateVillagers()
+            .updateFactories()
+            .updateDetails()
             .updateMoney()
             .updateScore()
-            .updateFactories()
             .logErrors()
             .logPlayerLogs();
     }

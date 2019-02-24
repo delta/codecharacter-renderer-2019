@@ -33,9 +33,8 @@ export default class Actor extends StateObject {
         this.healthBarObject.updatePosition(healthBarPosition.x, healthBarPosition.y);
     }
 
-    attachDetails() {
-        let topLeftContainer = document.getElementById("top-left-container"),
-            actorType = document.getElementById("actor-type"),
+    updateDetails() {
+        let actorType = document.getElementById("actor-type"),
             actorID = document.getElementById("actor-id"),
             actorPosition = document.getElementById("actor-position"),
             actorHp = document.getElementById("actor-hp"),
@@ -45,11 +44,13 @@ export default class Actor extends StateObject {
         actorPosition.innerHTML = "Position : ( " + this.sprite.x + " , " + this.sprite.y + " )";
         actorHp.innerHTML = "HP : " + this.hp;
         actorState.innerHTML = "State : " + Actor.actorStates[this.constructor.name][this.state];
+    }
 
-        setTimeout(() => {
-            topLeftContainer.style.zIndex = 2;
-            topLeftContainer.style.opacity = 0.8;
-        }, 200);
+    attachDetails() {
+        let topLeftContainer = document.getElementById("top-left-container");
+        this.updateDetails();
+        topLeftContainer.style.zIndex = 2;
+        topLeftContainer.style.opacity = 0.8;
     }
 
     removeDetails() {
@@ -64,28 +65,37 @@ export default class Actor extends StateObject {
         }
     }
 
-    bindEventListeners() {
+    enableFilters() {
         let filterConst = Actor.glowFilters;
         let outlineFilter = new filters.GlowFilter(filterConst.distance, filterConst.outerStrength, filterConst.innerStrength, filterConst.color[this.playerID], filterConst.quality);
-        this.sprite.interactive = true;
-        this.sprite.buttonMode = true;
-        this.sprite.on('pointerover', () => {
-            this.attachDetails();
-            this.sprite.filters = [outlineFilter];
-            this.healthBarObject.healthBar.filters = [outlineFilter];
-        }).on('pointerout', () => {
-            this.sprite.filters = null;
-            this.healthBarObject.healthBar.filters = null;
-            this.removeDetails();
-        });
+        this.attachDetails();
+        this.sprite.filters = [outlineFilter];
+        this.healthBarObject.healthBar.filters = [outlineFilter];
     }
 
-    unbindEventListeners() {
-        this.sprite.interactive = false;
-        this.sprite.buttonMode = false;
+    disableFilters() {
+        this.removeDetails();
         this.sprite.filters = null;
         this.healthBarObject.healthBar.filters = null;
-        this.sprite.off('pointerover', () => {}).off('pointerout', () => {});
+    }
+
+    bindEventListeners(activeSprite) {
+        this.sprite.interactive = true;
+        this.sprite.buttonMode = true;
+        this.sprite.on('click', () => {
+            if (activeSprite.state == "inactive") {
+                this.enableFilters();
+                activeSprite.state = "new";
+                activeSprite.obj = this;
+            } else if (activeSprite.state == "active") {
+                activeSprite.obj.disableFilters();
+                setTimeout(() => {
+                    this.enableFilters();
+                },200);
+                activeSprite.state = "new";
+                activeSprite.obj = this;
+            }
+        });
     }
 
     addToStage(stage) {
@@ -94,6 +104,7 @@ export default class Actor extends StateObject {
     }
 
     removeFromStage(stage) {
+        this.disableFilters();
         this.removeSprite(stage);
         this.healthBarObject.removeHPBar(stage);
     }

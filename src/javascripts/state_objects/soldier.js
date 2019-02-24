@@ -1,8 +1,9 @@
 import Unit from './unit';
 
 export default class Soldier extends Unit {
-    constructor(x, y, id, direction, hp, state, playerID, animationSpeed) {
+    constructor(x, y, id, direction, hp, state, playerID, animationSpeed, activeSprite) {
         super(x, y, id, direction, hp, state, playerID, animationSpeed, Soldier.unitType, Soldier.maxHP);
+        this.bindEventListeners(activeSprite);
     }
 
     // override to mention what unitType
