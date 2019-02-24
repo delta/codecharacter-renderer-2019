@@ -134,7 +134,6 @@ export default class Game {
         // Scroll based zooming
         canvas.addEventListener("wheel", (e) => {
             this.camera.manualZoom(e.deltaY < 0);
-
         });
 
         canvas.addEventListener("keydown", (e) => {
@@ -243,14 +242,9 @@ export default class Game {
                 case 189:
                     this.camera.commands.zoom.out = false;   //for - on keyboard and numpad
                     break;
-<<<<<<< HEAD
-                case 80:                                    //for p
-                    this.toggleState();
-=======
                 case 80:
                 case 32:                                    //for p
                     game.toggleState();
->>>>>>> Shift help icon to bottom left
                     break;
                 case 219:                                   //for [
                     this.decreaseSpeed();
@@ -265,10 +259,8 @@ export default class Game {
             }
         });
 
-        canvas.addEventListener('click', () => {
-            if (game.activeSprite.state == "new") {
-                game.activeSprite.state = "active";
-            } else if (game.activeSprite.state == "active") {
+        canvas.addEventListener('pointerup', () => {
+            if (game.activeSprite.state == "active") {
                 game.activeSprite.obj.disableFilters();
                 game.activeSprite.obj = {};
                 game.activeSprite.state = "inactive";
@@ -325,7 +317,7 @@ export default class Game {
         TerrainElement.setSideLength(this.stateVariable.mapElementSize);
         Soldier.setMaxHP(this.stateVariable.soldierMaxHp);
         Villager.setMaxHP(this.stateVariable.villagerMaxHp);
-        Factory.setMaxHPs(this.stateVariable.factoryMaxHps);
+        Factory.setMaxHP(this.stateVariable.factoryMaxHp);
         Factory.setBuildMultiplier(CONSTANTS.factories.factoryBuildLevelMultiplier);
         Factory.setMinHP(CONSTANTS.factories.factoryMinHp);
 

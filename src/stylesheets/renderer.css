@@ -138,7 +138,7 @@ div#help-icon:hover {
   opacity: 0.8;
 }
 
-div#controls-div{
+div#controls-div {
   position: absolute;
   z-index: -2000;
   font-size: 15px;
@@ -151,7 +151,13 @@ div#controls-div{
   transition: opacity 0.2s;
 }
 
-div#controls-div center{
+div#controls-div span {
+  font-size: 14px;
+  font-weight: 550;
+  font-family: monospace;
+}
+
+div#controls-div center {
   font-size: 18px;
   padding-top: 8px;
 }

@@ -27,7 +27,7 @@ export default class Proto {
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,
             villagerMaxHp: rawDetails.villagerMaxHp,
-            factoryMaxHps: rawDetails.factoryMaxHp,
+            factoryMaxHp: rawDetails.factoryMaxHp,
             mapSize: rawDetails.mapSize,
             mapElementSize: rawDetails.mapElementSize,
             mapElements: rawDetails.mapElements,
