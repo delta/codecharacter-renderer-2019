@@ -3,7 +3,7 @@ import BuildBarObject from './buildbarobject';
 import Actor from './actor';
 
 export default class Factory extends Actor {
-    constructor(x, y, id, playerID, hp, state, buildPercent, activeSprite) {
+    constructor(x, y, id, playerID, hp, state, buildPercent) {
         let buildLevel = Math.floor(Math.min(100, buildPercent) * Factory.buildLevelMultiplier);
         let spriteDetails = Factory.getSpriteDetails(playerID, buildLevel);
         let width = Factory.displayDimensions.width,
@@ -12,7 +12,6 @@ export default class Factory extends Actor {
 
         super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHPs);
         this.setSpriteAnchors();
-        this.bindEventListeners(activeSprite);
         this.buildPercent = buildPercent;
         this.buildBarObject = new BuildBarObject(buildPercent, width, height);
         this.updateBuildBarPosition();

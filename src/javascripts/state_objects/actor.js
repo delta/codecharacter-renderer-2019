@@ -91,7 +91,7 @@ export default class Actor extends StateObject {
                 activeSprite.obj.disableFilters();
                 setTimeout(() => {
                     this.enableFilters();
-                },200);
+                }, 200);
                 activeSprite.state = "new";
                 activeSprite.obj = this;
             }
