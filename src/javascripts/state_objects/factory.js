@@ -10,7 +10,7 @@ export default class Factory extends Actor {
             height = Factory.displayDimensions.height,
             texture = spriteDetails.texture;
 
-        super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHPs);
+        super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHP);
         this.setSpriteAnchors();
         this.buildPercent = buildPercent;
         this.buildBarObject = new BuildBarObject(buildPercent, width, height);
@@ -62,8 +62,8 @@ export default class Factory extends Actor {
         }
     }
 
-    static setMaxHPs(maxHP) {
-        this.maxHPs = maxHP;
+    static setMaxHP(maxHP) {
+        this.maxHP = maxHP;
     }
 
     static setBuildMultiplier(MULTIPLIER_CONSTANT) {

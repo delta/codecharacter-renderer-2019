@@ -9,6 +9,7 @@ export default class Actor extends StateObject {
         this.id = id;
         this.playerID = playerID;
         this.hp = hp;
+        this.maxHP = maxHP;
         this.state = state;
 
         this.healthBarObject = new HealthBarObject(maxHP, width, height);
@@ -42,18 +43,18 @@ export default class Actor extends StateObject {
         actorType.innerHTML = this.constructor.name;
         actorID.innerHTML = "ID : " + this.id;
         actorPosition.innerHTML = "Position : ( " + this.sprite.x + " , " + this.sprite.y + " )";
-        actorHp.innerHTML = "HP : " + this.hp;
+        actorHp.innerHTML = "HP : " + this.hp + " / " + this.maxHP;
         actorState.innerHTML = "State : " + Actor.actorStates[this.constructor.name][this.state];
     }
 
-    attachDetails() {
+    showDetails() {
         let topLeftContainer = document.getElementById("top-left-container");
         this.updateDetails();
         topLeftContainer.style.zIndex = 2;
         topLeftContainer.style.opacity = 0.8;
     }
 
-    removeDetails() {
+    hideDetails() {
         let topLeftContainer = document.getElementById("top-left-container"),
             actorID = document.getElementById("actor-id");
 
@@ -68,13 +69,13 @@ export default class Actor extends StateObject {
     enableFilters() {
         let filterConst = Actor.glowFilters;
         let outlineFilter = new filters.GlowFilter(filterConst.distance, filterConst.outerStrength, filterConst.innerStrength, filterConst.color[this.playerID], filterConst.quality);
-        this.attachDetails();
+        this.showDetails();
         this.sprite.filters = [outlineFilter];
         this.healthBarObject.healthBar.filters = [outlineFilter];
     }
 
     disableFilters() {
-        this.removeDetails();
+        this.hideDetails();
         this.sprite.filters = null;
         this.healthBarObject.healthBar.filters = null;
     }
@@ -82,19 +83,18 @@ export default class Actor extends StateObject {
     bindEventListeners(activeSprite) {
         this.sprite.interactive = true;
         this.sprite.buttonMode = true;
-        this.sprite.on('click', () => {
+        this.sprite.on('click', (e) => {
+            e.data.originalEvent.stopPropagation();
             if (activeSprite.state == "inactive") {
                 this.enableFilters();
-                activeSprite.state = "new";
-                activeSprite.obj = this;
+                activeSprite.state = "active";
             } else if (activeSprite.state == "active") {
                 activeSprite.obj.disableFilters();
                 setTimeout(() => {
                     this.enableFilters();
                 }, 200);
-                activeSprite.state = "new";
-                activeSprite.obj = this;
             }
+            activeSprite.obj = this;
         });
     }
 
