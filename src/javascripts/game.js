@@ -104,6 +104,7 @@ export default class Game {
     static addListeners(game) {
         let canvas = document.querySelector("canvas"),
             pauseIcon = document.querySelector("#pause-icon"),
+            fullscreenIcon = document.querySelector("#fullscreen-icon"),
             slowDownIcon = document.querySelector("#slow-down-icon"),
             speedUpIcon = document.querySelector("#speed-up-icon"),
             helpIcon = document.querySelector("#help-icon");
@@ -250,6 +251,18 @@ export default class Game {
             game.toggleState();
         });
 
+        fullscreenIcon.addEventListener('click', () => {
+            if (screenfull.enabled) {
+                if (game.isFullscreen === true) {
+                    screenfull.exit();
+                    game.isFullscreen = false;
+                } else {
+                    screenfull.request(game.container);
+                    game.isFullscreen = true;
+                }
+            }
+        });
+
         slowDownIcon.addEventListener('click', () => {
             game.decreaseSpeed();
         });
@@ -266,7 +279,9 @@ export default class Game {
         helpIcon.addEventListener('mouseout', () => {
             let controlsDisplay = document.querySelector("#controls-div");
             controlsDisplay.style.opacity = 0;
-            controlsDisplay.style.zIndex = -1;
+            setTimeout(() => {
+                controlsDisplay.style.zIndex = -1;
+            },200);
         });
     }
 

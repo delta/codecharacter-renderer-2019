@@ -51,7 +51,9 @@ export default class Actor extends StateObject {
 
         if (actorID.innerHTML == "ID : " + this.id) {
             topLeftContainer.style.opacity = 0;
-            topLeftContainer.style.display = -1;
+            setTimeout(() => {
+                topLeftContainer.style.zIndex = -1;
+            },200);
         }
     }
 
