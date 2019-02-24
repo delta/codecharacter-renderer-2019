@@ -209,7 +209,9 @@ export default class Game {
                     this.camera.commands.zoom.out = false;   //for - on keyboard and numpad
                     break;
                 case 'p':
+                case ' ':
                     this.toggleState();
+
                     break;
                 case '[':
                     this.decreaseSpeed();
@@ -241,8 +243,14 @@ export default class Game {
                 case 189:
                     this.camera.commands.zoom.out = false;   //for - on keyboard and numpad
                     break;
+<<<<<<< HEAD
                 case 80:                                    //for p
                     this.toggleState();
+=======
+                case 80:
+                case 32:                                    //for p
+                    game.toggleState();
+>>>>>>> Shift help icon to bottom left
                     break;
                 case 219:                                   //for [
                     this.decreaseSpeed();
@@ -258,7 +266,6 @@ export default class Game {
         });
 
         canvas.addEventListener('click', () => {
-            console.log("CANVAS");
             if (game.activeSprite.state == "new") {
                 game.activeSprite.state = "active";
             } else if (game.activeSprite.state == "active") {
@@ -367,8 +374,9 @@ export default class Game {
         for (let soldierID in stateSoldiers) {
             let soldier = stateSoldiers[soldierID];
             this.soldiers[soldierID] = new Soldier(
-                soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed, this.activeSprite
+                soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
             );
+            this.soldiers[soldierID].bindEventListeners(this.activeSprite);
         }
 
         return this;
@@ -381,8 +389,9 @@ export default class Game {
         for (let villagerID in stateVillagers) {
             let villager = stateVillagers[villagerID];
             this.villagers[villagerID] = new Villager(
-                villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed, this.activeSprite
+                villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
             );
+            this.villagers[villagerID].bindEventListeners(this.activeSprite);
         }
 
         return this;
@@ -396,7 +405,8 @@ export default class Game {
                 continue;
 
             let factory = stateFactories[factoriesID];
-            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent, this.activeSprite);
+            this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent);
+            this.factories[factoriesID].bindEventListeners(this.activeSprite);
         }
 
         return this;
@@ -541,8 +551,9 @@ export default class Game {
             if (soldier.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
                 this.soldiers[soldierID] = new Soldier(
-                    soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed, this.activeSprite
+                    soldier.x, soldier.y, soldier.id, soldier.direction, soldier.hp, soldier.state, soldier.playerId, animationSpeed
                 );
+                this.soldiers[soldierID].bindEventListeners(this.activeSprite);
                 this.soldiers[soldierID].addToStage(this.app.stage);
             } else if (soldier.updateMethod == "destroy" && soldier.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.soldiers[soldierID].updateHP(soldier.hp);
@@ -572,8 +583,9 @@ export default class Game {
             if (villager.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
                 this.villagers[villagerID] = new Villager(
-                    villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed, this.activeSprite
+                    villager.x, villager.y, villager.id, villager.direction, villager.hp, villager.state, villager.playerId, animationSpeed
                 );
+                this.villagers[villagerID].bindEventListeners(this.activeSprite);
                 this.villagers[villagerID].addToStage(this.app.stage);
             } else if (villager.updateMethod == "destroy" && villager.framesLeft == CONSTANTS.units.maxDeathFrames) {
                 this.villagers[villagerID].updateHP(villager.hp);
@@ -610,7 +622,8 @@ export default class Game {
                 continue;
 
             if (factory.updateMethod == "create") {
-                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent, this.activeSprite);
+                this.factories[factoriesID] = new Factory(factory.x, factory.y, factory.id, factory.playerId, factory.hp, factory.state, factory.buildPercent);
+                this.factories[factoriesID].bindEventListeners(this.activeSprite);
                 this.factories[factoriesID].addToStage(this.app.stage);
             } else if (factory.updateMethod == "destroy") {
                 if (factory.framesLeft == CONSTANTS.factories.maxDeathFrames) {
@@ -719,15 +732,10 @@ export default class Game {
         // Pause Animations and bind hover listeners
         for (let soldierID in this.soldiers) {
             this.soldiers[soldierID].pauseAnimation();
-            //this.soldiers[soldierID].bindEventListeners();
         }
         for (let villagerID in this.villagers) {
             this.villagers[villagerID].pauseAnimation();
-            //this.villagers[villagerID].bindEventListeners();
         }
-        // for (let factoryID in this.factories) {
-        //     this.factories[factoryID].bindEventListeners();
-        // }
     }
 
     playGame() {
@@ -739,15 +747,10 @@ export default class Game {
         // Resume Animations and unbind hover listeners
         for (let soldierID in this.soldiers) {
             this.soldiers[soldierID].playAnimation();
-            //this.soldiers[soldierID].unbindEventListeners();
         }
         for (let villagerID in this.villagers) {
             this.villagers[villagerID].playAnimation();
-            //this.villagers[villagerID].unbindEventListeners();
         }
-        // for (let factoryID in this.factories) {
-        //     this.factories[factoryID].unbindEventListeners();
-        // }
     }
 
     toggleFullscreen() {
