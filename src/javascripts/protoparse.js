@@ -12,7 +12,6 @@ export default class Proto {
         return new Promise(async (resolve, reject) => {
             let root = await PROTOBUF.load(gameProtoFile);
             let Game = root.lookupType("proto.Game");
-            console.log(Game);
             let message = Game.decode(this.logFile);
             let rawDetails = Game.toObject(message);
             let resultObject = this.processRawObject(rawDetails);

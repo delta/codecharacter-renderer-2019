@@ -34,6 +34,14 @@ export default class BuildBarObject {
         this.innerBar.width = (this.buildPercent/100)*this.width;
     }
 
+    addBuildBar(stage) {
+        stage.addChild(this.buildBar);
+    }
+
+    removeBuildBar(stage) {
+        stage.removeChild(this.buildBar);
+    }
+
     static setBuildConstants(BUILD_BAR_CONST) {
         this.buildBarConstants = BUILD_BAR_CONST;
     }

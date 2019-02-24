@@ -482,7 +482,6 @@ export default class Game {
         for (let factoriesID in this.factories) {
             let factory = this.factories[factoriesID];
             factory.addToStage(this.app.stage);
-            factory.addBuildBar(this.app.stage);
         }
 
         return this;
@@ -612,6 +611,9 @@ export default class Game {
             } else if (factory.updateMethod == "update") {
                 this.factories[factoriesID].updateHP(factory.hp);
                 this.factories[factoriesID].updateState(factory.state, factory.buildPercent);
+                if (factory.buildPercent >= 100) {
+                    this.factories[factoriesID].buildBarObject.removeBuildBar(this.app.stage);
+                }
             }
         }
 

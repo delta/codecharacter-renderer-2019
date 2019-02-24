@@ -19,7 +19,11 @@ export default class Factory extends Actor {
 
     updateBuildBarPosition() {
         let offsetY = 3;
-        this.buildBarObject.updatePosition(this.sprite.x - (this.sprite.width/2), this.sprite.y - (this.sprite.height/2) - offsetY);
+        let buildBarPosition = {
+            x: this.sprite.x - (this.sprite.width/2),
+            y: this.sprite.y - (this.sprite.height/2) - offsetY
+        };
+        this.buildBarObject.updatePosition(buildBarPosition.x, buildBarPosition.y);
     }
 
     updateState(state, buildPercent) {
@@ -48,13 +52,13 @@ export default class Factory extends Actor {
 
     addToStage(stage) {
         super.addToStage(stage);
-        stage.addChild(this.buildBarObject.buildBar);
+        this.buildBarObject.addBuildBar(stage);
     }
 
     removeFromStage(stage) {
         super.removeFromStage(stage);
-        if (this.buildPercent >= 100) {
-            stage.removeChild(this.buildBarObject.buildBar);
+        if (this.buildPercent < 100) {
+            this.buildBarObject.removeBuildBar(stage);
         }
     }
 
