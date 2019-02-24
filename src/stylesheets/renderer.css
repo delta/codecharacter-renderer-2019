@@ -57,7 +57,7 @@ canvas:focus {
   text-align: left;
   padding: 5px;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.1s;
 }
 
 /*div*/.details-div{
@@ -129,6 +129,7 @@ div#speed-icons-container {
 div#help-icon {
   background-color: #dcdcdc;
   border-radius: 50%;
+  opacity: 0.5;
   bottom: 5px;
   right: 5px;
   width: 10px;
@@ -136,6 +137,11 @@ div#help-icon {
   padding: 5px;
   font-size: 10px;
   font-weight: bold;
+}
+
+div#help-icon:hover {
+  box-shadow: 0 1px 10px #bbbbbb, 0 0 20px #444444, 0 0 20px #aaaaaa;
+  opacity: 0.8;
 }
 
 div#controls-div{

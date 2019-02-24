@@ -52,7 +52,7 @@ const CONSTANTS = {
         }
     },
     actorStates: {
-        Solider: ["IDLE","MOVE","ATTACK","DEAD"],
+        Soldier: ["IDLE","MOVE","ATTACK","DEAD"],
         Villager: ["IDLE","MOVE","ATTACK","MINE","BUILD","DEAD"],
         Factory: ["UNBUILT","IDLE","VILLAGER_PROD","SOLDIER_PROD","DESTROYED"]
     },

@@ -42,7 +42,9 @@ export default class Actor extends StateObject {
         actorHp.innerHTML = "HP : " + this.hp;
         actorState.innerHTML = "State : " + Actor.actorStates[this.constructor.name][this.state];
 
-        topLeftContainer.style.zIndex = 2;
+        setTimeout(() => {
+            topLeftContainer.style.zIndex = 2;
+        },100);
         topLeftContainer.style.opacity = 0.8;
     }
 
@@ -54,7 +56,7 @@ export default class Actor extends StateObject {
             topLeftContainer.style.opacity = 0;
             setTimeout(() => {
                 topLeftContainer.style.zIndex = -1;
-            },200);
+            },100);
         }
     }
 
