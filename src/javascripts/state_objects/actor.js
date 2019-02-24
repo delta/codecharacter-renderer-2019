@@ -25,7 +25,8 @@ export default class Actor extends StateObject {
     }
 
     updateBarPosition() {
-        this.healthBarObject.updatePosition(this.sprite.x, this.sprite.y);
+        let offsetY = 1.5;
+        this.healthBarObject.updatePosition(this.sprite.x - (this.sprite.width/2), this.sprite.y - (this.sprite.height/2) - offsetY);
     }
 
     attachDetails() {
@@ -81,11 +82,13 @@ export default class Actor extends StateObject {
         this.sprite.off('pointerover', () => {}).off('pointerout', () => {});
     }
 
-    addHPBar(stage) {
+    addToStage(stage) {
+        this.addSprite(stage);
         stage.addChild(this.healthBarObject.healthBar);
     }
 
-    removeHPBar(stage) {
+    removeFromStage(stage) {
+        this.removeSprite(stage);
         stage.removeChild(this.healthBarObject.healthBar);
     }
 

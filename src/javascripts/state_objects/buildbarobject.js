@@ -26,8 +26,7 @@ export default class BuildBarObject {
     }
 
     updatePosition(x, y) {
-        let offsetY = BuildBarObject.buildBarConstants.offsetY;
-        this.buildBar.position.set(x - (this.width/2), y - (this.height/2) - offsetY);
+        this.buildBar.position.set(x, y);
     }
 
     updateBuildPercent(buildPercent) {
