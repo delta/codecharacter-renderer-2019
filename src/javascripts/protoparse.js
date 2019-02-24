@@ -66,20 +66,16 @@ export default class Proto {
         return processedStates;
     }
 
-    getMovementDirection(currentX, currentY, prevX, prevY) {
-        if (Math.abs(currentY - prevY) > Math.abs(currentX - prevX)) {
-            if (currentY > prevY) {
-                return "down";
-            } else {
-                return "up";
-            }
-        } else {
-            if (currentX > prevX) {
-                return "right";
-            } else {
-                return "left";
-            }
+    getMovementDirection(currentX, prevX, prevDirection) {
+        if (currentX === prevX) {
+            return prevDirection;
         }
+
+        if (currentX > prevX) {
+            return "right";
+        }
+
+        return "left";
     }
 
     processSoldiers(soldierList, soldiers, deadSoldiers) {
@@ -122,18 +118,24 @@ export default class Proto {
 
             soldier.playerId += 1;  // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
 
+            // Flip x and y coordinates to match Array based positions
+            [soldier.x, soldier.y] = [soldier.y, soldier.x];
+            [soldier.targetX, soldier.targetY] = [soldier.targetY, soldier.targetX];
+
             // checking if soldier isnt new (already exists in list)
             if (soldierList.hasOwnProperty(soldier.id)) {
                 soldierList[soldier.id].stateHasChanged = false;
+
                 // all states except dead, set soldier direction
+                let prevDirection = soldierList[soldier.id].direction;
                 if (soldier.state == SOLDIER_MOVE_STATE) {   // state 1 = move
-                    let prevDirection = soldierList[soldier.id].direction;
-                    soldierList[soldier.id].direction = this.getMovementDirection(soldier.x, soldier.y, soldierList[soldier.id].x, soldierList[soldier.id].y);
-                    if (soldierList[soldier.id].direction != prevDirection) {
-                        soldierList[soldier.id].stateHasChanged = true;
-                    }
+                    soldierList[soldier.id].direction = this.getMovementDirection(soldier.x, soldierList[soldier.id].x, prevDirection);
                 } else if (soldier.targetX != -1 && soldier.targetY != -1) {    // attack
-                    soldierList[soldier.id].direction = this.getMovementDirection(soldier.targetX, soldier.targetY, soldier.x, soldier.y);
+                    soldierList[soldier.id].direction = this.getMovementDirection(soldier.targetX, soldier.x, prevDirection);
+                }
+
+                if (soldierList[soldier.id].direction != prevDirection) {
+                    soldierList[soldier.id].stateHasChanged = true;
                 }
 
                 // Change soldierList if soldiers state has changed
@@ -211,18 +213,24 @@ export default class Proto {
 
             villager.playerId += 1;  // since rawObject playerId 0 = renderer playerId 1 (and 1 = 2)
 
+            // Flip x and y coordinates to match Array based positions
+            [villager.x, villager.y] = [villager.y, villager.x];
+            [villager.targetX, villager.targetY] = [villager.targetY, villager.targetX];
+
             // checking if villager isnt new (already exists in list)
             if (villagerList.hasOwnProperty(villager.id)) {
                 villagerList[villager.id].stateHasChanged = false;
+
                 // all states except dead set villager direction
+                let prevDirection = villagerList[villager.id].direction;
                 if (villager.state == VILLAGER_MOVE_STATE) {  // state 1 = move
-                    let prevDirection = villagerList[villager.id].direction;
-                    villagerList[villager.id].direction = this.getMovementDirection(villager.x, villager.y, villagerList[villager.id].x, villagerList[villager.id].y);
-                    if (villagerList[villager.id].direction != prevDirection) {
-                        villagerList[villager.id].stateHasChanged = true;
-                    }
+                    villagerList[villager.id].direction = this.getMovementDirection(villager.x, villagerList[villager.id].x, prevDirection);
                 } else if (villager.targetX != -1 && villager.targetY != -1) {  // attack,build,mine
-                    villagerList[villager.id].direction = this.getMovementDirection(villager.targetX, villager.targetY, villager.x, villager.y);
+                    villagerList[villager.id].direction = this.getMovementDirection(villager.targetX, villager.x, prevDirection);
+                }
+
+                if (villagerList[villager.id].direction != prevDirection) {
+                    villagerList[villager.id].stateHasChanged = true;
                 }
 
                 // Change villagerList if villagers state has changed
@@ -294,6 +302,9 @@ export default class Proto {
         for (let factory of factories) {
             if (!factory.hasOwnProperty('id'))
                 factory.id = 0;
+
+            // Flip x and y coordinates to match Array based positions
+            [factory.x, factory.y] = [factory.y, factory.x];
 
             if (factoryList.hasOwnProperty(factory.id)) {
                 if (factory.state === FACTORY_DEAD_STATE) { // factory state 4 = destroyed
