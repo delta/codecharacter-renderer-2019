@@ -55,14 +55,26 @@ canvas:focus {
   left: 0%;
   border-radius: 5px;
   text-align: left;
+  padding: 5px;
   opacity: 0;
   transition: opacity 0.2s;
 }
 
-/*div*/#details-div {
-  font-size: 10px;
-  color: #000;
+/*div*/.details-div{
+  margin: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 1px #eeeeee, 0 0 10px #444444;
 }
+
+/*div*/#actor-type{
+  font-size: 20px;
+  font-weight: bolder;
+  margin: 8px;
+}
+
+
 
 /*div*/.label {
   margin: 10px 0px;

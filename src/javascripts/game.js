@@ -302,6 +302,7 @@ export default class Game {
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
         Actor.setFilterConstant(CONSTANTS.glowFilters);
+        Actor.setActorStatesConstant(CONSTANTS.actorStates);
         HealthBarObject.setHPConstants(CONSTANTS.barConstants.hp);
         BuildBarObject.setBuildConstants(CONSTANTS.barConstants.build);
 
@@ -687,7 +688,6 @@ export default class Game {
 
     pauseGame() {
         let pauseIcon = document.querySelector("#pause-icon");
-        let topLeftContainer = document.getElementById("top-left-container");
 
         this.state = "pause";
         pauseIcon.src = playAsset;
@@ -704,13 +704,10 @@ export default class Game {
         for (let factoryID in this.factories) {
             this.factories[factoryID].bindEventListeners();
         }
-        topLeftContainer.style.zIndex = 2;
-        topLeftContainer.style.opacity = 0.8;
     }
 
     playGame() {
         let pauseIcon = document.querySelector("#pause-icon");
-        let topLeftContainer = document.getElementById("top-left-container");
 
         this.state = "play";
         pauseIcon.src = pauseAsset;
@@ -727,8 +724,6 @@ export default class Game {
         for (let factoryID in this.factories) {
             this.factories[factoryID].unbindEventListeners();
         }
-        topLeftContainer.style.opacity = 0;
-        topLeftContainer.style.display = -1;
     }
 
 
