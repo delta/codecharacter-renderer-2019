@@ -125,9 +125,11 @@ export default class Game {
             this.camera.commands.drag = true;
             this.camera.setDragStartPosition(e.clientX, e.clientY);
             this.camera.setDragTarget(e.clientX, e.clientY);
+            this.container.style.cursor = "grabbing";
         });
         canvas.addEventListener("mouseup", () => {
             this.camera.commands.drag = false;
+            this.container.style.cursor = "grab";
         });
         canvas.addEventListener("mousemove", (e) => {
             this.camera.setDragTarget(e.clientX, e.clientY);
@@ -263,13 +265,7 @@ export default class Game {
 
         canvas.addEventListener('pointerup', () => {
             if (this.activeSprite.state == "active") {
-                // under outside a sprite click
-                this.activeSprite.obj.disableFilters();
-                this.hideDetailsDiv();
-
-                // since now no sprite is active, reset activeSprite
-                this.activeSprite.obj = {};
-                this.activeSprite.state = "inactive";
+                this.removeActiveSprite();
             }
         });
 
@@ -563,6 +559,9 @@ export default class Game {
                 }
             }
             if (soldier.framesLeft < 0) {
+                if (soldier.id === this.activeSprite.obj.id) {
+                    this.removeActiveSprite();
+                }
                 this.soldiers[soldierID].removeFromStage(this.app.stage);
                 delete this.soldiers[soldierID];
             }
@@ -595,6 +594,9 @@ export default class Game {
                 }
             }
             if (villager.framesLeft < 0) {
+                if (villager.id === this.activeSprite.obj.id) {
+                    this.removeActiveSprite();
+                }
                 this.villagers[villagerID].removeFromStage(this.app.stage);
                 delete this.villagers[villagerID];
             }
@@ -627,6 +629,9 @@ export default class Game {
                     this.factories[factoriesID].updateHP(factory.hp);
                     this.factories[factoriesID].destroy();
                 } else if (factory.framesLeft == 0) {
+                    if (factory.id === this.activeSprite.obj.id) {
+                        this.removeActiveSprite();
+                    }
                     this.factories[factoriesID].removeFromStage(this.app.stage);
                     delete this.factories[factoriesID];
                 }
@@ -644,34 +649,47 @@ export default class Game {
     }
 
     updateDetails() {
-        let topLeftContainer = document.getElementById("top-left-container");
         if (this.activeSprite.state == "click") {
-            // Initial sprite click to display details div
-            topLeftContainer.style.zIndex = 2;
-            topLeftContainer.style.opacity = 0.8;
-            this.activeSprite.state = "active";
             this.showDetailsDiv();
         } else if (this.activeSprite.state == "active") {
-            // If a sprite is glowing/active, update its details in the details div
-            this.showDetailsDiv();
+            this.updateDetailsDiv();
         }
         // In case a canvas element is clicked or under inactive condition, check canvas click handler
-
         return this;
     }
 
+    removeActiveSprite() {
+        // under outside a sprite click or sprite death, the glowing/acive sprite's filters and details is removed
+        this.activeSprite.obj.disableFilters();
+        this.hideDetailsDiv();
+
+        // since now no sprite is active, reset activeSprite
+        this.activeSprite.obj = {};
+        this.activeSprite.state = "inactive";
+    }
+
     showDetailsDiv() {
+        // Initial sprite click to display details div
+        let topLeftContainer = document.getElementById("top-left-container");
+        topLeftContainer.style.zIndex = 2;
+        topLeftContainer.style.opacity = 0.8;
+        this.activeSprite.state = "active";
+        this.updateDetailsDiv();
+    }
+
+    updateDetailsDiv() {
+        // If a sprite is glowing/active, update its details in the details div
         let clickedSprite = this.activeSprite.obj;
-        let actorType = document.getElementById("actor-type"),
-            actorID = document.getElementById("actor-id"),
-            actorPosition = document.getElementById("actor-position"),
-            actorHp = document.getElementById("actor-hp"),
-            actorState = document.getElementById("actor-state");
-        actorType.innerHTML = clickedSprite.constructor.name;
-        actorID.innerHTML = "ID : " + clickedSprite.id;
-        actorPosition.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
-        actorHp.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
-        actorState.innerHTML = "State : " + CONSTANTS.actorStates[clickedSprite.constructor.name][clickedSprite.state];
+        let actorTypeDiv = document.getElementById("actor-type"),
+            actorIDDiv = document.getElementById("actor-id"),
+            actorPositionDiv = document.getElementById("actor-position"),
+            actorHpDiv = document.getElementById("actor-hp"),
+            actorStateDiv = document.getElementById("actor-state");
+        actorTypeDiv.innerHTML = clickedSprite.constructor.name;
+        actorIDDiv.innerHTML = "ID : " + clickedSprite.id;
+        actorPositionDiv.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
+        actorHpDiv.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
+        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[clickedSprite.constructor.name][clickedSprite.state];
     }
 
     hideDetailsDiv() {
