@@ -45,6 +45,18 @@ export default class CodeCharacterRenderer extends React.Component {
                         <div className="value player-details">Instr: </div>
                         <div className="value" id="instr-count-value"></div> / <div className="value" id="instr-count-limit"></div>
                     </div>
+                    <div className="count-div">
+                        <div className="count-p1">
+                            <div id="soldier-p1">0</div>
+                            <div id="villager-p1">0</div>
+                            <div id="factory-p1">0</div>
+                        </div>
+                        <div className="count-p2">
+                            <div id="soldier-p2">0</div>
+                            <div id="villager-p2">0</div>
+                            <div id="factory-p2">0</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="top-container" id="top-left-container">
