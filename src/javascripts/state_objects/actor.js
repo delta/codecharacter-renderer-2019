@@ -34,48 +34,14 @@ export default class Actor extends StateObject {
         this.healthBarObject.updatePosition(healthBarPosition.x, healthBarPosition.y);
     }
 
-    updateDetails() {
-        let actorType = document.getElementById("actor-type"),
-            actorID = document.getElementById("actor-id"),
-            actorPosition = document.getElementById("actor-position"),
-            actorHp = document.getElementById("actor-hp"),
-            actorState = document.getElementById("actor-state");
-        actorType.innerHTML = this.constructor.name;
-        actorID.innerHTML = "ID : " + this.id;
-        actorPosition.innerHTML = "Position : ( " + this.sprite.x + " , " + this.sprite.y + " )";
-        actorHp.innerHTML = "HP : " + this.hp + " / " + this.maxHP;
-        actorState.innerHTML = "State : " + Actor.actorStates[this.constructor.name][this.state];
-    }
-
-    showDetails() {
-        let topLeftContainer = document.getElementById("top-left-container");
-        this.updateDetails();
-        topLeftContainer.style.zIndex = 2;
-        topLeftContainer.style.opacity = 0.8;
-    }
-
-    hideDetails() {
-        let topLeftContainer = document.getElementById("top-left-container"),
-            actorID = document.getElementById("actor-id");
-
-        if (actorID.innerHTML == "ID : " + this.id) {
-            topLeftContainer.style.opacity = 0;
-            setTimeout(() => {
-                topLeftContainer.style.zIndex = -1;
-            }, 200);
-        }
-    }
-
     enableFilters() {
         let filterConst = Actor.glowFilters;
         let outlineFilter = new filters.GlowFilter(filterConst.distance, filterConst.outerStrength, filterConst.innerStrength, filterConst.color[this.playerID], filterConst.quality);
-        this.showDetails();
         this.sprite.filters = [outlineFilter];
         this.healthBarObject.healthBar.filters = [outlineFilter];
     }
 
     disableFilters() {
-        this.hideDetails();
         this.sprite.filters = null;
         this.healthBarObject.healthBar.filters = null;
     }
@@ -87,14 +53,12 @@ export default class Actor extends StateObject {
             e.data.originalEvent.stopPropagation();
             if (activeSprite.state == "inactive") {
                 this.enableFilters();
-                activeSprite.state = "active";
-            } else if (activeSprite.state == "active") {
+            } else {
                 activeSprite.obj.disableFilters();
-                setTimeout(() => {
-                    this.enableFilters();
-                }, 200);
+                this.enableFilters();
             }
             activeSprite.obj = this;
+            activeSprite.state = "click";
         });
     }
 
@@ -111,9 +75,5 @@ export default class Actor extends StateObject {
 
     static setFilterConstant(FILTER_CONST) {
         this.glowFilters = FILTER_CONST;
-    }
-
-    static setActorStatesConstant(STATE_CONST) {
-        this.actorStates = STATE_CONST;
     }
 }

@@ -116,7 +116,9 @@ export default class Game {
             helpIcon = document.querySelector("#help-icon");
 
         canvas.tabIndex = 1; // Allows event listeners to work
-        canvas.focus();
+        this.container.addEventListener('click', () => {
+            canvas.focus();
+        });
 
         // Click and drag panning
         canvas.addEventListener("mousedown", (e) => {
@@ -244,7 +246,7 @@ export default class Game {
                     break;
                 case 80:
                 case 32:                                    //for p
-                    game.toggleState();
+                    this.toggleState();
                     break;
                 case 219:                                   //for [
                     this.decreaseSpeed();
@@ -260,10 +262,14 @@ export default class Game {
         });
 
         canvas.addEventListener('pointerup', () => {
-            if (game.activeSprite.state == "active") {
-                game.activeSprite.obj.disableFilters();
-                game.activeSprite.obj = {};
-                game.activeSprite.state = "inactive";
+            if (this.activeSprite.state == "active") {
+                // under outside a sprite click
+                this.activeSprite.obj.disableFilters();
+                this.hideDetailsDiv();
+
+                // since now no sprite is active, reset activeSprite
+                this.activeSprite.obj = {};
+                this.activeSprite.state = "inactive";
             }
         });
 
@@ -329,7 +335,6 @@ export default class Game {
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
         Actor.setFilterConstant(CONSTANTS.glowFilters);
-        Actor.setActorStatesConstant(CONSTANTS.actorStates);
         HealthBarObject.setHPConstants(CONSTANTS.barConstants.hp);
         BuildBarObject.setBuildConstants(CONSTANTS.barConstants.build);
 
@@ -639,11 +644,45 @@ export default class Game {
     }
 
     updateDetails() {
-        if (this.activeSprite.state == "active") {
-            this.activeSprite.obj.updateDetails();
+        let topLeftContainer = document.getElementById("top-left-container");
+        if (this.activeSprite.state == "click") {
+            // Initial sprite click to display details div
+            topLeftContainer.style.zIndex = 2;
+            topLeftContainer.style.opacity = 0.8;
+            this.activeSprite.state = "active";
+            this.showDetailsDiv();
+        } else if (this.activeSprite.state == "active") {
+            // If a sprite is glowing/active, update its details in the details div
+            this.showDetailsDiv();
         }
+        // In case a canvas element is clicked or under inactive condition, check canvas click handler
 
         return this;
+    }
+
+    showDetailsDiv() {
+        let clickedSprite = this.activeSprite.obj;
+        let actorType = document.getElementById("actor-type"),
+            actorID = document.getElementById("actor-id"),
+            actorPosition = document.getElementById("actor-position"),
+            actorHp = document.getElementById("actor-hp"),
+            actorState = document.getElementById("actor-state");
+        actorType.innerHTML = clickedSprite.constructor.name;
+        actorID.innerHTML = "ID : " + clickedSprite.id;
+        actorPosition.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
+        actorHp.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
+        actorState.innerHTML = "State : " + CONSTANTS.actorStates[clickedSprite.constructor.name][clickedSprite.state];
+    }
+
+    hideDetailsDiv() {
+        let topLeftContainer = document.getElementById("top-left-container"),
+            actorID = document.getElementById("actor-id");
+        if (actorID.innerHTML == "ID : " + this.activeSprite.obj.id) {
+            topLeftContainer.style.opacity = 0;
+            setTimeout(() => {
+                topLeftContainer.style.zIndex = -1;
+            }, 200);
+        }
     }
 
     updateMoney() {
