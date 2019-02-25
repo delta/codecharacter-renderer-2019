@@ -49,7 +49,7 @@ export default class Game {
         this.state = "play";
         this.isFullscreen = false;
 
-        Game.addListeners(this);
+        this.addListeners();
     }
 
     /**
@@ -103,7 +103,7 @@ export default class Game {
     /**
      * All the game controls from keyboard to renderer.
      */
-    static addListeners(game) {
+    addListeners() {
         let canvas = document.querySelector("canvas"),
             pauseIcon = document.querySelector("#pause-icon"),
             fullscreenIcon = document.querySelector("#fullscreen-icon"),
@@ -113,50 +113,64 @@ export default class Game {
 
         canvas.tabIndex = 1; // Allows event listeners to work
         canvas.focus();
+
+        // Click and drag panning
+        canvas.addEventListener("mousedown", (e) => {
+            this.camera.commands.drag = true;
+            this.camera.setDragStartPosition(e.clientX, e.clientY);
+            this.camera.setDragTarget(e.clientX, e.clientY);
+        });
+        canvas.addEventListener("mouseup", () => {
+            this.camera.commands.drag = false;
+        });
+        canvas.addEventListener("mousemove", (e) => {
+            this.camera.setDragTarget(e.clientX, e.clientY);
+        });
+
         canvas.addEventListener("keydown", (e) => {
             if (e.key !== undefined) {
                 switch (e.key) {
                 case 'ArrowLeft':
-                    game.camera.commands.move.left = true;
+                    this.camera.commands.move.left = true;
                     break;
                 case 'ArrowUp':
-                    game.camera.commands.move.up = true;
+                    this.camera.commands.move.up = true;
                     break;
                 case 'ArrowRight':
-                    game.camera.commands.move.right = true;
+                    this.camera.commands.move.right = true;
                     break;
                 case 'ArrowDown':
-                    game.camera.commands.move.down = true;
+                    this.camera.commands.move.down = true;
                     break;
                 case '+':
                 case '=':
-                    game.camera.commands.zoom.in = true;    //for +, shift+ on keyboard and numpad
+                    this.camera.commands.zoom.in = true;    //for +, shift+ on keyboard and numpad
                     break;
                 case '-':
-                    game.camera.commands.zoom.out = true;   //for - on keyboard and numpad
+                    this.camera.commands.zoom.out = true;   //for - on keyboard and numpad
                     break;
                 }
             } else {
                 switch (e.keyCode) {
                 case 37:
-                    game.camera.commands.move.left = true;  //left arrow
+                    this.camera.commands.move.left = true;  //left arrow
                     break;
                 case 38:
-                    game.camera.commands.move.up = true;    //up arrow
+                    this.camera.commands.move.up = true;    //up arrow
                     break;
                 case 39:
-                    game.camera.commands.move.right = true; //right arrow
+                    this.camera.commands.move.right = true; //right arrow
                     break;
                 case 40:
-                    game.camera.commands.move.down = true;  //down arrow
+                    this.camera.commands.move.down = true;  //down arrow
                     break;
                 case 187:
                 case 107:
-                    game.camera.commands.zoom.in = true;    //for + on keyboard and numpad
+                    this.camera.commands.zoom.in = true;    //for + on keyboard and numpad
                     break;
                 case 189:
                 case 109:
-                    game.camera.commands.zoom.out = true;   //for - on keyboard and numpad
+                    this.camera.commands.zoom.out = true;   //for - on keyboard and numpad
                     break;
                 }
             }
@@ -166,87 +180,87 @@ export default class Game {
             if (e.key !== undefined) {
                 switch (e.key) {
                 case 'ArrowLeft':
-                    game.camera.commands.move.left = false;
+                    this.camera.commands.move.left = false;
                     break;
                 case 'ArrowUp':
-                    game.camera.commands.move.up = false;
+                    this.camera.commands.move.up = false;
                     break;
                 case 'ArrowRight':
-                    game.camera.commands.move.right = false;
+                    this.camera.commands.move.right = false;
                     break;
                 case 'ArrowDown':
-                    game.camera.commands.move.down = false;
+                    this.camera.commands.move.down = false;
                     break;
                 case '+':
                 case '=':
-                    game.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
+                    this.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
                     break;
                 case '-':
-                    game.camera.commands.zoom.out = false;   //for - on keyboard and numpad
+                    this.camera.commands.zoom.out = false;   //for - on keyboard and numpad
                     break;
                 case 'p':
-                    game.toggleState();
+                    this.toggleState();
                     break;
                 case '[':
-                    game.decreaseSpeed();
+                    this.decreaseSpeed();
                     break;
                 case ']':
-                    game.increaseSpeed();
+                    this.increaseSpeed();
                     break;
                 case 'f':
-                    game.toggleFullscreen();
+                    this.toggleFullscreen();
                     break;
                 }
             } else {
                 switch (e.keyCode) {
                 case 37:
-                    game.camera.commands.move.left = false;  //left arrow
+                    this.camera.commands.move.left = false;  //left arrow
                     break;
                 case 38:
-                    game.camera.commands.move.up = false;    //up arrow
+                    this.camera.commands.move.up = false;    //up arrow
                     break;
                 case 39:
-                    game.camera.commands.move.right = false; //right arrow
+                    this.camera.commands.move.right = false; //right arrow
                     break;
                 case 40:
-                    game.camera.commands.move.down = false;  //down arrow
+                    this.camera.commands.move.down = false;  //down arrow
                     break;
                 case 187:
-                    game.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
+                    this.camera.commands.zoom.in = false;    //for +, shift+ on keyboard and numpad
                     break;
                 case 189:
-                    game.camera.commands.zoom.out = false;   //for - on keyboard and numpad
+                    this.camera.commands.zoom.out = false;   //for - on keyboard and numpad
                     break;
                 case 80:                                    //for p
-                    game.toggleState();
+                    this.toggleState();
                     break;
                 case 219:                                   //for [
-                    game.decreaseSpeed();
+                    this.decreaseSpeed();
                     break;
                 case 221:                                   //for ]
-                    game.increaseSpeed();
+                    this.increaseSpeed();
                     break;
                 case 70:                                    // for 'f'
-                    game.toggleFullscreen();
+                    this.toggleFullscreen();
                     break;
                 }
             }
         });
 
         pauseIcon.addEventListener('click', () => {
-            game.toggleState();
+            this.toggleState();
         });
 
         fullscreenIcon.addEventListener('click', () => {
-            game.toggleFullscreen();
+            this.toggleFullscreen();
         });
 
         slowDownIcon.addEventListener('click', () => {
-            game.decreaseSpeed();
+            this.decreaseSpeed();
         });
 
         speedUpIcon.addEventListener('click', () => {
-            game.increaseSpeed();
+            this.increaseSpeed();
         });
 
         helpIcon.addEventListener('mouseover', () => {
@@ -484,7 +498,7 @@ export default class Game {
         let containerWidth = this.container.offsetWidth,
             containerHeight = this.container.offsetHeight;
 
-        this.camera.updatePosition();
+        this.camera.updatePosition(this.mapLength);
         this.camera.restrictPosition(this.mapLength, containerWidth, containerHeight);
         this.camera.updateZoom(this.mapLength, containerWidth, containerHeight);
 
