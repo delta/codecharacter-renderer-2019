@@ -32,9 +32,12 @@ const CONSTANTS = {
             max: 10,
             vel: {
                 value: 0,
-                max: 0.05,
-                min: 0.001,     // min value below which velocity is reset to zero
-                change: 0.0125  // Amount to increment or decrement when given a user input
+                max: 0.1,
+                min: 0.001,         // min value below which velocity is reset to zero
+                change: {           // Amount to increment or decrement when given a user input
+                    key: 0.025,
+                    scroll: 0.06
+                }
             }
         },
         drag: {                 // Positions used for click and drag panning

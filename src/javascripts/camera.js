@@ -19,6 +19,7 @@ export default class Camera {
         this.passivePos.x = this.actualPos.x - this.offset.x;
     }
 
+    // POSITION SETTING LOGIC
     setDragStartPosition(x, y) {
         this.drag.startPosition.x = x;
         this.drag.startPosition.y = y;
@@ -98,22 +99,44 @@ export default class Camera {
         this.actualPos.y = this.passivePos.y;
     }
 
-    updateZoom(mapLength, containerWidth, containerHeight) {
-        const zoom = this.commands.zoom;
-
-        // HAPPENS ONLY WITH USER INPUT
-        // Update Zoom Factor
-        if ( (zoom.in ^ zoom.out) && Math.abs(this.zoom.vel.value) < this.zoom.vel.max) {
-            if (zoom.in && this.zoom.value < this.zoom.max)
-                this.zoom.vel.value += this.zoom.vel.change;
-            if (zoom.out && this.zoom.value > this.zoom.min)
-                this.zoom.vel.value -= this.zoom.vel.change;
+    // ZOOM BASED LOGIC
+    // Manual zooming for scroll based input
+    manualZoom(shouldZoomIn) {
+        if (shouldZoomIn && this.zoom.value < this.zoom.max) {
+            this.zoom.vel.value += this.zoom.vel.change.scroll;
+            return;
         }
+
+        if (this.zoom.value > this.zoom.min) {
+            this.zoom.vel.value -= this.zoom.vel.change.scroll;
+        }
+    }
+
+    // Update zoom velocity on keyboard input
+    updateZoomVelocity() {
+        const zoom = this.commands.zoom;
+        if ((zoom.in ^ zoom.out) && Math.abs(this.zoom.vel.value) < this.zoom.vel.max) {
+            if (zoom.in && this.zoom.value < this.zoom.max)
+                this.zoom.vel.value += this.zoom.vel.change.key;
+            if (zoom.out && this.zoom.value > this.zoom.min)
+                this.zoom.vel.value -= this.zoom.vel.change.key;
+        }
+    }
+
+    resetZoomVelocity() {
+        if (Math.abs(this.zoom.vel.value) < this.zoom.vel.min) {
+            this.zoom.vel.value = 0;
+        }
+    }
+
+    updateZoom(mapLength, containerWidth, containerHeight) {
+        // Update Zoom Velocity
+        // Changes to velocity only occur with user input
+        this.updateZoomVelocity();
 
         // HAPPENS EVERY FRAME
         // Reset zoom velocity if it becomes too low
-        if ( Math.abs(this.zoom.vel.value) < this.zoom.vel.min )
-            this.zoom.vel.value = 0;
+        this.resetZoomVelocity();
 
         // Decrement Velocity and update zoom factor
         this.zoom.vel.value *= this.acc;
@@ -124,12 +147,14 @@ export default class Camera {
             this.zoom.value = Math.min(containerHeight/mapLength, containerWidth/mapLength);
         }
 
+        // Update Offsets to allow for center zooming
         this.offset.x = -(1 - 1/this.zoom.value) * containerWidth/2;
         this.offset.y = -(1 - 1/this.zoom.value) * containerHeight/2;
         this.actualPos.x = this.passivePos.x + this.offset.x;
         this.actualPos.y = this.passivePos.y + this.offset.y;
     }
 
+    // LOGIC TO RESET POSITION TO PREVENT CAMERA FROM GOING OUT OF BOUNDS
     restrictPosition(mapLength, containerWidth, containerHeight) {
         const posX = this.offset.x + this.passivePos.x,
             posY = this.offset.y + this.passivePos.y;
