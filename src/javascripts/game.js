@@ -513,6 +513,7 @@ export default class Game {
         if (this.app.renderer.width != containerWidth || this.app.renderer.height != containerHeight) {
             this.app.renderer.resize(containerWidth, containerHeight);
             this.camera.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
+            this.camera.setInitialParams(containerWidth, containerHeight, mapLength);
         }
 
         return this;
