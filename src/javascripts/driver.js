@@ -77,6 +77,7 @@ export async function initGame(logFile, options) {
 
 function render(delta) {
     game.autoResize()
+        .updateDetails()
         .updateCamera();
 
     // Increment Frame Counter
@@ -101,7 +102,6 @@ function render(delta) {
             .updateSoldiers()
             .updateVillagers()
             .updateFactories()
-            .updateDetails()
             .updateMoney()
             .updateScore()
             .logErrors()
