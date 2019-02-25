@@ -104,6 +104,7 @@ function render(delta) {
             .updateFactories()
             .updateMoney()
             .updateScore()
+            .updateCountDiv()
             .logErrors()
             .logPlayerLogs();
     }

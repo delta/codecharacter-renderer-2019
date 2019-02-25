@@ -25,6 +25,7 @@ export default class Game {
         this.mapLength = 0;
         this.playerMoney = [];
         this.scores = [];
+        this.actorCount = [0, 0, 0, 0, 0, 0];
 
         this.frameNo = 0;
         this.timeCount = 0;
@@ -563,9 +564,16 @@ export default class Game {
      */
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
+        let count1 = 0, count2 = 0;
 
         for (let soldierID in currentSoldiers) {
             let soldier = currentSoldiers[soldierID];
+
+            if (soldier.playerId == 1) {
+                count1++;
+            } else {
+                count2++;
+            }
 
             if (soldier.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.soldierSprites.animationSpeed.values[this.speed.pointer];
@@ -593,14 +601,24 @@ export default class Game {
             }
         }
 
+        this.actorCount[0] = count1;
+        this.actorCount[1] = count2;
+
         return this;
     }
 
     updateVillagers() {
         let currentVillagers = this.getCurrentFrame().villagers;
+        let count1 = 0, count2 = 0;
 
         for (let villagerID in currentVillagers) {
             let villager = currentVillagers[villagerID];
+
+            if (villager.playerId == 1) {
+                count1++;
+            } else {
+                count2++;
+            }
 
             if (villager.updateMethod == "create") {
                 let animationSpeed = CONSTANTS.spriteConstants.villagerSprites.animationSpeed.values[this.speed.pointer];
@@ -628,11 +646,15 @@ export default class Game {
             }
         }
 
+        this.actorCount[2] = count1;
+        this.actorCount[3] = count2;
+
         return this;
     }
 
     updateFactories() {
         let currentFactories = this.getCurrentFrame().factories;
+        let count1 = 0, count2 = 0;
 
         if (!currentFactories.hasChanged) {
             return this;
@@ -643,6 +665,14 @@ export default class Game {
                 continue;
 
             let factory = currentFactories[factoriesID];
+
+            if (factory.playerId == 1) {
+                count1++;
+                console.log("djfsn");
+            } else {
+                count2++;
+            }
+
             if (factory.updateMethod == "none")
                 continue;
 
@@ -670,6 +700,9 @@ export default class Game {
                 }
             }
         }
+
+        this.actorCount[4] = count1;
+        this.actorCount[5] = count2;
 
         return this;
     }
@@ -750,6 +783,24 @@ export default class Game {
         this.scores[1] = scores[1];
         document.querySelector("#p1-score").innerHTML = this.scores[0];
         document.querySelector("#p2-score").innerHTML = this.scores[1];
+
+        return this;
+    }
+
+    updateCountDiv() {
+        let sc1 = document.getElementById("soldier-p1"),
+            sc2 = document.getElementById("soldier-p2"),
+            vc1 = document.getElementById("villager-p1"),
+            vc2 = document.getElementById("villager-p2"),
+            fc1 = document.getElementById("factory-p1"),
+            fc2 = document.getElementById("factory-p2");
+
+        sc1.innerHTML = this.actorCount[0];
+        sc2.innerHTML = this.actorCount[1];
+        vc1.innerHTML = this.actorCount[2];
+        vc2.innerHTML = this.actorCount[3];
+        fc1.innerHTML = this.actorCount[4];
+        fc2.innerHTML = this.actorCount[5];
 
         return this;
     }
