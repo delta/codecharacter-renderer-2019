@@ -95,15 +95,15 @@ const CONSTANTS = {
     },
     barConstants: {
         hp: {
-            innerBarColor: 0xFF3300,
+            innerBarColor: 0xCC2800,
             outerBarColor: 0x333333,
-            height: 0.8,
+            height: 0.6,
             offsetY: 1.5
         },
         build: {
             innerBarColor: 0x55FF00,
             outerBarColor: 0x333333,
-            height: 0.8,
+            height: 0.6,
             offsetY: 3
         }
     }

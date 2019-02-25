@@ -7,6 +7,7 @@ div#renderer-container {
   user-select: none;
   overflow: hidden;
   z-index: 0;
+  cursor: grab;
 }
 
 canvas:focus {
