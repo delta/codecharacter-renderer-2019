@@ -87,7 +87,7 @@ const CONSTANTS = {
         distance: 12,
         outerStrength: 3,
         innerStrength: 0.5,
-        color: {
+        color: {    // key represents playerID
             1: 0x00DDFF,
             2: 0xFFCC00
         },
@@ -95,9 +95,12 @@ const CONSTANTS = {
     },
     barConstants: {
         hp: {
-            innerBarColor: 0xCC2800,
+            innerBarColors: {   // key represents playerID
+                1: 0x60E0DD,
+                2: 0xCC2800
+            },
             outerBarColor: 0x333333,
-            height: 0.6,
+            height: 0.7,
             offsetY: 1.5
         },
         build: {

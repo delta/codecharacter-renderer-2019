@@ -14,7 +14,8 @@ export default class BuildBarObject {
         this.outerBar = new PIXI.Graphics();    // fixed bar
 
         this.outerBar.beginFill(BuildBarObject.buildBarConstants.outerBarColor);
-        this.outerBar.drawRect(0, 0, this.width, BuildBarObject.buildBarConstants.height);
+        // consts to allow outerbar to act as border for the container
+        this.outerBar.drawRect(-0.1, -0.1, this.width + 0.2, BuildBarObject.buildBarConstants.height + 0.2);
         this.outerBar.endFill();
 
         this.innerBar.beginFill(BuildBarObject.buildBarConstants.innerBarColor);
