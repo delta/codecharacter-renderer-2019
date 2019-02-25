@@ -3,9 +3,9 @@ import SPRITE_CONSTANTS from './spriteconstants.js';
 // Initial values or constant values
 const CONSTANTS = {
     gameSpeed: {
-        actualValues: [2/25, 1/6, 1/5, 1/4, 1/2, 3/4, 1],                   // Range of actual game speed values
+        actualValues: [2/25, 1/6, 1/5, 1/4, 1/2, 3/4, 1],                       // Range of actual game speed values
         displayValues: ["0.4", "0.625", "1.0", "1.25", "2.5", "3.75", "5.0"],   // Values displayed by the UI
-        default: 2                                                         // Default array index to use
+        default: 2                                                              // Default array index to use
     },
     camera: {
         actualPos: {
@@ -28,7 +28,7 @@ const CONSTANTS = {
             change: 1           // Amount to increment or decrement when given a user input
         },
         zoom: {
-            value: 0.8,         // Extent of Zoom
+            value: 1,          // Extent of Zoom
             max: 10,
             vel: {
                 value: 0,
@@ -37,8 +37,19 @@ const CONSTANTS = {
                 change: 0.0125  // Amount to increment or decrement when given a user input
             }
         },
+        drag: {                 // Positions used for click and drag panning
+            startPosition: {
+                x: 0,
+                y: 0
+            },
+            targetPosition: {
+                x: 0,
+                y: 0
+            }
+        },
         acc: 0.85,              // Each frame, the velocity gets multiplied by this amount
         commands: {
+            drag: false,
             move: {
                 up: false,
                 down: false,

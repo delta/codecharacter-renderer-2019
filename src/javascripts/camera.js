@@ -5,6 +5,7 @@ export default class Camera {
         this.offset = Object.assign({}, CONSTANTS.offset);
         this.vel = Object.assign({}, CONSTANTS.vel);
         this.zoom = JSON.parse(JSON.stringify(CONSTANTS.zoom));
+        this.drag = JSON.parse(JSON.stringify(CONSTANTS.drag));
         this.commands = JSON.parse(JSON.stringify(CONSTANTS.commands));
         this.acc = CONSTANTS.acc;
     }
@@ -18,36 +19,74 @@ export default class Camera {
         this.passivePos.x = this.actualPos.x - this.offset.x;
     }
 
+    setDragStartPosition(x, y) {
+        this.drag.startPosition.x = x;
+        this.drag.startPosition.y = y;
+    }
+
+    setDragTarget(x, y) {
+        if (!this.commands.drag) {
+            return;
+        }
+
+        this.drag.targetPosition.x = x;
+        this.drag.targetPosition.y = y;
+    }
+
+    updateVelocity() {
+        // Handles click and drag operations
+        if (this.commands.drag) {
+            let pointerPositionChange = {
+                x: (this.drag.targetPosition.x - this.drag.startPosition.x),
+                y: (this.drag.targetPosition.y - this.drag.startPosition.y)
+            };
+
+            // This constant makes sure that mouse movement exactly matches camera movement
+            let velocityMultiplier = 1.16;
+
+            this.vel.x = velocityMultiplier * pointerPositionChange.x / this.zoom.value;
+            this.vel.y = velocityMultiplier * pointerPositionChange.y / this.zoom.value;
+            this.drag.startPosition.x = this.drag.targetPosition.x;
+            this.drag.startPosition.y = this.drag.targetPosition.y;
+            return;
+        }
+
+        // Handles Keyboard Inputs
+        const move = this.commands.move;
+        if ((move.up ^ move.down) && Math.abs(this.vel.y) < this.vel.max) {
+            if (move.up)
+                this.vel.y += this.vel.change;
+            if (move.down)
+                this.vel.y -= this.vel.change;
+        }
+        if ((move.left ^ move.right) && Math.abs(this.vel.x) < this.vel.max) {
+            if (move.left)
+                this.vel.x += this.vel.change;
+            if (move.right)
+                this.vel.x -= this.vel.change;
+        }
+    }
+
+    resetVelocity() {
+        if (Math.abs(this.vel.x) < this.vel.min)
+            this.vel.x = 0;
+        if (Math.abs(this.vel.y) < this.vel.min)
+            this.vel.y = 0;
+    }
+
     slowDown() {
         this.vel.x *= this.acc;
         this.vel.y *= this.acc;
     }
 
     updatePosition() {
-        const move = this.commands.move;
-
-        // HAPPENS ONLY WITH USER INPUT
         // Update Velocity
-        if ( (move.up ^ move.down) && Math.abs(this.vel.y) < this.vel.max) {
-            if (move.up)
-                this.vel.y += this.vel.change;
-            if (move.down)
-                this.vel.y -= this.vel.change;
-        }
-        if ( (move.left ^ move.right) && Math.abs(this.vel.x) < this.vel.max) {
-            if (move.left)
-                this.vel.x += this.vel.change;
-            if (move.right)
-                this.vel.x -= this.vel.change;
-        }
+        // Changes to velocity only occur with user input
+        this.updateVelocity();
 
-
-        // HAPPENS EVERY FRAME
         // Reset velocity if it becomes too low
-        if ( Math.abs(this.vel.x) < this.vel.min )
-            this.vel.x = 0;
-        if ( Math.abs(this.vel.y) < this.vel.min )
-            this.vel.y = 0;
+        // Occurs every frame
+        this.resetVelocity();
 
         // Decrement Velocity
         this.slowDown();
