@@ -1,11 +1,12 @@
 import * as PIXI from 'pixi.js';
 
 export default class HealthBarObject {
-    constructor(maxHP, width, height) {
+    constructor(playerID, maxHP, width, height) {
         this.hp = maxHP;    // Initially actors start with full health
         this.maxHP = maxHP;
         this.width = width;
         this.height = height;
+        this.playerID = playerID;
         this.buildHPBars();
     }
 
@@ -15,10 +16,11 @@ export default class HealthBarObject {
         this.outerBar = new PIXI.Graphics();    // fixed bar
 
         this.outerBar.beginFill(HealthBarObject.hpBarConstants.outerBarColor);
-        this.outerBar.drawRect(0, 0, this.width, HealthBarObject.hpBarConstants.height);
+        // consts to allow outerbar to act as border for the container
+        this.outerBar.drawRect(-0.1, -0.1, this.width + 0.2, HealthBarObject.hpBarConstants.height + 0.2);
         this.outerBar.endFill();
 
-        this.innerBar.beginFill(HealthBarObject.hpBarConstants.innerBarColor);
+        this.innerBar.beginFill(HealthBarObject.hpBarConstants.innerBarColors[this.playerID]);
         this.innerBar.drawRect(0, 0, this.width, HealthBarObject.hpBarConstants.height);
         this.innerBar.endFill();
 
