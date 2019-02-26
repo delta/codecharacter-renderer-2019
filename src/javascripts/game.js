@@ -116,6 +116,7 @@ export default class Game {
             helpIcon = document.querySelector("#help-icon");
 
         canvas.tabIndex = 1; // Allows event listeners to work
+
         this.container.addEventListener('click', () => {
             canvas.focus();
         });
@@ -125,11 +126,11 @@ export default class Game {
             this.camera.commands.drag = true;
             this.camera.setDragStartPosition(e.clientX, e.clientY);
             this.camera.setDragTarget(e.clientX, e.clientY);
-            this.container.style.cursor = "grabbing";
+            canvas.style.cursor = "grabbing";
         });
         canvas.addEventListener("mouseup", () => {
             this.camera.commands.drag = false;
-            this.container.style.cursor = "grab";
+            canvas.style.cursor = "grab";
         });
         canvas.addEventListener("mousemove", (e) => {
             this.camera.setDragTarget(e.clientX, e.clientY);
@@ -288,7 +289,7 @@ export default class Game {
         helpIcon.addEventListener('mouseover', () => {
             let controlsDisplay = document.querySelector("#controls-div");
             controlsDisplay.style.zIndex = 2;
-            controlsDisplay.style.opacity = 0.8;
+            controlsDisplay.style.opacity = 1;
         });
         helpIcon.addEventListener('mouseout', () => {
             let controlsDisplay = document.querySelector("#controls-div");
@@ -508,10 +509,11 @@ export default class Game {
     autoResize() {
         let containerWidth = this.container.offsetWidth,
             containerHeight = this.container.offsetHeight,
-            mapLength = this.mapLength;
+            mapLength = this.mapLength,
+            borderThickness = 2;  // Allows the 1px border to be seen on all sides
 
-        if (this.app.renderer.width != containerWidth || this.app.renderer.height != containerHeight) {
-            this.app.renderer.resize(containerWidth, containerHeight);
+        if (this.app.renderer.width != containerWidth - borderThickness || this.app.renderer.height != containerHeight - borderThickness) {
+            this.app.renderer.resize(containerWidth - borderThickness, containerHeight - borderThickness);
             this.camera.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
             this.camera.reCenter(containerWidth, containerHeight, mapLength);
         }
@@ -673,7 +675,7 @@ export default class Game {
         // Initial sprite click to display details div
         let topLeftContainer = document.getElementById("top-left-container");
         topLeftContainer.style.zIndex = 2;
-        topLeftContainer.style.opacity = 0.8;
+        topLeftContainer.style.opacity = 1;
         this.activeSprite.state = "active";
         this.updateDetailsDiv();
     }
