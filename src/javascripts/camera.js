@@ -10,7 +10,7 @@ export default class Camera {
         this.acc = CONSTANTS.acc;
     }
 
-    setInitialParams(containerWidth, containerHeight, mapLength){
+    reCenter(containerWidth, containerHeight, mapLength){
         this.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
         this.offset.x = -(1 - 1 / this.zoom.value) * containerWidth / 2;
         this.offset.y = -(1 - 1 / this.zoom.value) * containerHeight / 2;
