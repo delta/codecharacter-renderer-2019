@@ -407,7 +407,7 @@ export default class Game {
 
     buildMap() {
         this.mapLength = TerrainElement.sideLength * this.terrain.length;
-        this.camera.setInitialParams(this.container.offsetWidth, this.container.offsetHeight, this.mapLength);
+        this.camera.reCenter(this.container.offsetWidth, this.container.offsetHeight, this.mapLength);
 
         return this;
     }
@@ -513,7 +513,7 @@ export default class Game {
         if (this.app.renderer.width != containerWidth || this.app.renderer.height != containerHeight) {
             this.app.renderer.resize(containerWidth, containerHeight);
             this.camera.zoom.min = Math.min(containerHeight / mapLength, containerWidth / mapLength);
-            this.camera.setInitialParams(containerWidth, containerHeight, mapLength);
+            this.camera.reCenter(containerWidth, containerHeight, mapLength);
         }
 
         return this;
