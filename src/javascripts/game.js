@@ -44,13 +44,22 @@ export default class Game {
         this.camera = new Camera(CONSTANTS.camera);
         this.container = document.querySelector("#renderer-container");
 
-        this.app = new PIXI.Application({ width: this.container.offsetWidth, height: this.container.offsetHeight });
-        this.container.appendChild(this.app.view);
-        this.state = "play";
+        /**
+         * Possible states include:
+         * `click` - A sprite has just been clicked
+         * `active` - A sprite is active. It glows and it's details are shown
+         * `passive` - A sprite is active. However screen drag is currently occuring,
+         *   so click based events do not affect or remove the active sprite
+         * `inactive` - There is no active sprite
+         */
         this.activeSprite = {
             obj: {},
             state: "inactive"
         };
+
+        this.app = new PIXI.Application({ width: this.container.offsetWidth, height: this.container.offsetHeight });
+        this.container.appendChild(this.app.view);
+        this.state = "play";
         this.isFullscreen = false;
 
         this.addListeners();
@@ -105,7 +114,7 @@ export default class Game {
     }
 
     /**
-     * All the game controls from keyboard to renderer.
+     * All the game controls for the renderer.
      */
     addListeners() {
         let canvas = document.querySelector("canvas"),
@@ -131,14 +140,35 @@ export default class Game {
         this.container.addEventListener("mouseup", () => {
             this.camera.commands.drag = false;
             this.container.style.cursor = "grab";
+
+            // Reset activeSprite state back to active
+            // (check constructor for the purpose of the passive state)
+            if (this.activeSprite.state == "passive") {
+                this.activeSprite.state = "active";
+            }
         });
         this.container.addEventListener("mousemove", (e) => {
-            this.camera.setDragTarget(e.clientX, e.clientY);
+            if (this.camera.commands.drag) {
+                this.camera.setDragTarget(e.clientX, e.clientY);
+
+                // Set activeSprite state to passive
+                // (check constructor for the purpose of the passive state)
+                if (this.activeSprite.state == "active") {
+                    this.activeSprite.state = "passive";
+                }
+            }
         });
 
         // Scroll based zooming
         this.container.addEventListener("wheel", (e) => {
             this.camera.manualZoom(e.deltaY < 0);
+        });
+
+        // Deselect active sprite
+        canvas.addEventListener('pointerup', () => {
+            if (this.activeSprite.state == "active") {
+                this.removeActiveSprite();
+            }
         });
 
         canvas.addEventListener("keydown", (e) => {
@@ -264,12 +294,6 @@ export default class Game {
             }
         });
 
-        canvas.addEventListener('pointerup', () => {
-            if (this.activeSprite.state == "active") {
-                this.removeActiveSprite();
-            }
-        });
-
         pauseIcon.addEventListener('click', () => {
             this.toggleState();
         });
@@ -314,7 +338,6 @@ export default class Game {
      * 8. Game divs
      */
     buildStateClasses() {
-
         // Set Constants
         StateObject.setSpriteAnchors(CONSTANTS.spriteConstants.spriteAnchors)
         TerrainElement.setSideLength(this.stateVariable.mapElementSize);
@@ -651,18 +674,21 @@ export default class Game {
         return this;
     }
 
+    // Details Update
     updateDetails() {
         if (this.activeSprite.state == "click") {
+            this.activeSprite.state = "active";
             this.showDetailsDiv();
-        } else if (this.activeSprite.state == "active") {
+        } else if (this.activeSprite.state != "inactive") {
             this.updateDetailsDiv();
         }
-        // In case a canvas element is clicked or under inactive condition, check canvas click handler
+        // In case a canvas element is clicked or under inactive condition, check canvas `pointerup` handler
         return this;
     }
 
     removeActiveSprite() {
-        // under outside a sprite click or sprite death, the glowing/acive sprite's filters and details is removed
+        // When a user clicks elsewhere on the canvas (not on a sprite) or if the activeSprite dies,
+        //  the glowing/acive sprite's filters and details are removed
         this.activeSprite.obj.disableFilters();
         this.hideDetailsDiv();
 
@@ -676,35 +702,36 @@ export default class Game {
         let topLeftContainer = document.getElementById("top-left-container");
         topLeftContainer.style.zIndex = 2;
         topLeftContainer.style.opacity = 1;
-        this.activeSprite.state = "active";
         this.updateDetailsDiv();
     }
 
     updateDetailsDiv() {
         // If a sprite is glowing/active, update its details in the details div
-        let clickedSprite = this.activeSprite.obj;
+        let activeSprite = this.activeSprite.obj;
         let actorTypeDiv = document.getElementById("actor-type"),
             actorIDDiv = document.getElementById("actor-id"),
             actorPositionDiv = document.getElementById("actor-position"),
             actorHpDiv = document.getElementById("actor-hp"),
             actorStateDiv = document.getElementById("actor-state");
-        actorTypeDiv.innerHTML = clickedSprite.constructor.name;
-        actorIDDiv.innerHTML = "ID : " + clickedSprite.id;
-        actorPositionDiv.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
-        actorHpDiv.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
-        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[clickedSprite.constructor.name][clickedSprite.state];
+        actorTypeDiv.innerHTML = activeSprite.constructor.name;
+        actorIDDiv.innerHTML = "ID : " + activeSprite.id;
+        actorPositionDiv.innerHTML = "Position : ( " + activeSprite.sprite.x + " , " + activeSprite.sprite.y + " )";
+        actorHpDiv.innerHTML = "HP : " + activeSprite.hp + " / " + activeSprite.maxHP;
+        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[activeSprite.constructor.name][activeSprite.state];
     }
 
     hideDetailsDiv() {
         let topLeftContainer = document.getElementById("top-left-container"),
-            actorID = document.getElementById("actor-id");
-        if (actorID.innerHTML == "ID : " + this.activeSprite.obj.id) {
+            actorIDDiv = document.getElementById("actor-id");
+
+        if (actorIDDiv.innerHTML == "ID : " + this.activeSprite.obj.id) {
             topLeftContainer.style.opacity = 0;
             setTimeout(() => {
                 topLeftContainer.style.zIndex = -1;
             }, 200);
         }
     }
+
 
     updateMoney() {
         let money = this.getCurrentFrame().gold;

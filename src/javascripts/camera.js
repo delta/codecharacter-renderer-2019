@@ -26,10 +26,6 @@ export default class Camera {
     }
 
     setDragTarget(x, y) {
-        if (!this.commands.drag) {
-            return;
-        }
-
         this.drag.targetPosition.x = x;
         this.drag.targetPosition.y = y;
     }
