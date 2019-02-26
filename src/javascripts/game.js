@@ -122,22 +122,22 @@ export default class Game {
         });
 
         // Click and drag panning
-        canvas.addEventListener("mousedown", (e) => {
+        this.container.addEventListener("mousedown", (e) => {
             this.camera.commands.drag = true;
             this.camera.setDragStartPosition(e.clientX, e.clientY);
             this.camera.setDragTarget(e.clientX, e.clientY);
-            canvas.style.cursor = "grabbing";
+            this.container.style.cursor = "grabbing";
         });
-        canvas.addEventListener("mouseup", () => {
+        this.container.addEventListener("mouseup", () => {
             this.camera.commands.drag = false;
-            canvas.style.cursor = "grab";
+            this.container.style.cursor = "grab";
         });
-        canvas.addEventListener("mousemove", (e) => {
+        this.container.addEventListener("mousemove", (e) => {
             this.camera.setDragTarget(e.clientX, e.clientY);
         });
 
         // Scroll based zooming
-        canvas.addEventListener("wheel", (e) => {
+        this.container.addEventListener("wheel", (e) => {
             this.camera.manualZoom(e.deltaY < 0);
         });
 
