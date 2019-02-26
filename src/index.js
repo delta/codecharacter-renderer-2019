@@ -32,7 +32,7 @@ export default class CodeCharacterRenderer extends React.Component {
     render() {
         return (
             <div id="renderer-container">
-                <div className="top-container" id="top-right-container">
+                <div className="overlay-container top-container" id="top-right-container">
                     <div className="label top-label" id="score-container">
                         <div className="value player-details">Score: </div>
                         <div className="value p1-color" id="p1-score"></div> | <div className="value p2-color" id="p2-score"></div>
@@ -47,24 +47,24 @@ export default class CodeCharacterRenderer extends React.Component {
                     </div>
                 </div>
 
-                <div className="top-container" id="top-left-container">
+                <div className="overlay-container top-container" id="top-left-container">
                     <div className="details-div" id="actor-type"></div>
                     <div className="details-div" id="actor-id"></div>
                     <div className="details-div" id="actor-position"></div>
                     <div className="details-div" id="actor-hp"></div>
                     <div className="details-div" id="actor-state"></div>
                 </div>
-                <div className="bottom-container" id="pause-icon-container">
+                <div className="overlay-container bottom-container" id="pause-icon-container">
                     <img className="icon" id="pause-icon" src={pauseAsset} />
                     <img className="icon" id="reset-icon" onClick={this.state.resetGame} src={resetAsset} />
                     <img className="icon" id="fullscreen-icon" src={enterFullscreenAsset} />
                 </div>
-                <div className="bottom-container" id="speed-icons-container">
+                <div className="overlay-container bottom-container" id="speed-icons-container">
                     <div className="label" id="speed-container">SPEED: <div className="value" id="speed-value"></div></div>
                     <img className="icon" id="slow-down-icon" src={slowDownAsset} />
                     <img className="icon" id="speed-up-icon" src={speedUpAsset} />
                 </div>
-                <div className="bottom-container" id="game-over-container">
+                <div className="overlay-container bottom-container" id="game-over-container">
                     <div className="label" id="game-over-msg">Game Complete</div>
                     <div className="label" id="game-outcome"></div>
                 </div>
@@ -78,7 +78,7 @@ export default class CodeCharacterRenderer extends React.Component {
                     <p><span>f: </span>Fullscreen</p>
                     <p><span>Spacebar/P: </span>Pause, Play</p>
                 </div>
-                <div className="bottom-container" id="help-icon">?</div>
+                <div className="overlay-container bottom-container" id="help-icon">?</div>
             </div>
         );
     }

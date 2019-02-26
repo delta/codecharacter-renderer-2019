@@ -1,7 +1,7 @@
 div#renderer-container {
   position: relative;
-  width: calc(100% - 3px);
-  height: calc(100% - 3px);
+  width: 100%;
+  height: 100%;
   -webkit-user-drag: none;
   -webkit-user-select: none;
   user-select: none;
@@ -10,16 +10,17 @@ div#renderer-container {
   cursor: grab;
 }
 
-canvas:focus {
-  border: 1px solid orange;
-}
-
 canvas {
   z-index: -1000;
+  border: 1px solid black;
+}
+canvas:focus {
+  border: 1px solid rgb(255, 94, 0);
 }
 
-canvas:focus {
-  outline: none;
+
+.overlay-container {
+  cursor: default;
 }
 
 /*div*/.top-container {
@@ -27,6 +28,9 @@ canvas:focus {
   padding: 10px 20px;
   background-color: rgba(220, 220, 220, 0.75);
   z-index: 1;
+}
+div.top-container:hover {
+  opacity: 0.3 !important;
 }
 
 
@@ -42,9 +46,6 @@ canvas:focus {
   text-align: right;
   opacity: 1;
   transition: opacity 0.2s;
-}
-/*div*/#top-right-container:hover {
-  opacity: 0.3;
 }
 
 /*div*/#top-left-container {
@@ -132,11 +133,12 @@ div#help-icon {
   padding: 5px;
   font-size: 10px;
   font-weight: bold;
+  transition: box-shadow 0.2s, opacity 0.2s;
 }
 
 div#help-icon:hover {
   box-shadow: 0 1px 10px #bbbbbb, 0 0 20px #444444, 0 0 20px #aaaaaa;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 div#controls-div {
@@ -148,7 +150,7 @@ div#controls-div {
   padding: 12px;
   border-radius: 5px;
   opacity: 0;
-  background-color: #dcdcdc;
+  background-color: #dcdcdcdd;
   transition: opacity 0.2s;
 }
 
