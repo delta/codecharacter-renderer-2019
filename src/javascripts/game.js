@@ -700,8 +700,10 @@ export default class Game {
     showDetailsDiv() {
         // Initial sprite click to display details div
         let topLeftContainer = document.getElementById("top-left-container");
-        topLeftContainer.style.zIndex = 2;
-        topLeftContainer.style.opacity = 1;
+        setTimeout(() => {
+            topLeftContainer.style.zIndex = 2;
+            topLeftContainer.style.opacity = 1;
+        }, 200);
         this.updateDetailsDiv();
     }
 
