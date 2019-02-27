@@ -1,6 +1,6 @@
 {
   "name": "codecharacter-renderer",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Renderer component for Code Character 2019",
   "main": "dist/libpack.js",
   "scripts": {
