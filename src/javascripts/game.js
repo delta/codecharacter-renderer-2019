@@ -352,6 +352,7 @@ export default class Game {
         Unit.initializeSpriteConstants();
         Soldier.setUnitConstant(CONSTANTS.unitType.soldier);
         Villager.setUnitConstant(CONSTANTS.unitType.villager);
+        Factory.setUnitConstant(CONSTANTS.unitType.factory);
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
@@ -668,7 +669,6 @@ export default class Game {
 
             if (factory.playerId == 1) {
                 count1++;
-                console.log("djfsn");
             } else {
                 count2++;
             }
@@ -742,17 +742,18 @@ export default class Game {
 
     updateDetailsDiv() {
         // If a sprite is glowing/active, update its details in the details div
-        let activeSprite = this.activeSprite.obj;
+        let clickedSprite = this.activeSprite.obj;
+        let actorType = clickedSprite.unitType;
         let actorTypeDiv = document.getElementById("actor-type"),
             actorIDDiv = document.getElementById("actor-id"),
             actorPositionDiv = document.getElementById("actor-position"),
             actorHpDiv = document.getElementById("actor-hp"),
             actorStateDiv = document.getElementById("actor-state");
-        actorTypeDiv.innerHTML = activeSprite.constructor.name;
-        actorIDDiv.innerHTML = "ID : " + activeSprite.id;
-        actorPositionDiv.innerHTML = "Position : ( " + activeSprite.sprite.x + " , " + activeSprite.sprite.y + " )";
-        actorHpDiv.innerHTML = "HP : " + activeSprite.hp + " / " + activeSprite.maxHP;
-        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[activeSprite.constructor.name][activeSprite.state];
+        actorTypeDiv.innerHTML = actorType;
+        actorIDDiv.innerHTML = "ID : " + clickedSprite.id;
+        actorPositionDiv.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
+        actorHpDiv.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
+        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[actorType][clickedSprite.state];
     }
 
     hideDetailsDiv() {
