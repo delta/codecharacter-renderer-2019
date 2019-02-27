@@ -198,9 +198,6 @@ export default class Game {
                 case '-':
                     this.camera.commands.zoom.out = true;   //for - on keyboard and numpad
                     break;
-                case 'Escape':
-                    console.log("dsfn");
-                    break;
                 }
             } else {
                 switch (e.keyCode) {
@@ -320,8 +317,8 @@ export default class Game {
 
         helpIcon.addEventListener('mouseover', () => {
             let controlsDisplay = document.querySelector("#controls-div");
-            controlsDisplay.style.zIndex = 2;
-            controlsDisplay.style.opacity = 1;
+            controlsDisplay.style.zIndex = 20
+            controlsDisplay.style.opacity = 0.8;
         });
         helpIcon.addEventListener('mouseout', () => {
             let controlsDisplay = document.querySelector("#controls-div");
