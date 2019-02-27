@@ -38,7 +38,7 @@ export default class CodeCharacterRenderer extends React.Component {
                         <div className="value p1-color" id="p1-score"></div> | <div className="value p2-color" id="p2-score"></div>
                     </div>
                     <div className="label top-label" id="money-container">
-                        <div className="value player-details">$: </div>
+                        <div className="value player-details">Gold: </div>
                         <div className="value" id="money-value"></div>
                     </div>
                     <div className="label top-label" id="instr-count-container">
@@ -46,15 +46,33 @@ export default class CodeCharacterRenderer extends React.Component {
                         <div className="value" id="instr-count-value"></div> / <div className="value" id="instr-count-limit"></div>
                     </div>
                     <div className="count-div">
-                        <div className="count-p1">
-                            <div id="soldier-p1">0</div>
-                            <div id="villager-p1">0</div>
-                            <div id="factory-p1">0</div>
+                        <div className="count-p1-div">
+                            <div className="count">
+                                <img className="unit-asset" src="./assets/Soldier_P1_Icon.png" />
+                                <div id="soldier-p1">0</div>
+                            </div>
+                            <div className="count">
+                                <img className="unit-asset" src="./assets/Villager_P1_Icon.png" />
+                                <div id="villager-p1">0</div>
+                            </div>
+                            <div className="count">
+                                <img className="factory-asset" src="./assets/Factory_P1_Icon.png" />
+                                <div id="factory-p1">0</div>
+                            </div>
                         </div>
-                        <div className="count-p2">
-                            <div id="soldier-p2">0</div>
-                            <div id="villager-p2">0</div>
-                            <div id="factory-p2">0</div>
+                        <div className="count-p2-div">
+                            <div className="count">
+                                <img className="unit-asset" src="./assets/Soldier_P2_Icon.png" />
+                                <div id="soldier-p2">0</div>
+                            </div>
+                            <div className="count">
+                                <img className="unit-asset" src="./assets/Villager_P2_Icon.png" />
+                                <div id="villager-p2">0</div>
+                            </div>
+                            <div className="count">
+                                <img className="factory-asset" src="./assets/Factory_P2_Icon.png" />
+                                <div id="factory-p2">0</div>
+                            </div>
                         </div>
                     </div>
                 </div>
