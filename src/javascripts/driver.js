@@ -51,7 +51,7 @@ export async function initGame(logFile, options) {
         .setPlayerID(options.playerID)
         .setPlayerLogs(options.player1Log, options.player2Log);
 
-    console.log("Processed State: ", game.stateVariable);
+    // console.log("Processed State: ", game.stateVariable);
 
     game.buildStateClasses()
         .buildTerrain()
@@ -90,7 +90,7 @@ function render(delta) {
     // Check for Game End
     if (game.frameNo >= game.stateVariable.states.length) {
         if (game.state != "stop") {
-            console.log("done");
+            // console.log("done");
             game.end();
         }
 

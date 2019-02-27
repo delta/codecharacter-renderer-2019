@@ -22,7 +22,7 @@ export default class Proto {
     // Takes a raw object decoded from a proto file, and returns a proper
     // ordered version of the state at each frame
     processRawObject(rawDetails) {
-        console.log( "RawState: ", JSON.parse(JSON.stringify(rawDetails)) );
+        // console.log( "RawState: ", JSON.parse(JSON.stringify(rawDetails)) );
 
         let stateVariable = {
             soldierMaxHp: rawDetails.soldierMaxHp,

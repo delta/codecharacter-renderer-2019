@@ -7,6 +7,12 @@ import resetAsset                           from "./assets/restart.svg";
 import enterFullscreenAsset                 from "./assets/enterfullscreen.png";
 import slowDownAsset                        from "./assets/slow-down.svg";
 import speedUpAsset                         from "./assets/speed-up.svg";
+import soldierP1Icon                        from "./assets/Soldier_P1_Icon.png"
+import soldierP2Icon                        from "./assets/Soldier_P2_Icon.png"
+import villagerP1Icon                       from "./assets/Villager_P1_Icon.png"
+import villagerP2Icon                       from "./assets/Villager_P2_Icon.png"
+import factoryP1Icon                        from "./assets/Factory_P1_Icon.png"
+import factoryP2Icon                        from "./assets/Factory_P2_Icon.png"
 import "./stylesheets/renderer.css";
 
 export default class CodeCharacterRenderer extends React.Component {
@@ -48,29 +54,29 @@ export default class CodeCharacterRenderer extends React.Component {
                     <div className="count-div">
                         <div className="count-p1-div">
                             <div className="count">
-                                <img className="unit-asset" src="./assets/Soldier_P1_Icon.png" />
+                                <img className="unit-asset" src={soldierP1Icon} />
                                 <div id="soldier-p1">0</div>
                             </div>
                             <div className="count">
-                                <img className="unit-asset" src="./assets/Villager_P1_Icon.png" />
+                                <img className="unit-asset" src={villagerP1Icon} />
                                 <div id="villager-p1">0</div>
                             </div>
                             <div className="count">
-                                <img className="factory-asset" src="./assets/Factory_P1_Icon.png" />
+                                <img className="factory-asset" src={factoryP1Icon} />
                                 <div id="factory-p1">0</div>
                             </div>
                         </div>
                         <div className="count-p2-div">
                             <div className="count">
-                                <img className="unit-asset" src="./assets/Soldier_P2_Icon.png" />
+                                <img className="unit-asset" src={soldierP2Icon} />
                                 <div id="soldier-p2">0</div>
                             </div>
                             <div className="count">
-                                <img className="unit-asset" src="./assets/Villager_P2_Icon.png" />
+                                <img className="unit-asset" src={villagerP2Icon} />
                                 <div id="villager-p2">0</div>
                             </div>
                             <div className="count">
-                                <img className="factory-asset" src="./assets/Factory_P2_Icon.png" />
+                                <img className="factory-asset" src={factoryP2Icon} />
                                 <div id="factory-p2">0</div>
                             </div>
                         </div>
@@ -100,9 +106,9 @@ export default class CodeCharacterRenderer extends React.Component {
                 </div>
                 <div id="controls-div">
                     <center><b>Controls</b></center>
-                    <p><span>&uarr; &darr; &larr; &rarr;: </span>Move camera</p>
-                    <p><span>+: </span>Zoom In</p>
-                    <p><span>-: </span>Zoom Out</p>
+                    <p><span>Drag/&uarr;&darr;&larr;&rarr;: </span>Move camera</p>
+                    <p><span>+/Scroll Up: </span>Zoom In</p>
+                    <p><span>-/Scroll Down: </span>Zoom Out</p>
                     <p><span>]: </span>Speed Up</p>
                     <p><span>[: </span>Speed Down</p>
                     <p><span>f: </span>Fullscreen</p>
