@@ -71,9 +71,9 @@ const CONSTANTS = {
         Factory: ["UNBUILT","IDLE","VILLAGER_PROD","SOLDIER_PROD","DESTROYED"]
     },
     unitType: {                 // To distinguish soldier and villager within unit
-        soldier: 0,
-        villager: 1,
-        factory: 2
+        soldier: "Soldier",
+        villager: "Villager",
+        factory: "Factory"
     },
     units: {
         maxDeathFrames: 10

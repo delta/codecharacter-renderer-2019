@@ -1,15 +1,15 @@
 import HealthBarObject from "./healthbarobject";
 import StateObject from "./stateobject";
 import * as filters from "pixi-filters";
-import CONSTANTS from '../constants/constants.js';
 
 export default class Actor extends StateObject {
-    constructor(x, y, id, playerID, hp, state, width, height, textures, maxHP, isAnimated = false, animationSpeed = 0) {
+    constructor(x, y, id, playerID, hp, state, width, height, textures, maxHP, unitType, isAnimated = false, animationSpeed = 0) {
         super(x, y, width, height, textures, isAnimated, animationSpeed);
         this.id = id;
         this.playerID = playerID;
         this.hp = hp;
         this.maxHP = maxHP;
+        this.unitType = unitType;
         this.state = state;
 
         this.healthBarObject = new HealthBarObject(playerID, maxHP, width, height);

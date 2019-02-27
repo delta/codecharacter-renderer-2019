@@ -9,7 +9,7 @@ export default class Unit extends Actor {
             textures = spriteDetails.textures,
             isAnimated = true;
 
-        super(x, y, id, playerID, hp, state, width, height, textures, maxHP, isAnimated, animationSpeed);
+        super(x, y, id, playerID, hp, state, width, height, textures, maxHP, unitType, isAnimated, animationSpeed);
         this.setSpriteAnchors();
         this.direction = direction;
     }
@@ -334,7 +334,7 @@ export default class Unit extends Actor {
     static getSpriteDetails(playerID, unitState, unitDirection, unitType) {
         let details = {textures: null};
 
-        if (unitType == 0) {    // soldiers constant (check constantsjs)
+        if (unitType == "Soldier") {    // soldiers constant (check constantsjs)
             switch (unitState) {
             case 0:     // idle
                 details.textures = this.textures.soldierTexture[playerID].idleTextures[unitDirection];
