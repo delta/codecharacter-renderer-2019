@@ -25,7 +25,11 @@ export default class Game {
         this.mapLength = 0;
         this.playerMoney = [];
         this.scores = [];
-        this.actorCount = [0, 0, 0, 0, 0, 0];
+        this.actorCount = {
+            soldier: [0, 0],
+            villager: [0, 0],
+            factory: [0, 0]
+        };
 
         this.frameNo = 0;
         this.timeCount = 0;
@@ -193,6 +197,9 @@ export default class Game {
                     break;
                 case '-':
                     this.camera.commands.zoom.out = true;   //for - on keyboard and numpad
+                    break;
+                case 'Escape':
+                    console.log("dsfn");
                     break;
                 }
             } else {
@@ -565,15 +572,15 @@ export default class Game {
      */
     updateSoldiers() {
         let currentSoldiers = this.getCurrentFrame().soldiers;
-        let count1 = 0, count2 = 0;
+        let countP1 = 0, countP2 = 0;
 
         for (let soldierID in currentSoldiers) {
             let soldier = currentSoldiers[soldierID];
 
             if (soldier.playerId == 1) {
-                count1++;
+                countP1++;
             } else {
-                count2++;
+                countP2++;
             }
 
             if (soldier.updateMethod == "create") {
@@ -602,23 +609,23 @@ export default class Game {
             }
         }
 
-        this.actorCount[0] = count1;
-        this.actorCount[1] = count2;
+        this.actorCount.soldier[0] = countP1;
+        this.actorCount.soldier[1] = countP2;
 
         return this;
     }
 
     updateVillagers() {
         let currentVillagers = this.getCurrentFrame().villagers;
-        let count1 = 0, count2 = 0;
+        let countP1 = 0, countP2 = 0;
 
         for (let villagerID in currentVillagers) {
             let villager = currentVillagers[villagerID];
 
             if (villager.playerId == 1) {
-                count1++;
+                countP1++;
             } else {
-                count2++;
+                countP2++;
             }
 
             if (villager.updateMethod == "create") {
@@ -647,15 +654,15 @@ export default class Game {
             }
         }
 
-        this.actorCount[2] = count1;
-        this.actorCount[3] = count2;
+        this.actorCount.villager[0] = countP1;
+        this.actorCount.villager[1] = countP2;
 
         return this;
     }
 
     updateFactories() {
         let currentFactories = this.getCurrentFrame().factories;
-        let count1 = 0, count2 = 0;
+        let countP1 = 0, countP2 = 0;
 
         if (!currentFactories.hasChanged) {
             return this;
@@ -668,9 +675,9 @@ export default class Game {
             let factory = currentFactories[factoriesID];
 
             if (factory.playerId == 1) {
-                count1++;
+                countP1++;
             } else {
-                count2++;
+                countP2++;
             }
 
             if (factory.updateMethod == "none")
@@ -701,8 +708,8 @@ export default class Game {
             }
         }
 
-        this.actorCount[4] = count1;
-        this.actorCount[5] = count2;
+        this.actorCount.factory[0] = countP1;
+        this.actorCount.factory[1] = countP2;
 
         return this;
     }
@@ -789,19 +796,19 @@ export default class Game {
     }
 
     updateCountDiv() {
-        let sc1 = document.getElementById("soldier-p1"),
-            sc2 = document.getElementById("soldier-p2"),
-            vc1 = document.getElementById("villager-p1"),
-            vc2 = document.getElementById("villager-p2"),
-            fc1 = document.getElementById("factory-p1"),
-            fc2 = document.getElementById("factory-p2");
+        let soldierCountP1 = document.getElementById("soldier-p1"),
+            soldierCountP2 = document.getElementById("soldier-p2"),
+            villagerCountP1 = document.getElementById("villager-p1"),
+            villagerCountP2 = document.getElementById("villager-p2"),
+            factoryCountP1 = document.getElementById("factory-p1"),
+            factoryCountP2 = document.getElementById("factory-p2");
 
-        sc1.innerHTML = this.actorCount[0];
-        sc2.innerHTML = this.actorCount[1];
-        vc1.innerHTML = this.actorCount[2];
-        vc2.innerHTML = this.actorCount[3];
-        fc1.innerHTML = this.actorCount[4];
-        fc2.innerHTML = this.actorCount[5];
+        soldierCountP1.innerHTML = this.actorCount.soldier[0];
+        soldierCountP2.innerHTML = this.actorCount.soldier[1];
+        villagerCountP1.innerHTML = this.actorCount.villager[0];
+        villagerCountP2.innerHTML = this.actorCount.villager[1];
+        factoryCountP1.innerHTML = this.actorCount.factory[0];
+        factoryCountP2.innerHTML = this.actorCount.factory[1];
 
         return this;
     }
