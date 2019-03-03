@@ -107,11 +107,11 @@ export default class CodeCharacterRenderer extends React.Component {
                 <div id="controls-div">
                     <center><b>Controls</b></center>
                     <p><span>Drag/&uarr;&darr;&larr;&rarr;: </span>Move camera</p>
-                    <p><span>+/Scroll Up: </span>Zoom In</p>
-                    <p><span>-/Scroll Down: </span>Zoom Out</p>
+                    <p><span>Scroll Up/+: </span>Zoom In</p>
+                    <p><span>Scroll Down/-: </span>Zoom Out</p>
                     <p><span>]: </span>Speed Up</p>
                     <p><span>[: </span>Speed Down</p>
-                    <p><span>f: </span>Fullscreen</p>
+                    <p><span>F: </span>Fullscreen</p>
                     <p><span>Spacebar/P: </span>Pause, Play</p>
                 </div>
                 <div className="bottom-container" id="help-icon">?</div>

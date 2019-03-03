@@ -10,7 +10,7 @@ export default class Factory extends Actor {
             height = Factory.displayDimensions.height,
             texture = spriteDetails.texture;
 
-        super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHP, Factory.unitType);
+        super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHP, Factory.actorType);
         this.setSpriteAnchors();
         this.buildPercent = buildPercent;
         this.buildBarObject = new BuildBarObject(buildPercent, width, height);
@@ -70,8 +70,8 @@ export default class Factory extends Actor {
         this.buildLevelMultiplier = MULTIPLIER_CONSTANT;
     }
 
-    static setUnitConstant(FACTORY_CONSTANT) {
-        this.unitType = FACTORY_CONSTANT;
+    static setActorConstant(FACTORY_CONSTANT) {
+        this.actorType = FACTORY_CONSTANT;
     }
 
     static setMinHP(HP_CONSTANT) {
