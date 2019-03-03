@@ -70,7 +70,7 @@ const CONSTANTS = {
         Villager: ["IDLE","MOVE","ATTACK","MINE","BUILD","DEAD"],
         Factory: ["UNBUILT","IDLE","VILLAGER_PROD","SOLDIER_PROD","DESTROYED"]
     },
-    unitType: {                 // To distinguish soldier and villager within unit
+    actorType: {                 // To distinguish the different actorTypes
         soldier: "Soldier",
         villager: "Villager",
         factory: "Factory"

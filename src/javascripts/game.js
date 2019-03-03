@@ -23,6 +23,12 @@ export default class Game {
         this.factories = {};
         this.terrain = [];
         this.mapLength = 0;
+        
+        /**
+         * For the following 3 objects, the array structure is :
+         * array[0] - Player1
+         * array[1] - Player2
+         */
         this.playerMoney = [];
         this.scores = [];
         this.actorCount = {
@@ -317,8 +323,8 @@ export default class Game {
 
         helpIcon.addEventListener('mouseover', () => {
             let controlsDisplay = document.querySelector("#controls-div");
-            controlsDisplay.style.zIndex = 20
-            controlsDisplay.style.opacity = 0.8;
+            controlsDisplay.style.zIndex = 20;
+            controlsDisplay.style.opacity = 1;
         });
         helpIcon.addEventListener('mouseout', () => {
             let controlsDisplay = document.querySelector("#controls-div");
@@ -354,9 +360,9 @@ export default class Game {
 
         // Set Sprite related constants
         Unit.initializeSpriteConstants();
-        Soldier.setUnitConstant(CONSTANTS.unitType.soldier);
-        Villager.setUnitConstant(CONSTANTS.unitType.villager);
-        Factory.setUnitConstant(CONSTANTS.unitType.factory);
+        Soldier.setActorConstant(CONSTANTS.actorType.soldier);
+        Villager.setActorConstant(CONSTANTS.actorType.villager);
+        Factory.setActorConstant(CONSTANTS.actorType.factory);
         Soldier.setSpriteConstants(CONSTANTS.spriteConstants.soldierSprites);
         Villager.setSpriteConstants(CONSTANTS.spriteConstants.villagerSprites);
         Factory.setSpriteConstants(CONSTANTS.spriteConstants.factorySprites);
@@ -365,7 +371,7 @@ export default class Game {
         BuildBarObject.setBuildConstants(CONSTANTS.barConstants.build);
 
         // Add Textures
-        Unit.setTextures(CONSTANTS.unitType);
+        Unit.setTextures(CONSTANTS.actorType);
         Factory.setTextures();
         TerrainElement.setTextures();
 
@@ -573,11 +579,8 @@ export default class Game {
 
         for (let soldierID in currentSoldiers) {
             let soldier = currentSoldiers[soldierID];
-
-            if (soldier.playerId == 1) {
-                countP1++;
-            } else {
-                countP2++;
+            if (soldier.updateMethod != "destroy") {
+                (soldier.playerId == 1) ? countP1++ : countP2++;
             }
 
             if (soldier.updateMethod == "create") {
@@ -618,11 +621,8 @@ export default class Game {
 
         for (let villagerID in currentVillagers) {
             let villager = currentVillagers[villagerID];
-
-            if (villager.playerId == 1) {
-                countP1++;
-            } else {
-                countP2++;
+            if (villager.updateMethod != "destroy") {
+                (villager.playerId == 1) ? countP1++ : countP2++;
             }
 
             if (villager.updateMethod == "create") {
@@ -670,11 +670,8 @@ export default class Game {
                 continue;
 
             let factory = currentFactories[factoriesID];
-
-            if (factory.playerId == 1) {
-                countP1++;
-            } else {
-                countP2++;
+            if (factory.updateMethod != "destroy") {
+                (factory.playerId == 1) ? countP1++ : countP2++;
             }
 
             if (factory.updateMethod == "none")
@@ -746,18 +743,18 @@ export default class Game {
 
     updateDetailsDiv() {
         // If a sprite is glowing/active, update its details in the details div
-        let clickedSprite = this.activeSprite.obj;
-        let actorType = clickedSprite.unitType;
+        let activeSprite = this.activeSprite.obj;
+        let actorType = activeSprite.actorType;
         let actorTypeDiv = document.getElementById("actor-type"),
             actorIDDiv = document.getElementById("actor-id"),
             actorPositionDiv = document.getElementById("actor-position"),
             actorHpDiv = document.getElementById("actor-hp"),
             actorStateDiv = document.getElementById("actor-state");
         actorTypeDiv.innerHTML = actorType;
-        actorIDDiv.innerHTML = "ID : " + clickedSprite.id;
-        actorPositionDiv.innerHTML = "Position : ( " + clickedSprite.sprite.x + " , " + clickedSprite.sprite.y + " )";
-        actorHpDiv.innerHTML = "HP : " + clickedSprite.hp + " / " + clickedSprite.maxHP;
-        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[actorType][clickedSprite.state];
+        actorIDDiv.innerHTML = "ID : " + activeSprite.id;
+        actorPositionDiv.innerHTML = "Position : ( " + activeSprite.sprite.x + " , " + activeSprite.sprite.y + " )";
+        actorHpDiv.innerHTML = "HP : " + activeSprite.hp + " / " + activeSprite.maxHP;
+        actorStateDiv.innerHTML = "State : " + CONSTANTS.actorStates[actorType][activeSprite.state];
     }
 
     hideDetailsDiv() {
@@ -793,19 +790,19 @@ export default class Game {
     }
 
     updateCountDiv() {
-        let soldierCountP1 = document.getElementById("soldier-p1"),
-            soldierCountP2 = document.getElementById("soldier-p2"),
-            villagerCountP1 = document.getElementById("villager-p1"),
-            villagerCountP2 = document.getElementById("villager-p2"),
-            factoryCountP1 = document.getElementById("factory-p1"),
-            factoryCountP2 = document.getElementById("factory-p2");
+        let soldierCountP1Div = document.getElementById("soldier-p1"),
+            soldierCountP2Div = document.getElementById("soldier-p2"),
+            villagerCountP1Div = document.getElementById("villager-p1"),
+            villagerCountP2Div = document.getElementById("villager-p2"),
+            factoryCountP1Div = document.getElementById("factory-p1"),
+            factoryCountP2Div = document.getElementById("factory-p2");
 
-        soldierCountP1.innerHTML = this.actorCount.soldier[0];
-        soldierCountP2.innerHTML = this.actorCount.soldier[1];
-        villagerCountP1.innerHTML = this.actorCount.villager[0];
-        villagerCountP2.innerHTML = this.actorCount.villager[1];
-        factoryCountP1.innerHTML = this.actorCount.factory[0];
-        factoryCountP2.innerHTML = this.actorCount.factory[1];
+        soldierCountP1Div.innerHTML = this.actorCount.soldier[0];
+        soldierCountP2Div.innerHTML = this.actorCount.soldier[1];
+        villagerCountP1Div.innerHTML = this.actorCount.villager[0];
+        villagerCountP2Div.innerHTML = this.actorCount.villager[1];
+        factoryCountP1Div.innerHTML = this.actorCount.factory[0];
+        factoryCountP2Div.innerHTML = this.actorCount.factory[1];
 
         return this;
     }

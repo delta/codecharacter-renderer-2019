@@ -2,12 +2,12 @@ import Unit from './unit';
 
 export default class Villager extends Unit {
     constructor(x, y, id, direction, hp, state, playerID, animationSpeed) {
-        super(x, y, id, direction, hp, state, playerID, animationSpeed, Villager.unitType, Villager.maxHP);
+        super(x, y, id, direction, hp, state, playerID, animationSpeed, Villager.actorType, Villager.maxHP);
     }
 
-    // override to mention what unitType
+    // override to mention what actorType
     updateState(state, direction) {
-        super.updateState(state, direction, Villager.unitType);
+        super.updateState(state, direction, Villager.actorType);
     }
 
     //set MaxHP
@@ -15,13 +15,13 @@ export default class Villager extends Unit {
         this.maxHP = maxHP;
     }
 
-    // unit type villager
-    static setUnitConstant(VILLAGER_CONSTANT) {
-        this.unitType = VILLAGER_CONSTANT;
+    // Actor type villager
+    static setActorConstant(VILLAGER_CONSTANT) {
+        this.actorType = VILLAGER_CONSTANT;
     }
 
     // Sprite details for villager
     static setSpriteConstants(VILLAGER_SPRITE_CONSTANTS) {
-        Unit.setSpriteConstants(VILLAGER_SPRITE_CONSTANTS, Villager.unitType);
+        Unit.setSpriteConstants(VILLAGER_SPRITE_CONSTANTS, Villager.actorType);
     }
 }

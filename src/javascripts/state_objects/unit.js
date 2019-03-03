@@ -3,7 +3,7 @@ import Actor from './actor';
 
 export default class Unit extends Actor {
     constructor(x, y, id, direction, hp, state, playerID, animationSpeed, unitType, maxHP) {
-        let spriteDetails = Unit.getSpriteDetails(playerID, state, direction, unitType);
+        let spriteDetails = Unit.getSpriteDetails(playerID, state, direction, unitType);    // unitType hold actorType consts since actor is a parent of unit
         let width = Unit.displayDimensions[unitType].width,
             height = Unit.displayDimensions[unitType].height,
             textures = spriteDetails.textures,

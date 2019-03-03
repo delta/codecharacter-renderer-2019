@@ -3,13 +3,13 @@ import StateObject from "./stateobject";
 import * as filters from "pixi-filters";
 
 export default class Actor extends StateObject {
-    constructor(x, y, id, playerID, hp, state, width, height, textures, maxHP, unitType, isAnimated = false, animationSpeed = 0) {
+    constructor(x, y, id, playerID, hp, state, width, height, textures, maxHP, actorType, isAnimated = false, animationSpeed = 0) {
         super(x, y, width, height, textures, isAnimated, animationSpeed);
         this.id = id;
         this.playerID = playerID;
         this.hp = hp;
         this.maxHP = maxHP;
-        this.unitType = unitType;
+        this.actorType = actorType;
         this.state = state;
 
         this.healthBarObject = new HealthBarObject(playerID, maxHP, width, height);
