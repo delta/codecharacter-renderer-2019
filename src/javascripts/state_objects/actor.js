@@ -12,7 +12,7 @@ export default class Actor extends StateObject {
         this.actorType = actorType;
         this.state = state;
 
-        this.healthBarObject = new HealthBarObject(playerID, maxHP, width, height);
+        this.healthBarObject = new HealthBarObject(playerID, hp, maxHP, width, height);
         this.updateBarPosition();   // setting initial bar posiiton
     }
 

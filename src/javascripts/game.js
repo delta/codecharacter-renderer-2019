@@ -23,7 +23,7 @@ export default class Game {
         this.factories = {};
         this.terrain = [];
         this.mapLength = 0;
-        
+
         /**
          * For the following 3 objects, the array structure is :
          * array[0] - Player1

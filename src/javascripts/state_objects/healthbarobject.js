@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js';
 
 export default class HealthBarObject {
-    constructor(playerID, maxHP, width, height) {
-        this.hp = maxHP;    // Initially actors start with full health
+    constructor(playerID, hp, maxHP, width, height) {
+        this.playerID = playerID;
         this.maxHP = maxHP;
         this.width = width;
         this.height = height;
-        this.playerID = playerID;
         this.buildHPBars();
+        this.changeHp(hp);  // for init hp
     }
 
     buildHPBars() {
