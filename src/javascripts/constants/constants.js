@@ -104,7 +104,10 @@ const CONSTANTS = {
             offsetY: 1.5
         },
         build: {
-            innerBarColor: 0x55FF00,
+            innerBarColors: {    // key represents playerID
+                1: 0x55FF00,
+                2: 0x55FF00
+            },
             outerBarColor: 0x333333,
             height: 0.6,
             offsetY: 3

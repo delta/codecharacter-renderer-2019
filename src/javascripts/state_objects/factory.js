@@ -13,7 +13,7 @@ export default class Factory extends Actor {
         super(x, y, id, playerID, hp, state, width, height, texture, Factory.maxHP, Factory.actorType);
         this.setSpriteAnchors();
         this.buildPercent = buildPercent;
-        this.buildBarObject = new BuildBarObject(buildPercent, width, height);
+        this.buildBarObject = new BuildBarObject(playerID, buildPercent, width, height);
         this.updateBuildBarPosition();
     }
 
@@ -52,13 +52,13 @@ export default class Factory extends Actor {
 
     addToStage(stage) {
         super.addToStage(stage);
-        this.buildBarObject.addBuildBar(stage);
+        this.buildBarObject.addBar(stage);
     }
 
     removeFromStage(stage) {
         super.removeFromStage(stage);
         if (this.buildPercent < 100) {
-            this.buildBarObject.removeBuildBar(stage);
+            this.buildBarObject.removeBar(stage);
         }
     }
 

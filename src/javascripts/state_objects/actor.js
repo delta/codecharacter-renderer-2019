@@ -22,7 +22,7 @@ export default class Actor extends StateObject {
     }
 
     updateBarHP() {
-        this.healthBarObject.changeHp(this.hp);
+        this.healthBarObject.updateHp(this.hp);
     }
 
     updateBarPosition() {
@@ -38,12 +38,12 @@ export default class Actor extends StateObject {
         let filterConst = Actor.glowFilters;
         let outlineFilter = new filters.GlowFilter(filterConst.distance, filterConst.outerStrength, filterConst.innerStrength, filterConst.color[this.playerID], filterConst.quality);
         this.sprite.filters = [outlineFilter];
-        this.healthBarObject.healthBar.filters = [outlineFilter];
+        this.healthBarObject.bar.filters = [outlineFilter];
     }
 
     disableFilters() {
         this.sprite.filters = null;
-        this.healthBarObject.healthBar.filters = null;
+        this.healthBarObject.bar.filters = null;
     }
 
     bindEventListeners(activeSprite) {
@@ -64,13 +64,13 @@ export default class Actor extends StateObject {
 
     addToStage(stage) {
         this.addSprite(stage);
-        this.healthBarObject.addHPBar(stage);
+        this.healthBarObject.addBar(stage);
     }
 
     removeFromStage(stage) {
         this.disableFilters();
         this.removeSprite(stage);
-        this.healthBarObject.removeHPBar(stage);
+        this.healthBarObject.removeBar(stage);
     }
 
     static setFilterConstant(FILTER_CONST) {
