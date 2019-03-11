@@ -697,7 +697,7 @@ export default class Game {
                 this.factories[factoriesID].updateHP(factory.hp);
                 this.factories[factoriesID].updateState(factory.state, factory.buildPercent);
                 if (factory.buildPercent >= 100) {
-                    this.factories[factoriesID].buildBarObject.removeBuildBar(this.app.stage);
+                    this.factories[factoriesID].buildBarObject.removeBar(this.app.stage);
                 }
             }
         }
